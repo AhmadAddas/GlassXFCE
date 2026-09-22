@@ -14,11 +14,11 @@ git commit -m "feat: add pinned visual assets"
 git push
 ```
 
-The theme repositories are Git submodules, so the project records exact upstream commits instead of silently pulling the newest theme during every ISO build.
+The theme repositories are Git submodules, so your project records exact upstream commits. CI checks them out recursively.
 
 ## Build locally on Debian 13
 
-Install `live-build` and its ISO dependencies, then:
+Install the build dependencies shown in `.github/workflows/build-iso.yml`, then:
 
 ```bash
 sudo VERSION=0.1.0 ./build.sh
@@ -26,13 +26,28 @@ sudo VERSION=0.1.0 ./build.sh
 
 The ISO and SHA256 file are written to `dist/`.
 
+## CI/release behavior
+
+Normal branch pushes do **not** build an ISO and do **not** upload artifacts.
+
+Use GitHub Actions → **Build ISO** → **Run workflow** for a test build. The test ISO is retained only briefly.
+
+For a real release:
+
+```bash
+git tag v0.1.0
+git push origin v0.1.0
+```
+
+That tag builds one ISO and publishes the ISO + checksum directly to a GitHub Release.
+
 ## Live + installer
 
 `auto/config` uses `--debian-installer live`, so the generated media can include live boot and installer entries. The desktop package list also includes Calamares + Debian's Calamares settings for a friendly installer launched from the live session.
 
 ## Design workflow
 
-Boot the image in a VM, tune XFCE panels/dock/theme interactively, then copy the resulting files from `~/.config/xfce4/xfconf/xfce-perchannel-xml/` into `config/includes.chroot/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/`.
+Do not hand-maintain a huge XFCE XML configuration initially. First get the image building, boot it in a VM, tune XFCE panels/dock/theme interactively, then copy the resulting files from `~/.config/xfce4/xfconf/xfce-perchannel-xml/` into `config/includes.chroot/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/`. That makes the exact panel layout reproducible for every live user and installed user.
 
 The supplied first-login helper applies WhiteSur, Inter and the wallpaper. Picom is autostarted separately and supplies blur, shadows, rounded corners and open/close animations.
 
@@ -42,4 +57,11 @@ Use a fixed image, not a random image downloaded during CI. Commit the image onl
 
 ## Commit style
 
-Use lower-case Conventional Commit messages, for example `feat: add glass dock layout` or `fix: correct installer launcher`.
+Use lower-case Conventional Commit messages, such as:
+
+```text
+feat: add glass dock layout
+fix: correct installer launcher
+ci: update iso release workflow
+chore: refresh theme pins
+```

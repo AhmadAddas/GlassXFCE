@@ -1,0 +1,79 @@
+name: Build ISO
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version label for a manual test build"
+        required: false
+        default: "dev"
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: iso-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          submodules: recursive
+
+      - name: Choose version
+        id: version
+        shell: bash
+        run: |
+          if [[ "${GITHUB_REF_TYPE}" == "tag" ]]; then
+            echo "value=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+          else
+            echo "value=${{ inputs.version || 'dev' }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build Debian 13 ISO in Debian container
+        shell: bash
+        run: |
+          docker run --rm --privileged \
+            -e VERSION="${{ steps.version.outputs.value }}" \
+            -v "$GITHUB_WORKSPACE:/work" \
+            -w /work \
+            debian:13 \
+            bash -euxo pipefail -c '
+              apt-get update
+              DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+                live-build debootstrap squashfs-tools xorriso isolinux syslinux-common \
+                grub-pc-bin grub-efi-amd64-bin mtools dosfstools ca-certificates git rsync \
+                sassc libglib2.0-dev-bin libxml2-utils
+              ./build.sh
+            '
+
+      # Manual builds are short-lived test artifacts only.
+      - name: Upload manual test ISO
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v7
+        with:
+          name: glassxfce-${{ steps.version.outputs.value }}-amd64
+          path: |
+            dist/*.iso
+            dist/*.sha256
+          retention-days: 3
+          compression-level: 0
+
+      # Tagged builds go to Releases instead of duplicating the ISO as an Actions artifact.
+      - name: Publish tagged release
+        if: github.ref_type == 'tag'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          gh release create "$GITHUB_REF_NAME" \
+            dist/*.iso dist/*.sha256 \
+            --title "GlassXFCE $GITHUB_REF_NAME" \
+            --generate-notes
