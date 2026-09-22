@@ -1,0 +1,5 @@
+#!/bin/sh
+# Xfwm's compositor and Picom cannot own X11 compositing at the same time.
+xfconf-query -c xfwm4 -p /general/use_compositing -s false 2>/dev/null || true
+sleep 0.2
+exec picom --config "$HOME/.config/picom/picom.conf"

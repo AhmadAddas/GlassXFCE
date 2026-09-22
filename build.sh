@@ -9,6 +9,7 @@ fi
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$ROOT"
 
+./scripts/stage-design.sh
 lb clean --purge || true
 ./auto/config
 lb build

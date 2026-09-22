@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=GlassXFCE Initial Setup
+Comment=Apply GlassXFCE defaults once
+Exec=/usr/local/bin/glassxfce-first-login
+OnlyShowIn=XFCE;
+X-GNOME-Autostart-enabled=true

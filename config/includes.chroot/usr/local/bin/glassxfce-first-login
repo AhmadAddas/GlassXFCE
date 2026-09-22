@@ -1,0 +1,28 @@
+#!/bin/sh
+set -eu
+
+MARKER="$HOME/.config/glassxfce-initialized"
+[ -e "$MARKER" ] && exit 0
+mkdir -p "$HOME/.config"
+
+# Disable Xfwm's compositor; Picom supplies compositing instead.
+xfconf-query -c xfwm4 -p /general/use_compositing -s false 2>/dev/null || true
+
+# Theme, icons and typography. These names match WhiteSur's default installer names.
+xfconf-query -c xsettings -p /Net/ThemeName -n -t string -s "WhiteSur-Light" 2>/dev/null || true
+xfconf-query -c xsettings -p /Net/IconThemeName -n -t string -s "WhiteSur" 2>/dev/null || true
+xfconf-query -c xsettings -p /Gtk/FontName -n -t string -s "Inter 10" 2>/dev/null || true
+xfconf-query -c xfwm4 -p /general/theme -s "WhiteSur-Light" 2>/dev/null || true
+
+# Apply the bundled wallpaper to every currently-created workspace/monitor property.
+WALL="/usr/share/backgrounds/glassxfce/default.jpg"
+if [ -f "$WALL" ]; then
+  xfconf-query -c xfce4-desktop -l 2>/dev/null | while IFS= read -r prop; do
+    case "$prop" in
+      */last-image) xfconf-query -c xfce4-desktop -p "$prop" -s "$WALL" 2>/dev/null || true ;;
+      */image-style) xfconf-query -c xfce4-desktop -p "$prop" -s 5 2>/dev/null || true ;;
+    esac
+  done
+fi
+
+touch "$MARKER"

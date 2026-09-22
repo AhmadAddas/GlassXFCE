@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=GlassXFCE Compositor
+Comment=Rounded corners, blur and animations
+Exec=/usr/local/bin/glassxfce-start-picom
+OnlyShowIn=XFCE;
+X-GNOME-Autostart-enabled=true
