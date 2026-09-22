@@ -1,0 +1,24 @@
+# live-build output
+.binary
+.build
+.cache
+.chroot
+binary*
+cache/
+chroot/
+source/
+*.iso
+*.img
+*.contents
+*.packages
+*.zsync
+
+dist/
+
+# Generated theme payloads (rebuilt from pinned submodules)
+config/includes.chroot/usr/share/themes/WhiteSur*
+config/includes.chroot/usr/share/icons/WhiteSur*
+
+# Local wallpaper payload copied during build
+config/includes.chroot/usr/share/backgrounds/glassxfce/default.*
+!config/includes.chroot/usr/share/backgrounds/glassxfce/README.md
