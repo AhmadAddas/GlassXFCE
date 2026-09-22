@@ -1,0 +1,22 @@
+# Debian live/XFCE base
+live-task-xfce
+xfce4-goodies
+xfce4-docklike-plugin
+
+# Visual layer
+picom
+rofi
+fonts-inter
+plymouth
+
+# Desktop essentials
+network-manager-gnome
+pipewire-audio
+pavucontrol
+firefox-esr
+thunar-archive-plugin
+gvfs-backends
+
+# Graphical installer available from the live desktop
+calamares
+calamares-settings-debian
