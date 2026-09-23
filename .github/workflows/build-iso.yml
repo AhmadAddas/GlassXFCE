@@ -84,6 +84,10 @@ jobs:
         shell: bash
         run: ./scripts/verify-glass-assets.sh dist/*.iso
 
+      - name: Verify live hardware and desktop packages
+        shell: bash
+        run: ./scripts/verify-runtime-packages.sh dist/*.iso
+
       - name: Smoke-test ISO boot structure
         shell: bash
         run: ./scripts/smoke-test-iso.sh dist/*.iso

@@ -90,6 +90,13 @@ for asset in WhiteSur-Light WhiteSur-Dark default.jpg picom.conf glass.rasi glas
 done
 grep -q "verify-glass-assets.sh" .github/workflows/build-iso.yml || fail "ISO workflow must verify the Glass design payload"
 
+say "checking runtime package verification"
+[ -x scripts/verify-runtime-packages.sh ] || fail "missing executable runtime package verifier"
+grep -q 'verify-runtime-packages.sh' .github/workflows/build-iso.yml || fail "ISO workflow must verify runtime packages"
+for pkg in firmware-iwlwifi firmware-realtek firmware-amd-graphics xfce4-pulseaudio-plugin bluez; do
+  grep -Fq "'$pkg'" scripts/verify-runtime-packages.sh || fail "runtime verifier does not protect package: $pkg"
+done
+
 say "checking iso size budget policy"
 grep -q 'MAX_ISO_MIB="${MAX_ISO_MIB:-1800}"' scripts/release-check.sh || fail "release check must default to the 1800 MiB budget"
 grep -q "MAX_ISO_MIB: 1800" .github/workflows/build-iso.yml || fail "ISO workflow must enforce the 1800 MiB budget"

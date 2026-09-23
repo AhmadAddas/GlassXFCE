@@ -172,3 +172,7 @@ GlassXFCE includes BlueZ plus Blueman so Bluetooth keyboards, mice, headsets and
 ### Laptop-friendly power defaults
 
 The default profile keeps brightness keys and resume locking enabled, blanks the display sooner on battery than on AC, and leaves actual suspend/hibernate policy to the user and the hardware. This avoids surprising automatic sleep behavior while still giving the Live desktop sensible display power savings.
+
+### Runtime package verification
+
+Release CI does not trust the source package list alone. It opens the built ISO, reads the `dpkg` status database from `filesystem.squashfs`, and verifies that the critical firmware, networking, Bluetooth and audio packages actually made it into the Live filesystem.
