@@ -97,6 +97,12 @@ say "checking image identity verification"
 grep -q 'verify-image-identity.sh' .github/workflows/build-iso.yml || fail "ISO workflow must verify the built image identity"
 grep -q 'VERSION_CODENAME=trixie' scripts/verify-image-identity.sh || fail "identity verifier must protect the Debian suite"
 
+say "checking built boot menu verification"
+[ -x scripts/verify-boot-menu.sh ] || fail "missing executable built boot menu verifier"
+grep -Fq 'verify-boot-menu.sh' .github/workflows/build-iso.yml || fail "ISO workflow must verify built boot menu choices"
+grep -Fq 'Try GlassXFCE Live' scripts/verify-boot-menu.sh || fail "boot menu verifier must protect the Live choice"
+grep -Fq 'Install GlassXFCE' scripts/verify-boot-menu.sh || fail "boot menu verifier must protect the Install choice"
+
 say "checking installer payload verification"
 [ -x scripts/verify-installer-payload.sh ] || fail "missing executable installer payload verifier"
 grep -q 'verify-installer-payload.sh' .github/workflows/build-iso.yml || fail "ISO workflow must verify installer payloads"

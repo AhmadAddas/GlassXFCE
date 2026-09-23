@@ -125,6 +125,10 @@ jobs:
         shell: bash
         run: ./scripts/verify-installer-payload.sh dist/*.iso
 
+      - name: Verify live and install boot menu choices
+        shell: bash
+        run: ./scripts/verify-boot-menu.sh dist/*.iso
+
       - name: Verify image identity
         shell: bash
         run: ./scripts/verify-image-identity.sh dist/*.iso "${{ steps.version.outputs.value }}"
