@@ -241,6 +241,8 @@ done
 [ -f config/includes.chroot/etc/skel/.config/plank/dock1/launchers/glassxfce-installer.dockitem ] || fail "missing installer Plank item"
 grep -Fq 'glassxfce-installer.desktop' config/includes.chroot/etc/skel/.config/plank/dock1/launchers/glassxfce-installer.dockitem || fail "Plank installer item must launch the GlassXFCE installer entry"
 [ -f config/includes.chroot/etc/xdg/autostart/glassxfce-installed-cleanup.desktop ] || fail "missing installed cleanup autostart"
+[ -f config/hooks/live/0400-glassxfce-desktop-shortcuts.hook.chroot ] || fail "missing generic Calamares desktop-shortcut cleanup hook"
+grep -Fq 'calamares-install-debian.desktop' config/hooks/live/0400-glassxfce-desktop-shortcuts.hook.chroot || fail "generic Calamares desktop shortcut must be removed"
 
 say "checking live session defaults"
 [ -f config/includes.chroot/etc/live/config.conf.d/10-glassxfce.conf ] || fail "missing live-config defaults"

@@ -9,6 +9,7 @@ marker="$HOME/.config/glassxfce-installed-cleanup"
 mkdir -p "$HOME/.config" "$HOME/.local/share/applications"
 
 rm -f "$HOME/Desktop/install-glassxfce.desktop"
+rm -f "$HOME/Desktop/calamares-install-debian.desktop" "$HOME/Desktop/install-debian.desktop"
 rm -f "$HOME/.config/plank/dock1/launchers/glassxfce-installer.dockitem"
 
 # Shadow the system-wide installer menu entry for installed users.

@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+
+# calamares-settings-debian may seed its own generic installer shortcut into
+# /etc/skel. GlassXFCE provides a branded installer entry, so do not let the
+# Debian helper leak onto the live user's desktop as an untrusted/stale file.
+rm -f /etc/skel/Desktop/calamares-install-debian.desktop
+rm -f /etc/skel/Desktop/install-debian.desktop

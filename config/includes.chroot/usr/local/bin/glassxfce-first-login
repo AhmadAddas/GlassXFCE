@@ -5,6 +5,10 @@ MARKER="$HOME/.config/glassxfce-initialized"
 [ -e "$MARKER" ] && exit 0
 mkdir -p "$HOME/.config"
 
+# Clean generic Calamares desktop files that may have been copied from an older
+# live skeleton. GlassXFCE owns the only installer shortcut shown to users.
+rm -f "$HOME/Desktop/calamares-install-debian.desktop" "$HOME/Desktop/install-debian.desktop"
+
 # Disable Xfwm's compositor; Picom supplies compositing instead.
 xfconf-query -c xfwm4 -p /general/use_compositing -s false 2>/dev/null || true
 
