@@ -22,3 +22,9 @@ config/includes.chroot/usr/share/icons/WhiteSur*
 # Local wallpaper payload copied during build
 config/includes.chroot/usr/share/backgrounds/glassxfce/default.*
 !config/includes.chroot/usr/share/backgrounds/glassxfce/README.md
+
+# Generated release identity (created by scripts/stage-identity.sh)
+config/includes.chroot/etc/os-release
+config/includes.chroot/etc/glassxfce-release
+config/includes.chroot/etc/issue
+config/includes.chroot/etc/issue.net

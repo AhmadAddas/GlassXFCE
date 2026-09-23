@@ -1,0 +1,10 @@
+PRETTY_NAME="GlassXFCE @VERSION@"
+NAME="GlassXFCE"
+VERSION="@VERSION@ (Debian 13 Trixie)"
+VERSION_ID="@VERSION@"
+ID=glassxfce
+ID_LIKE=debian
+VERSION_CODENAME=trixie
+DEBIAN_CODENAME=trixie
+ANSI_COLOR="38;2;92;145;255"
+HOME_URL="https://github.com/"

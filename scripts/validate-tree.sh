@@ -94,6 +94,13 @@ if grep -Eq '^[[:space:]]+branches:' "$workflow"; then
   fail "ISO workflow must not build on branch pushes"
 fi
 
+say "checking distribution identity staging"
+[ -f config/branding/os-release.in ] || fail "missing os-release identity template"
+grep -q '^ID=glassxfce$' config/branding/os-release.in || fail "identity template must use ID=glassxfce"
+grep -q '^ID_LIKE=debian$' config/branding/os-release.in || fail "identity template must declare Debian compatibility"
+grep -q 'stage-identity.sh' build.sh || fail "build must stage the release identity"
+[ -x scripts/stage-identity.sh ] || fail "identity staging helper must be executable"
+
 say "checking repository whitespace"
 if git rev-parse --verify HEAD^ >/dev/null 2>&1; then
   git diff --check HEAD^ HEAD

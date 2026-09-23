@@ -9,7 +9,17 @@ fi
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$ROOT"
 
+VERSION="${VERSION:-dev}"
+case "$VERSION" in
+  *[!0-9A-Za-z._-]*|'')
+    echo "VERSION may contain only letters, numbers, dot, underscore and dash." >&2
+    exit 2
+    ;;
+esac
+export VERSION
+
 ./scripts/stage-design.sh
+./scripts/stage-identity.sh
 lb clean --purge || true
 ./auto/config
 lb build
@@ -23,13 +33,6 @@ if [ ! -f "$ISO_SRC" ]; then
   exit 1
 fi
 
-VERSION="${VERSION:-dev}"
-case "$VERSION" in
-  *[!0-9A-Za-z._-]*|'')
-    echo "VERSION may contain only letters, numbers, dot, underscore and dash." >&2
-    exit 2
-    ;;
-esac
 ISO_DST="dist/glassxfce-${VERSION}-amd64.iso"
 mv "$ISO_SRC" "$ISO_DST"
 sha256sum "$(basename "$ISO_DST")" > "$ISO_DST.sha256.tmp"

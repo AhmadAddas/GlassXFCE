@@ -136,3 +136,7 @@ The single official live ISO has an internal release ceiling of **1800 MiB**, le
 ## Protected design payload
 
 Release CI opens the built ISO, reads the live SquashFS, and verifies the GlassXFCE themes, icon theme, wallpaper, Picom/Rofi/XFCE configuration, notification style, Plymouth, LightDM, and Calamares branding are actually present. A size-optimization change cannot publish an ISO that silently falls back to plain XFCE.
+
+## Distribution identity
+
+Each build stages a GlassXFCE `/etc/os-release` and console identity from `config/branding/os-release.in`. The build version is taken from `VERSION` (the same value used in the ISO filename), while `ID_LIKE=debian` and the Trixie codename make the Debian base explicit. Generated identity files are not committed, so building a test version does not dirty the repository.
