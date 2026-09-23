@@ -83,3 +83,7 @@ The default session also applies WhiteSur light styling, Inter typography, four 
 ### Theme source pinning
 
 A fresh clone no longer requires pre-created theme submodules. During staging, the build fetches the WhiteSur `2026-09-10` release tags and verifies the expected release commit prefixes before installing the generated theme files. Optional submodules are still supported for offline/local work.
+
+### CI policy
+
+Every branch push and pull request runs lightweight static validation only. It checks scripts, XML, desktop launchers, package requirements and boot-menu invariants, but it does **not** build or upload an ISO. Full ISO builds remain manual or `v*` tag-triggered.
