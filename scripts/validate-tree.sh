@@ -159,6 +159,10 @@ say "checking semantic release tags"
 [ -x scripts/validate-release-version.sh ] || fail "missing executable release version validator"
 grep -q 'validate-release-version.sh' .github/workflows/build-iso.yml || fail "tagged builds must validate semantic release versions"
 
+say "checking build network preflight"
+[ -x scripts/check-build-network.sh ] || fail "build network preflight is missing or not executable"
+grep -Fq 'check-build-network.sh' .github/workflows/build-iso.yml || fail "build workflow does not run the network preflight"
+
 say "checking build workflow policy"
 workflow=.github/workflows/build-iso.yml
 grep -q 'workflow_dispatch:' "$workflow" || fail "ISO workflow is missing manual trigger"
