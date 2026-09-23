@@ -44,6 +44,7 @@ jobs:
         run: |
           docker run --rm --privileged \
             -e VERSION="${{ steps.version.outputs.value }}" \
+            -e GIT_COMMIT="$GITHUB_SHA" \
             -v "$GITHUB_WORKSPACE:/work" \
             -w /work \
             debian:13 \

@@ -41,8 +41,8 @@ ISO_BASE="$(basename "$ISO_DST")"
 ( cd dist && sha256sum "$ISO_BASE" ) > "$ISO_DST.sha256"
 cp "$ISO_DST.sha256" dist/SHA256SUMS
 
-COMMIT="unknown"
-if command -v git >/dev/null 2>&1; then
+COMMIT="${GIT_COMMIT:-unknown}"
+if [ "$COMMIT" = "unknown" ] && command -v git >/dev/null 2>&1; then
   COMMIT="$(git rev-parse HEAD 2>/dev/null || printf unknown)"
 fi
 cat > dist/build-info.txt <<INFO

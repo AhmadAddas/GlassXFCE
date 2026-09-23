@@ -123,6 +123,10 @@ say "checking live-build configuration validation"
 grep -q 'validate-live-build-config.sh' .github/workflows/validate.yml || fail "normal CI must validate live-build configuration"
 grep -q './auto/config --validate' scripts/validate-live-build-config.sh || fail "live-build validation must use lb config validation mode"
 
+say "checking build source metadata"
+grep -q 'GIT_COMMIT="$GITHUB_SHA"' .github/workflows/build-iso.yml || fail "ISO workflow must pass the source commit into the build container"
+grep -q 'COMMIT="${GIT_COMMIT:-unknown}"' build.sh || fail "build metadata must prefer the explicit source commit"
+
 say "checking release checksum generation"
 grep -q '( cd dist && sha256sum "$ISO_BASE" )' build.sh || fail "build must checksum the ISO from inside dist/"
 if grep -q 'sha256sum "$(basename "$ISO_DST")"' build.sh; then
