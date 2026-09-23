@@ -68,7 +68,7 @@ fi
 
 say "checking required packages"
 packages=config/package-lists/desktop.list.chroot
-for pkg in live-task-xfce live-config live-config-systemd user-setup sudo plank xfce4-whiskermenu-plugin xfce4-power-manager xfce4-power-manager-plugins xfce4-pulseaudio-plugin xfce4-terminal xfce4-screenshooter picom rofi lightdm python3-gi gir1.2-gtk-3.0 calamares xserver-xorg-core xserver-xorg-video-all libgl1-mesa-dri mesa-vulkan-drivers firmware-iwlwifi firmware-realtek firmware-atheros firmware-brcm80211 firmware-mediatek firmware-libertas firmware-ti-connectivity firmware-zd1211 firmware-amd-graphics firmware-intel-graphics firmware-nvidia-graphics firmware-misc-nonfree firmware-sof-signed intel-microcode amd64-microcode network-manager network-manager-gnome wpasupplicant wireless-regdb iw rfkill bluez blueman colord xiccd; do
+for pkg in live-task-xfce live-config live-config-systemd user-setup sudo plank xfce4-whiskermenu-plugin xfce4-power-manager xfce4-power-manager-plugins xfce4-pulseaudio-plugin xfce4-terminal xfce4-screenshooter picom rofi lightdm python3-gi gir1.2-gtk-3.0 calamares xserver-xorg-core xserver-xorg-video-all libgl1-mesa-dri mesa-vulkan-drivers firmware-iwlwifi firmware-realtek firmware-atheros firmware-brcm80211 firmware-mediatek firmware-libertas firmware-ti-connectivity firmware-zd1211 firmware-amd-graphics firmware-intel-graphics firmware-nvidia-graphics firmware-misc-nonfree firmware-sof-signed intel-microcode amd64-microcode network-manager network-manager-gnome wpasupplicant wireless-regdb iw rfkill bluez blueman colord xiccd libpam-pwquality cracklib-runtime wamerican; do
   grep -qx "$pkg" "$packages" || fail "required package is missing: $pkg"
 done
 if grep -qx "xfce4-goodies" "$packages"; then
@@ -244,6 +244,13 @@ grep -q 'glassxfce-welcome.desktop' config/includes.chroot/etc/skel/.config/xfce
 grep -q '^Exec=glassxfce-launcher$' config/includes.chroot/usr/share/applications/glassxfce-search.desktop || fail "Glass Search must use the lightweight launcher helper"
 for hidden in rofi.desktop rofi-theme-selector.desktop; do
   grep -q '^Hidden=true$' "config/includes.chroot/etc/skel/.local/share/applications/$hidden" || fail "raw Rofi menu entry must be hidden: $hidden"
+done
+
+say "checking installer password quality support"
+[ -f config/hooks/live/0430-glassxfce-password-dictionary.hook.chroot ] || fail "missing CrackLib dictionary build hook"
+grep -q 'update-cracklib' config/hooks/live/0430-glassxfce-password-dictionary.hook.chroot || fail "password dictionary hook must build CrackLib cache"
+for pkg in libpam-pwquality cracklib-runtime wamerican; do
+  grep -qx "$pkg" "$packages" || fail "installer password-quality package is missing: $pkg"
 done
 
 say "checking installer live-session guard"

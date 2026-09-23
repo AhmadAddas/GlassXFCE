@@ -90,6 +90,11 @@ xiccd
 calamares
 calamares-settings-debian
 
+# Installer password-quality support (APT Recommends are disabled)
+libpam-pwquality
+cracklib-runtime
+wamerican
+
 # Notifications
 xfce4-notifyd
 libnotify-bin

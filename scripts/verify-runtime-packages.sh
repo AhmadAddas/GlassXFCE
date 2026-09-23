@@ -36,6 +36,7 @@ for para in status.split('\n\n'):
         installed.add(fields['Package'])
 required = [
     'live-config', 'live-config-systemd', 'user-setup', 'sudo', 'papirus-icon-theme',
+    'libpam-pwquality', 'cracklib-runtime', 'wamerican',
     'xfce4-power-manager-plugins', 'xfce4-pulseaudio-plugin', 'pipewire-audio',
     'network-manager', 'network-manager-gnome', 'wpasupplicant', 'wireless-regdb', 'iw', 'rfkill',
     'bluez', 'blueman', 'colord', 'xiccd',

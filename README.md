@@ -138,6 +138,10 @@ Every installer entry point now goes through `glassxfce-installer`, which refuse
 
 The application menu includes a native `Welcome to GlassXFCE` GTK window covering the core shortcuts, appearance toggle, live installer and Debian/XFCE base. It opens automatically once for each new user and does not launch a browser or depend on network access.
 
+## Installer password-quality dictionary
+
+The image explicitly includes `libpam-pwquality`, `cracklib-runtime`, and the `wamerican` word list, then rebuilds the CrackLib cache during image construction. This prevents Calamares from showing an “error loading dictionary” message while evaluating password strength when APT Recommends are disabled.
+
 ## Debian package manifest validation
 
 Normal CI now has a second lightweight job that starts a clean `debian:13` container, enables the same `main contrib non-free-firmware` archive areas used by live-build, refreshes package metadata and verifies every explicit package in `desktop.list.chroot` resolves. This catches renamed or removed Debian packages before a manual/tagged ISO build.
