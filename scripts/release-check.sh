@@ -27,6 +27,17 @@ fi
 SIZE="$(stat -c %s "$ISO")"
 [ "$SIZE" -ge 104857600 ] || fail "ISO is suspiciously small (${SIZE} bytes)"
 
+MAX_ISO_MIB="${MAX_ISO_MIB:-1800}"
+case "$MAX_ISO_MIB" in
+  *[!0-9]*|'') fail "MAX_ISO_MIB must be a positive integer" ;;
+esac
+[ "$MAX_ISO_MIB" -gt 0 ] || fail "MAX_ISO_MIB must be greater than zero"
+MAX_ISO_BYTES=$((MAX_ISO_MIB * 1024 * 1024))
+if [ "$SIZE" -gt "$MAX_ISO_BYTES" ]; then
+  actual_mib=$(( (SIZE + 1024 * 1024 - 1) / (1024 * 1024) ))
+  fail "ISO is ${actual_mib} MiB; release budget is ${MAX_ISO_MIB} MiB"
+fi
+
 INDIVIDUAL="$ISO.sha256"
 [ -f "$INDIVIDUAL" ] || fail "missing per-ISO checksum: $INDIVIDUAL"
 (
@@ -43,4 +54,5 @@ INDIVIDUAL="$ISO.sha256"
 [ -s "$DIST/build-info.txt" ] || fail "missing build-info.txt"
 grep -Fq "image=$BASE" "$DIST/build-info.txt" || fail "build-info does not name the ISO"
 
-printf 'release-check: ok: %s (%s bytes)\n' "$BASE" "$SIZE"
+actual_mib=$(( (SIZE + 1024 * 1024 - 1) / (1024 * 1024) ))
+printf 'release-check: ok: %s (%s bytes, %s MiB; budget %s MiB)\n' "$BASE" "$SIZE" "$actual_mib" "$MAX_ISO_MIB"

@@ -126,3 +126,8 @@ Release builds keep the live root as XZ-compressed SquashFS and repack it with 1
 ## Conservative image cleanup
 
 The build omits cached APT indices from the finished live root and removes package-download caches, temporary files, and build logs before SquashFS is finalized. It deliberately does **not** delete packaged documentation/locales or any GlassXFCE theme, icon, wallpaper, firmware, or application files. Users can run `sudo apt update` in the live or installed system when package indexes are needed.
+
+
+## ISO size budget
+
+The single official live ISO has an internal release ceiling of **1800 MiB**, leaving safety margin below GitHub's per-release-asset limit. CI fails before upload when the image exceeds the budget. See `docs/size-budget.md` for the protected GlassXFCE components that may never be removed just to save space.

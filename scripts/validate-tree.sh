@@ -74,6 +74,11 @@ grep -qi 'install' config/bootloaders/grub-pc/grub.cfg || fail "GRUB menu has no
 grep -qi 'live' config/bootloaders/syslinux_common/menu.cfg || fail "Syslinux menu has no live entry"
 grep -qi 'install' config/bootloaders/syslinux_common/menu.cfg || fail "Syslinux menu has no installer entry"
 
+say "checking iso size budget policy"
+grep -q 'MAX_ISO_MIB="${MAX_ISO_MIB:-1800}"' scripts/release-check.sh || fail "release check must default to the 1800 MiB budget"
+grep -q "MAX_ISO_MIB: 1800" .github/workflows/build-iso.yml || fail "ISO workflow must enforce the 1800 MiB budget"
+[ -f docs/size-budget.md ] || fail "missing documented ISO size policy"
+
 say "checking build workflow policy"
 workflow=.github/workflows/build-iso.yml
 grep -q 'workflow_dispatch:' "$workflow" || fail "ISO workflow is missing manual trigger"

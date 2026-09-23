@@ -21,6 +21,8 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-24.04
+    env:
+      MAX_ISO_MIB: 1800
     steps:
       - name: Checkout
         uses: actions/checkout@v7
@@ -63,6 +65,20 @@ jobs:
       - name: Validate release artifacts
         shell: bash
         run: ./scripts/release-check.sh dist "${{ steps.version.outputs.value }}"
+
+      - name: Report ISO size
+        shell: bash
+        run: |
+          iso=$(find dist -maxdepth 1 -type f -name '*.iso' -print -quit)
+          bytes=$(stat -c %s "$iso")
+          mib=$(( (bytes + 1024 * 1024 - 1) / (1024 * 1024) ))
+          {
+            echo "### GlassXFCE ISO size"
+            echo
+            echo "- Image: \`$(basename "$iso")\`"
+            echo "- Size: **${mib} MiB**"
+            echo "- Release budget: **${MAX_ISO_MIB} MiB**"
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Smoke-test ISO boot structure
         shell: bash
