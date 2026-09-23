@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Toggle Light / Dark
+Comment=Switch the GlassXFCE appearance
+Exec=glassxfce-appearance toggle
+Icon=preferences-desktop-theme
+Terminal=false
+Categories=Settings;DesktopSettings;
+Keywords=theme;appearance;dark;light;

@@ -99,3 +99,7 @@ The floating panel now ships with stable launcher buttons for Files, Web, Termin
 ### Application menu branding
 
 The top-left Whisker button uses a GlassXFCE-owned icon rather than an Apple logo or other third-party trademark. The menu opens icon-only from the panel and ships sensible favorites matching the default dock.
+
+### Light and dark appearance
+
+Run `glassxfce-appearance toggle` or press `Super+Shift+A` to switch between the installed WhiteSur light and dark variants. The switcher updates both GTK/XSettings and the Xfwm window-decoration theme without replacing the lightweight Picom compositor.

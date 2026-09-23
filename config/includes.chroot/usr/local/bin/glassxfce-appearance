@@ -1,0 +1,49 @@
+#!/bin/sh
+set -eu
+
+MODE="${1:-toggle}"
+CURRENT="$(xfconf-query -c xsettings -p /Net/ThemeName 2>/dev/null || printf '%s' 'WhiteSur-Light')"
+
+case "$MODE" in
+  toggle)
+    case "$CURRENT" in
+      *Dark*|*dark*) MODE=light ;;
+      *) MODE=dark ;;
+    esac
+    ;;
+  light|dark) ;;
+  *)
+    echo "usage: glassxfce-appearance [toggle|light|dark]" >&2
+    exit 2
+    ;;
+esac
+
+set_value() {
+  channel="$1" property="$2" type="$3" value="$4"
+  xfconf-query -c "$channel" -p "$property" -n -t "$type" -s "$value" 2>/dev/null || \
+    xfconf-query -c "$channel" -p "$property" -s "$value" 2>/dev/null || true
+}
+
+if [ "$MODE" = dark ]; then
+  GTK_THEME="WhiteSur-Dark"
+  WM_THEME="WhiteSur-Dark"
+  COLOR_SCHEME="prefer-dark"
+else
+  GTK_THEME="WhiteSur-Light"
+  WM_THEME="WhiteSur-Light"
+  COLOR_SCHEME="prefer-light"
+fi
+
+set_value xsettings /Net/ThemeName string "$GTK_THEME"
+set_value xfwm4 /general/theme string "$WM_THEME"
+
+# GTK 3 apps use the XFCE theme immediately; this hint helps newer apps choose
+# a matching light/dark preference when they understand gtk-application-prefer-dark-theme.
+mkdir -p "$HOME/.config/glassxfce"
+printf '%s\n' "$MODE" > "$HOME/.config/glassxfce/appearance"
+printf '%s\n' "$COLOR_SCHEME" > "$HOME/.config/glassxfce/color-scheme"
+
+if command -v notify-send >/dev/null 2>&1; then
+  notify-send -a GlassXFCE -i preferences-desktop-theme \
+    "Appearance" "Switched to ${MODE} mode"
+fi
