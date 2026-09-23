@@ -35,15 +35,25 @@ lightdm
 lightdm-gtk-greeter
 
 # Essential amd64 hardware support
-# Keep this targeted: these packages cover the most common Intel/AMD graphics,
-# Wi-Fi, Ethernet and Intel audio firmware without pulling the entire firmware
-# catalog into the live image.
+# Keep a generic DRM/KMS + X.Org/Mesa path explicit because APT Recommends are
+# disabled. xserver-xorg-core provides the modesetting driver; video-all keeps
+# AMD/Nouveau/fbdev/VESA/VMware fallbacks, while Mesa supplies 3D/Vulkan.
+xserver-xorg-core
+xserver-xorg-video-all
+libgl1-mesa-dri
+mesa-vulkan-drivers
+
+# Firmware coverage for common Intel/AMD/NVIDIA graphics plus networking/audio.
+# firmware-misc-nonfree fills smaller kernel-firmware gaps without installing
+# proprietary NVIDIA drivers; NVIDIA hardware can use Nouveau in the live image.
 firmware-iwlwifi
 firmware-realtek
 firmware-atheros
 firmware-brcm80211
 firmware-amd-graphics
 firmware-intel-graphics
+firmware-nvidia-graphics
+firmware-misc-nonfree
 firmware-intel-sound
 firmware-sof-signed
 intel-microcode

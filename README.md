@@ -115,7 +115,7 @@ The build omits cached APT indices from the finished live root and removes packa
 
 ## ISO size budget
 
-The single official live ISO has an internal release ceiling of **1850 MiB**, leaving safety margin below GitHub's per-release-asset limit. CI fails before upload when the image exceeds the budget. See `docs/size-budget.md` for the protected GlassXFCE components that may never be removed just to save space.
+The single official live ISO has an internal release ceiling of **1950 MiB**, leaving safety margin below GitHub's per-release-asset limit. CI fails before upload when the image exceeds the budget. See `docs/size-budget.md` for the protected GlassXFCE components that may never be removed just to save space.
 
 
 ## Protected design payload
@@ -144,7 +144,7 @@ Normal CI now has a second lightweight job that starts a clean `debian:13` conta
 
 ### Hardware coverage
 
-The live image explicitly carries a targeted set of Debian 13 `non-free-firmware` packages for common Intel/AMD graphics, Intel/Realtek/Atheros/Broadcom networking, modern Intel audio, and Intel/AMD CPU microcode. This is intentional even with `--apt-recommends false`: a Live USB must have working networking and graphics before it can download anything. The selection is kept narrower than Debian's entire firmware catalog to protect the ISO size budget.
+The live image explicitly carries a broad cross-GPU stack: X.Org core's generic `modesetting` path, the Debian X.Org output-driver set, Mesa DRI/Vulkan, and firmware for common Intel, AMD, and NVIDIA/Nouveau graphics. `firmware-misc-nonfree` covers additional smaller kernel-firmware cases, while the existing Intel/Realtek/Atheros/Broadcom networking, Intel audio, and Intel/AMD CPU microcode remain included. This does not install NVIDIA's proprietary driver; it improves the live image's ability to reach native display modes across varied hardware before anything can be downloaded.
 
 ### Panel audio integration
 

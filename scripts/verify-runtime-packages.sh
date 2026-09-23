@@ -39,7 +39,10 @@ required = [
     'xfce4-pulseaudio-plugin', 'pipewire-audio', 'network-manager-gnome',
     'bluez', 'blueman',
     'firmware-iwlwifi', 'firmware-realtek', 'firmware-atheros',
+    'xserver-xorg-core', 'xserver-xorg-video-all', 'libgl1-mesa-dri',
+    'mesa-vulkan-drivers',
     'firmware-brcm80211', 'firmware-amd-graphics', 'firmware-intel-graphics',
+    'firmware-nvidia-graphics', 'firmware-misc-nonfree',
     'firmware-intel-sound', 'firmware-sof-signed',
     'intel-microcode', 'amd64-microcode',
 ]

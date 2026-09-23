@@ -4,9 +4,9 @@ GlassXFCE publishes one official image: `glassxfce-<version>-amd64.iso`.
 
 ## Limits
 
-- Internal release target: **1850 MiB** maximum per ISO.
+- Internal release target: **1950 MiB** maximum per ISO.
 - GitHub Release hard ceiling: treat **2 GiB per asset** as an external limit.
-- The 1850 MiB budget leaves headroom for filesystem/bootloader growth and avoids releases that sit directly on the hosting limit.
+- The 1950 MiB budget leaves headroom for filesystem/bootloader growth and avoids releases that sit directly on the hosting limit.
 
 ## What may be removed to meet the budget
 

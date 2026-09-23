@@ -27,7 +27,7 @@ fi
 SIZE="$(stat -c %s "$ISO")"
 [ "$SIZE" -ge 104857600 ] || fail "ISO is suspiciously small (${SIZE} bytes)"
 
-MAX_ISO_MIB="${MAX_ISO_MIB:-1850}"
+MAX_ISO_MIB="${MAX_ISO_MIB:-1950}"
 case "$MAX_ISO_MIB" in
   *[!0-9]*|'') fail "MAX_ISO_MIB must be a positive integer" ;;
 esac
