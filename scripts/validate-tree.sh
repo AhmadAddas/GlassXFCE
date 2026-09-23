@@ -68,7 +68,7 @@ fi
 
 say "checking required packages"
 packages=config/package-lists/desktop.list.chroot
-for pkg in live-task-xfce live-config live-config-systemd user-setup sudo xfce4-docklike-plugin xfce4-whiskermenu-plugin xfce4-power-manager xfce4-power-manager-plugins xfce4-pulseaudio-plugin xfce4-terminal xfce4-screenshooter picom rofi lightdm calamares xserver-xorg-core xserver-xorg-video-all libgl1-mesa-dri mesa-vulkan-drivers firmware-iwlwifi firmware-realtek firmware-amd-graphics firmware-intel-graphics firmware-nvidia-graphics firmware-misc-nonfree firmware-sof-signed intel-microcode amd64-microcode bluez blueman; do
+for pkg in live-task-xfce live-config live-config-systemd user-setup sudo xfce4-docklike-plugin xfce4-whiskermenu-plugin xfce4-power-manager xfce4-power-manager-plugins xfce4-pulseaudio-plugin xfce4-terminal xfce4-screenshooter picom rofi lightdm python3-gi gir1.2-gtk-3.0 calamares xserver-xorg-core xserver-xorg-video-all libgl1-mesa-dri mesa-vulkan-drivers firmware-iwlwifi firmware-realtek firmware-amd-graphics firmware-intel-graphics firmware-nvidia-graphics firmware-misc-nonfree firmware-sof-signed intel-microcode amd64-microcode bluez blueman; do
   grep -qx "$pkg" "$packages" || fail "required package is missing: $pkg"
 done
 if grep -qx "xfce4-goodies" "$packages"; then
@@ -218,8 +218,10 @@ if grep -Eq '^[[:space:]]+branches:' "$workflow"; then
 fi
 
 say "checking welcome experience"
-[ -f config/includes.chroot/usr/share/glassxfce/welcome/index.html ] || fail "missing offline welcome page"
+[ -f config/includes.chroot/usr/share/glassxfce/welcome/welcome.py ] || fail "missing native welcome app"
 [ -f config/includes.chroot/usr/local/bin/glassxfce-welcome ] || fail "missing welcome launcher helper"
+[ -f config/includes.chroot/etc/xdg/autostart/glassxfce-welcome.desktop ] || fail "missing welcome autostart"
+grep -Fq "welcome.py" config/includes.chroot/usr/local/bin/glassxfce-welcome || fail "welcome helper must launch the native GTK app"
 [ -f config/includes.chroot/usr/share/applications/glassxfce-welcome.desktop ] || fail "missing welcome application entry"
 grep -q 'glassxfce-welcome.desktop' config/includes.chroot/etc/skel/.config/xfce4/panel/whiskermenu-1.rc || fail "welcome entry must be visible in Whisker favorites"
 

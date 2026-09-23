@@ -34,6 +34,8 @@ plymouth-themes
 plymouth-label
 lightdm
 lightdm-gtk-greeter
+python3-gi
+gir1.2-gtk-3.0
 
 # Essential amd64 hardware support
 # Keep a generic DRM/KMS + X.Org/Mesa path explicit because APT Recommends are

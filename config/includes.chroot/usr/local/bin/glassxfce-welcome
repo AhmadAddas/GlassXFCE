@@ -1,3 +1,15 @@
 #!/bin/sh
 set -eu
-exec xdg-open file:///usr/share/glassxfce/welcome/index.html
+
+MODE="${1:-manual}"
+MARKER="$HOME/.config/glassxfce/welcome-shown"
+if [ "$MODE" = "--autostart" ] && [ -e "$MARKER" ]; then
+  exit 0
+fi
+
+python3 /usr/share/glassxfce/welcome/welcome.py
+
+if [ "$MODE" = "--autostart" ]; then
+  mkdir -p "$(dirname "$MARKER")"
+  : > "$MARKER"
+fi

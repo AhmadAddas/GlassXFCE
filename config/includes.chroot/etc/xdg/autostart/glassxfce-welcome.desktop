@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Welcome to GlassXFCE
+Comment=Show the GlassXFCE welcome app once per user
+Exec=glassxfce-welcome --autostart
+OnlyShowIn=XFCE;
+X-GNOME-Autostart-enabled=true
+NoDisplay=true
