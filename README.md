@@ -156,3 +156,7 @@ The application menu includes `Welcome to GlassXFCE`, an offline local page cove
 ## Debian package manifest validation
 
 Normal CI now has a second lightweight job that starts a clean `debian:13` container, enables the same `main contrib non-free-firmware` archive areas used by live-build, refreshes package metadata and verifies every explicit package in `desktop.list.chroot` resolves. This catches renamed or removed Debian packages before a manual/tagged ISO build.
+
+### Hardware coverage
+
+The live image explicitly carries a targeted set of Debian 13 `non-free-firmware` packages for common Intel/AMD graphics, Intel/Realtek/Atheros/Broadcom networking, modern Intel audio, and Intel/AMD CPU microcode. This is intentional even with `--apt-recommends false`: a Live USB must have working networking and graphics before it can download anything. The selection is kept narrower than Debian's entire firmware catalog to protect the ISO size budget.

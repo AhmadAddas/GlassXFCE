@@ -24,6 +24,21 @@ plymouth-label
 lightdm
 lightdm-gtk-greeter
 
+# Essential amd64 hardware support
+# Keep this targeted: these packages cover the most common Intel/AMD graphics,
+# Wi-Fi, Ethernet and Intel audio firmware without pulling the entire firmware
+# catalog into the live image.
+firmware-iwlwifi
+firmware-realtek
+firmware-atheros
+firmware-brcm80211
+firmware-amd-graphics
+firmware-intel-graphics
+firmware-intel-sound
+firmware-sof-signed
+intel-microcode
+amd64-microcode
+
 # Desktop essentials
 network-manager-gnome
 pipewire-audio
