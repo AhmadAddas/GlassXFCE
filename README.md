@@ -168,3 +168,7 @@ The default top bar includes XFCE's native PulseAudio panel plugin backed by Pip
 ### Bluetooth
 
 GlassXFCE includes BlueZ plus Blueman so Bluetooth keyboards, mice, headsets and phones can be paired from the live desktop without downloading extra packages first. Blueman lives in the normal notification area, keeping the top bar clean.
+
+### Laptop-friendly power defaults
+
+The default profile keeps brightness keys and resume locking enabled, blanks the display sooner on battery than on AC, and leaves actual suspend/hibernate policy to the user and the hardware. This avoids surprising automatic sleep behavior while still giving the Live desktop sensible display power savings.

@@ -71,6 +71,12 @@ grep -q -- "--apt-recommends false" auto/config || fail "live build must keep AP
 # The default top panel references the PulseAudio plugin explicitly.
 grep -q 'value="pulseaudio"' config/includes.chroot/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml || fail "default panel must expose audio controls"
 
+say "checking power defaults"
+power=config/includes.chroot/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml
+[ -f "$power" ] || fail "missing XFCE power defaults"
+grep -q 'name="dpms-enabled" type="bool" value="true"' "$power" || fail "DPMS must be enabled"
+grep -q 'name="lock-screen-suspend-hibernate" type="bool" value="true"' "$power" || fail "resume lock protection must be enabled"
+
 say "checking boot choices"
 grep -qi 'live' config/bootloaders/grub-pc/grub.cfg || fail "GRUB menu has no live entry"
 grep -qi 'install' config/bootloaders/grub-pc/grub.cfg || fail "GRUB menu has no installer entry"
