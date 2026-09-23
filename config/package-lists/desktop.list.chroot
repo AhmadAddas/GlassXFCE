@@ -8,6 +8,10 @@ picom
 rofi
 fonts-inter
 plymouth
+plymouth-themes
+plymouth-label
+lightdm
+lightdm-gtk-greeter
 
 # Desktop essentials
 network-manager-gnome

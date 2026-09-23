@@ -1,0 +1,8 @@
+[Plymouth Theme]
+Name=GlassXFCE
+Description=Minimal GlassXFCE boot splash
+ModuleName=script
+
+[script]
+ImageDir=/usr/share/plymouth/themes/glassxfce
+ScriptFile=/usr/share/plymouth/themes/glassxfce/glassxfce.script
