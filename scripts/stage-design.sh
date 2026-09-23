@@ -105,14 +105,36 @@ mkdir -p "$GTK_DEST" "$ICON_DEST"
 
 stage_gtk_release "$GTK" "$GTK_DEST"
 
-# Invoke through bash so GitHub web/ZIP uploads do not depend on executable bits.
-echo "Staging WhiteSur icon theme"
-bash "$ICONS/install.sh" -d "$ICON_DEST" -t default
+stage_icon_theme() {
+  local source="$1" dest="$2" shim
+  shim="$(mktemp -d)"
+  trap 'rm -rf "$shim"' RETURN
 
-if [ ! -f "$ICON_DEST/WhiteSur/index.theme" ]; then
-  echo "WhiteSur icon staging did not produce $ICON_DEST/WhiteSur/index.theme" >&2
-  exit 1
-fi
+  # Upstream generates gtk icon caches at the very end of install.sh. The CI
+  # staging container does not need GTK runtime tooling just to assemble files,
+  # so provide a temporary no-op cache command here. A live-build chroot hook
+  # refreshes caches later when the command exists in the target image.
+  cat > "$shim/gtk-update-icon-cache" <<'EOF'
+#!/bin/sh
+exit 0
+EOF
+  chmod +x "$shim/gtk-update-icon-cache"
+
+  echo "Staging WhiteSur icon theme"
+  PATH="$shim:$PATH" bash "$source/install.sh" -d "$dest" -t default
+
+  for variant in WhiteSur WhiteSur-light WhiteSur-dark; do
+    if [ ! -f "$dest/$variant/index.theme" ]; then
+      echo "WhiteSur icon staging did not produce $dest/$variant/index.theme" >&2
+      return 1
+    fi
+  done
+
+  rm -rf "$shim"
+  trap - RETURN
+}
+
+stage_icon_theme "$ICONS" "$ICON_DEST"
 
 if [ -f "$ROOT/assets/wallpapers/default.jpg" ]; then
   install -Dm0644 "$ROOT/assets/wallpapers/default.jpg" \
