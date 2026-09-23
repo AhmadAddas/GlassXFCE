@@ -10,7 +10,14 @@ need unsquashfs
 
 fail() { printf 'installer-verify: error: %s\n' "$*" >&2; exit 1; }
 TMP="$(mktemp -d)"
-trap 'rm -rf "$TMP"' EXIT HUP INT TERM
+cleanup_tmp() {
+  # ISO directories can be restored read-only. Make the temporary tree
+  # owner-writable before removing it so successful verification does not
+  # fail during the EXIT trap.
+  chmod -R u+rwX "$TMP" 2>/dev/null || true
+  rm -rf -- "$TMP" 2>/dev/null || true
+}
+trap cleanup_tmp EXIT HUP INT TERM
 
 iso_has() {
   xorriso -indev "$ISO" -ls "$1" >/dev/null 2>&1

@@ -17,7 +17,14 @@ need xorriso
 need unsquashfs
 
 TMP="$(mktemp -d "${TMPDIR:-/tmp}/glassxfce-assets.XXXXXX")"
-trap 'rm -rf "$TMP"' EXIT HUP INT TERM
+cleanup_tmp() {
+  # ISO directories can be restored read-only. Make the temporary tree
+  # owner-writable before removing it so successful verification does not
+  # fail during the EXIT trap.
+  chmod -R u+rwX "$TMP" 2>/dev/null || true
+  rm -rf -- "$TMP" 2>/dev/null || true
+}
+trap cleanup_tmp EXIT HUP INT TERM
 
 SQUASHFS="$TMP/filesystem.squashfs"
 echo "glass-assets: extracting live root metadata"

@@ -110,6 +110,8 @@ say "checking built boot menu verification"
 grep -Fq 'verify-boot-menu.sh' .github/workflows/build-iso.yml || fail "ISO workflow must verify built boot menu choices"
 grep -Fq 'Try GlassXFCE Live' scripts/verify-boot-menu.sh || fail "boot menu verifier must protect the Live choice"
 grep -Fq 'Install GlassXFCE' scripts/verify-boot-menu.sh || fail "boot menu verifier must protect the Install choice"
+grep -Fq 'on:auto_chmod_on' scripts/verify-boot-menu.sh || fail "boot menu verifier must handle read-only ISO directories during extraction"
+grep -Fq 'chmod -R u+rwX "$TMP"' scripts/verify-boot-menu.sh || fail "boot menu verifier cleanup must handle read-only extracted directories"
 
 say "checking installer payload verification"
 [ -f scripts/verify-installer-payload.sh ] || fail "missing installer payload verifier"
