@@ -21,3 +21,22 @@ jobs:
 
       - name: Validate live-build tree
         run: ./scripts/validate-tree.sh
+
+  packages:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Validate Debian 13 package manifest
+        shell: bash
+        run: |
+          docker run --rm \
+            -v "$GITHUB_WORKSPACE:/work:ro" \
+            -w /work \
+            debian:13 \
+            bash -euxo pipefail -c '
+              sed -i "s/Components: main/Components: main contrib non-free-firmware/" /etc/apt/sources.list.d/debian.sources
+              apt-get update
+              ./scripts/validate-packages.sh
+            '

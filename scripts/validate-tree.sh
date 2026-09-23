@@ -86,6 +86,11 @@ grep -q 'MAX_ISO_MIB="${MAX_ISO_MIB:-1800}"' scripts/release-check.sh || fail "r
 grep -q "MAX_ISO_MIB: 1800" .github/workflows/build-iso.yml || fail "ISO workflow must enforce the 1800 MiB budget"
 [ -f docs/size-budget.md ] || fail "missing documented ISO size policy"
 
+say "checking Debian package validation policy"
+[ -x scripts/validate-packages.sh ] || fail "missing executable package manifest validator"
+grep -q 'validate-packages.sh' .github/workflows/validate.yml || fail "normal CI must validate Debian package availability"
+grep -q 'debian:13' .github/workflows/validate.yml || fail "package validation must run against Debian 13"
+
 say "checking build workflow policy"
 workflow=.github/workflows/build-iso.yml
 grep -q 'workflow_dispatch:' "$workflow" || fail "ISO workflow is missing manual trigger"

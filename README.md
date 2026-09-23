@@ -152,3 +152,7 @@ Every installer entry point now goes through `glassxfce-installer`, which refuse
 ## Welcome page
 
 The application menu includes `Welcome to GlassXFCE`, an offline local page covering the core shortcuts, appearance toggle, live installer and Debian/XFCE base. It reuses the already-installed browser through `xdg-open`, so the ISO does not gain another GUI toolkit or help application solely for onboarding.
+
+## Debian package manifest validation
+
+Normal CI now has a second lightweight job that starts a clean `debian:13` container, enables the same `main contrib non-free-firmware` archive areas used by live-build, refreshes package metadata and verifies every explicit package in `desktop.list.chroot` resolves. This catches renamed or removed Debian packages before a manual/tagged ISO build.
