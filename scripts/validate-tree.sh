@@ -278,6 +278,12 @@ say "checking window button placement"
 grep -Fq 'value="|HMC"' config/includes.chroot/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfwm4.xml || fail "window buttons must default to the right"
 grep -Fq "layout='CHM|'" config/includes.chroot/usr/local/bin/glassxfce-window-buttons || fail "window button switcher must support left controls"
 
+say "checking bounded user-session shutdown"
+[ -f config/includes.chroot/etc/systemd/user/mpris-proxy.service.d/10-glassxfce-stop-timeout.conf ] || fail "missing mpris-proxy stop timeout"
+grep -q '^TimeoutStopSec=5s$' config/includes.chroot/etc/systemd/user/mpris-proxy.service.d/10-glassxfce-stop-timeout.conf || fail "mpris-proxy stop timeout must remain short"
+[ -f config/includes.chroot/etc/systemd/system/user@.service.d/10-glassxfce-stop-timeout.conf ] || fail "missing user manager stop timeout"
+grep -q '^TimeoutStopSec=20s$' config/includes.chroot/etc/systemd/system/user@.service.d/10-glassxfce-stop-timeout.conf || fail "user manager stop timeout must remain bounded"
+
 say "checking live session defaults"
 [ -f config/includes.chroot/etc/live/config.conf.d/10-glassxfce.conf ] || fail "missing live-config defaults"
 grep -q '^LIVE_USERNAME="live"$' config/includes.chroot/etc/live/config.conf.d/10-glassxfce.conf || fail "live username must remain live"

@@ -166,6 +166,12 @@ GlassXFCE includes BlueZ plus Blueman so Bluetooth keyboards, mice, headsets and
 
 GlassXFCE explicitly installs `colord` plus `xiccd`. On XFCE/X11, xiccd bridges XRandR displays into colord so the Color Profiles settings tool can enumerate connected displays and apply ICC profiles rather than opening with an empty device list.
 
+### Bounded live-session shutdown
+
+BlueZ ships an optional per-user `mpris-proxy` service for Bluetooth media-control buttons. On some live-media sessions that helper can hold `user@UID.service` open during shutdown. GlassXFCE keeps the feature enabled but limits the helper to a 5-second stop timeout and the enclosing user manager to 20 seconds, preventing a normal shutdown from sitting at the default long systemd timeout.
+
+If the console also prints repeated `SQUASHFS error: Unable to read ...` messages, that indicates the live filesystem itself could not be read reliably (for example a bad write, failing USB media, or corrupted ISO) and the image/checksum should be verified separately.
+
 ### Laptop-friendly power defaults
 
 The default profile keeps brightness keys and resume locking enabled, blanks the display sooner on battery than on AC, and leaves actual suspend/hibernate policy to the user and the hardware. This avoids surprising automatic sleep behavior while still giving the Live desktop sensible display power savings.
