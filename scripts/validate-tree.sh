@@ -133,6 +133,10 @@ if grep -q 'sha256sum "$(basename "$ISO_DST")"' build.sh; then
   fail "build checksum must not reference the ISO basename from repository root"
 fi
 
+say "checking semantic release tags"
+[ -x scripts/validate-release-version.sh ] || fail "missing executable release version validator"
+grep -q 'validate-release-version.sh' .github/workflows/build-iso.yml || fail "tagged builds must validate semantic release versions"
+
 say "checking build workflow policy"
 workflow=.github/workflows/build-iso.yml
 grep -q 'workflow_dispatch:' "$workflow" || fail "ISO workflow is missing manual trigger"

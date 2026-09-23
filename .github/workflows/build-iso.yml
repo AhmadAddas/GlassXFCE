@@ -39,6 +39,11 @@ jobs:
             echo "value=${{ inputs.version || 'dev' }}" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Validate release tag
+        if: github.ref_type == 'tag'
+        shell: bash
+        run: ./scripts/validate-release-version.sh "$GITHUB_REF_NAME" "${{ steps.version.outputs.value }}"
+
       - name: Build Debian 13 ISO in Debian container
         shell: bash
         run: |
