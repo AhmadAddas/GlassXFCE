@@ -113,6 +113,10 @@ jobs:
         shell: bash
         run: ./scripts/report-iso-payload.sh dist/*.iso >> "$GITHUB_STEP_SUMMARY"
 
+      - name: Verify SquashFS release compression
+        shell: bash
+        run: ./scripts/verify-squashfs-format.sh dist/*.iso
+
       - name: Verify protected Glass design assets
         shell: bash
         run: ./scripts/verify-glass-assets.sh dist/*.iso

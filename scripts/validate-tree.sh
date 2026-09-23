@@ -131,6 +131,12 @@ for pkg in firmware-iwlwifi firmware-realtek firmware-amd-graphics xfce4-pulseau
   grep -Fq "'$pkg'" scripts/verify-runtime-packages.sh || fail "runtime verifier does not protect package: $pkg"
 done
 
+say "checking squashfs release format verification"
+[ -x scripts/verify-squashfs-format.sh ] || fail "missing executable SquashFS verifier"
+grep -Fq 'verify-squashfs-format.sh' .github/workflows/build-iso.yml || fail "ISO workflow must verify SquashFS release compression"
+grep -Fq "Compression[[:space:]]+xz" scripts/verify-squashfs-format.sh || fail "SquashFS verifier must require XZ"
+grep -Fq "Block size[[:space:]]+1048576" scripts/verify-squashfs-format.sh || fail "SquashFS verifier must require 1 MiB blocks"
+
 say "checking iso size budget policy"
 grep -q 'MAX_ISO_MIB="${MAX_ISO_MIB:-1800}"' scripts/release-check.sh || fail "release check must default to the 1800 MiB budget"
 grep -q "MAX_ISO_MIB: 1800" .github/workflows/build-iso.yml || fail "ISO workflow must enforce the 1800 MiB budget"
