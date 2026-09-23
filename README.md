@@ -63,7 +63,7 @@ GlassXFCE ships a two-panel layout by default:
 
 The panel configuration is stored in `/etc/skel`, so both the live user and newly created installed users receive the same layout without a first-run wizard.
 
-The default session also applies WhiteSur light styling, Inter typography, four workspaces, centered window titles, left-side window controls, the original Aurora wallpaper and macOS-like Super-key shortcuts. Picom remains the only compositor so Xfwm compositing stays disabled.
+The default session also applies WhiteSur light styling, Inter typography, four workspaces, centered window titles, right-side Windows-style window controls, the original Aurora wallpaper and macOS-like Super-key shortcuts. Picom remains the only compositor so Xfwm compositing stays disabled.
 
 ### Theme source pinning
 

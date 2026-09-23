@@ -3,7 +3,7 @@
   <property name="general" type="empty">
     <property name="theme" type="string" value="WhiteSur-Light"/>
     <property name="title_font" type="string" value="Inter Semi-Bold 10"/>
-    <property name="button_layout" type="string" value="CHM|"/>
+    <property name="button_layout" type="string" value="|HMC"/>
     <property name="title_alignment" type="string" value="center"/>
     <property name="focus_mode" type="string" value="click"/>
     <property name="focus_delay" type="int" value="250"/>

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Switch Window Button Side
+Comment=Move minimize, maximize and close buttons between the right and left sides
+Exec=glassxfce-window-buttons toggle
+Icon=preferences-system-windows
+Terminal=false
+Categories=Settings;DesktopSettings;
+Keywords=window;buttons;close;minimize;maximize;left;right;

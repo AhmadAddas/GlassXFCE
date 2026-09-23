@@ -1,0 +1,30 @@
+#!/bin/sh
+set -eu
+
+current="$(xfconf-query -c xfwm4 -p /general/button_layout 2>/dev/null || printf '%s' '|HMC')"
+mode="${1:-toggle}"
+case "$mode" in
+  toggle)
+    case "$current" in
+      CHM\|*) mode=right ;;
+      *) mode=left ;;
+    esac
+    ;;
+  left|right) ;;
+  *) echo "usage: glassxfce-window-buttons [left|right|toggle]" >&2; exit 2 ;;
+esac
+
+if [ "$mode" = left ]; then
+  layout='CHM|'
+  message='Window controls moved to the left'
+else
+  layout='|HMC'
+  message='Window controls moved to the right'
+fi
+
+xfconf-query -c xfwm4 -p /general/button_layout -n -t string -s "$layout" 2>/dev/null || \
+  xfconf-query -c xfwm4 -p /general/button_layout -s "$layout"
+
+if command -v notify-send >/dev/null 2>&1; then
+  notify-send -a GlassXFCE -i preferences-system-windows "Window buttons" "$message"
+fi

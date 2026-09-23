@@ -253,6 +253,12 @@ grep -q 'productName: GlassXFCE' config/includes.chroot/etc/calamares/branding/g
 [ -f config/hooks/live/0400-glassxfce-desktop-shortcuts.hook.chroot ] || fail "missing generic Calamares desktop-shortcut cleanup hook"
 grep -Fq 'calamares-install-debian.desktop' config/hooks/live/0400-glassxfce-desktop-shortcuts.hook.chroot || fail "generic Calamares desktop shortcut must be removed"
 
+say "checking window button placement"
+[ -f config/includes.chroot/usr/local/bin/glassxfce-window-buttons ] || fail "missing window-button side switcher"
+[ -f config/includes.chroot/usr/share/applications/glassxfce-window-buttons.desktop ] || fail "missing window-button Settings entry"
+grep -Fq 'value="|HMC"' config/includes.chroot/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfwm4.xml || fail "window buttons must default to the right"
+grep -Fq "layout='CHM|'" config/includes.chroot/usr/local/bin/glassxfce-window-buttons || fail "window button switcher must support left controls"
+
 say "checking live session defaults"
 [ -f config/includes.chroot/etc/live/config.conf.d/10-glassxfce.conf ] || fail "missing live-config defaults"
 grep -q '^LIVE_USERNAME="live"$' config/includes.chroot/etc/live/config.conf.d/10-glassxfce.conf || fail "live username must remain live"

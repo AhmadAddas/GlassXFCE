@@ -17,6 +17,8 @@ xfconf-query -c xsettings -p /Net/ThemeName -n -t string -s "WhiteSur-Light" 2>/
 xfconf-query -c xsettings -p /Net/IconThemeName -n -t string -s "WhiteSur" 2>/dev/null || true
 xfconf-query -c xsettings -p /Gtk/FontName -n -t string -s "Inter 10" 2>/dev/null || true
 xfconf-query -c xfwm4 -p /general/theme -s "WhiteSur-Light" 2>/dev/null || true
+# Windows-style controls on the right are the default; users can toggle the side.
+xfconf-query -c xfwm4 -p /general/button_layout -n -t string -s "|HMC" 2>/dev/null || true
 
 # Apply the bundled wallpaper to every currently-created workspace/monitor property.
 WALL="/usr/share/backgrounds/glassxfce/aurora.svg"
