@@ -66,7 +66,7 @@ jobs:
         shell: bash
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends qemu-system-x86 ovmf xorriso squashfs-tools
+          sudo apt-get install -y --no-install-recommends qemu-system-x86 ovmf xorriso squashfs-tools sbsigntool
 
       - name: Validate release artifacts
         shell: bash
@@ -109,6 +109,10 @@ jobs:
       - name: Verify image identity
         shell: bash
         run: ./scripts/verify-image-identity.sh dist/*.iso "${{ steps.version.outputs.value }}"
+
+      - name: Verify signed UEFI bootloader
+        shell: bash
+        run: ./scripts/verify-secure-boot.sh dist/*.iso
 
       - name: Smoke-test ISO boot structure
         shell: bash

@@ -103,6 +103,12 @@ grep -q 'verify-installer-payload.sh' .github/workflows/build-iso.yml || fail "I
 grep -q '/install.amd' scripts/verify-installer-payload.sh || fail "installer verifier must inspect the Debian installer payload"
 grep -q 'usr/bin/calamares' scripts/verify-installer-payload.sh || fail "installer verifier must protect Calamares"
 
+say "checking Secure Boot verification"
+[ -x scripts/verify-secure-boot.sh ] || fail "missing executable Secure Boot verifier"
+grep -q 'verify-secure-boot.sh' .github/workflows/build-iso.yml || fail "ISO workflow must verify the signed UEFI bootloader"
+grep -q 'sbsigntool' .github/workflows/build-iso.yml || fail "ISO workflow must install sbverify tooling"
+grep -q 'sbverify --list' scripts/verify-secure-boot.sh || fail "Secure Boot verifier must inspect PE signatures"
+
 say "checking QEMU boot smoke coverage"
 [ -x scripts/smoke-test-iso.sh ] || fail "missing executable ISO smoke test"
 grep -q 'OVMF_CODE' scripts/smoke-test-iso.sh || fail "smoke test must exercise UEFI through OVMF"
