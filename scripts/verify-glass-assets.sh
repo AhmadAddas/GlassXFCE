@@ -62,7 +62,9 @@ require_path usr/local/bin/glassxfce-launcher
 # Branded boot/login/installer experience carried by the live root
 require_path usr/share/plymouth/themes/glassxfce/glassxfce.plymouth
 require_path etc/lightdm/lightdm-gtk-greeter.conf.d/50-glassxfce.conf
-require_path etc/calamares/branding/debian/welcome.png
+require_path etc/calamares/branding/glassxfce/welcome.png
+require_path etc/calamares/branding/glassxfce/branding.desc
+require_path usr/share/icons/hicolor/scalable/apps/glassxfce-installer.svg
 require_path usr/share/applications/glassxfce-installer.desktop
 
 echo "glass-assets: all protected GlassXFCE assets are present"

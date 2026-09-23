@@ -245,6 +245,11 @@ done
 [ -f config/includes.chroot/etc/skel/.config/plank/dock1/launchers/glassxfce-installer.dockitem ] || fail "missing installer Plank item"
 grep -Fq 'glassxfce-installer.desktop' config/includes.chroot/etc/skel/.config/plank/dock1/launchers/glassxfce-installer.dockitem || fail "Plank installer item must launch the GlassXFCE installer entry"
 [ -f config/includes.chroot/etc/xdg/autostart/glassxfce-installed-cleanup.desktop ] || fail "missing installed cleanup autostart"
+[ -f config/includes.chroot/usr/share/icons/hicolor/scalable/apps/glassxfce-installer.svg ] || fail "missing GlassXFCE installer icon"
+grep -q '^Icon=glassxfce-installer$' config/includes.chroot/usr/share/applications/glassxfce-installer.desktop || fail "installer menu entry must use GlassXFCE icon"
+[ -f config/includes.chroot/etc/calamares/branding/glassxfce/branding.desc ] || fail "missing GlassXFCE Calamares branding"
+grep -q 'productName: GlassXFCE' config/includes.chroot/etc/calamares/branding/glassxfce/branding.desc || fail "Calamares product name must be GlassXFCE"
+[ -f config/hooks/live/0420-glassxfce-installer-branding.hook.chroot ] || fail "missing Calamares branding cleanup hook"
 [ -f config/hooks/live/0400-glassxfce-desktop-shortcuts.hook.chroot ] || fail "missing generic Calamares desktop-shortcut cleanup hook"
 grep -Fq 'calamares-install-debian.desktop' config/hooks/live/0400-glassxfce-desktop-shortcuts.hook.chroot || fail "generic Calamares desktop shortcut must be removed"
 

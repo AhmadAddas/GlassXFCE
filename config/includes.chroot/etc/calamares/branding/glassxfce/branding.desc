@@ -1,0 +1,26 @@
+---
+componentName: glassxfce
+welcomeStyleCalamares: false
+welcomeExpandingLogo: true
+windowExpanding: normal
+windowSize: 980px,640px
+windowPlacement: center
+strings:
+  productName: GlassXFCE
+  shortProductName: GlassXFCE
+  version: "13"
+  shortVersion: "13"
+  versionedName: GlassXFCE 13
+  shortVersionedName: GlassXFCE 13
+  bootloaderEntryName: GlassXFCE
+  productUrl: https://github.com/AhmadAddas/GlassXFCE
+  supportUrl: https://github.com/AhmadAddas/GlassXFCE/issues
+images:
+  productIcon: "logo.svg"
+  productLogo: "logo.svg"
+  productWelcome: "welcome.png"
+style:
+  SidebarBackground: "#111827"
+  SidebarText: "#f8fafc"
+  SidebarTextCurrent: "#ffffff"
+  SidebarBackgroundCurrent: "#5b8cff"

@@ -1,0 +1,17 @@
+#!/bin/sh
+set -eu
+
+for desktop in /usr/share/applications/*.desktop; do
+  [ -f "$desktop" ] || continue
+  if grep -Eq '^Name=(Install Debian|Debian Installer)$|^Exec=calamares-install-debian([[:space:]]|$)' "$desktop"; then
+    rm -f "$desktop"
+  fi
+done
+
+if [ -f /etc/calamares/settings.conf ]; then
+  if grep -Eq '^[[:space:]]*branding:' /etc/calamares/settings.conf; then
+    sed -i 's/^[[:space:]]*branding:.*/branding: glassxfce/' /etc/calamares/settings.conf
+  else
+    printf '\nbranding: glassxfce\n' >> /etc/calamares/settings.conf
+  fi
+fi
