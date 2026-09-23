@@ -1,6 +1,6 @@
 # GlassXFCE Live
 
-A Debian 13 (Trixie) XFCE live ISO concept with a lightweight macOS-inspired visual layer: WhiteSur GTK/icons, Picom blur/rounded corners/animations, a Plank floating dock, Rofi-powered search, Inter, and a graphical installer.
+A Debian 13 (Trixie) XFCE live ISO concept with a lightweight macOS-inspired visual layer: WhiteSur GTK/icons, Picom blur/rounded corners/animations, a Plank floating dock, Glass Search (Rofi-powered), Inter, and a graphical installer.
 
 ## Repository setup
 
@@ -48,7 +48,7 @@ The supplied first-login helper applies WhiteSur, Inter and the wallpaper. Picom
 
 The live image also carries a matching LightDM greeter and a small GlassXFCE Plymouth theme so the visual language starts before the desktop session.
 
-Press `Super+Space` in the live desktop to open the bundled Rofi launcher, styled as a compact translucent Spotlight-like search surface.
+Press `Super+Space` in the live desktop to open **Glass Search**, a compact translucent Spotlight-like search surface. Rofi remains the lightweight implementation underneath, but its technical launcher/theme-selector entries are hidden from normal application menus.
 
 ## Wallpaper policy
 

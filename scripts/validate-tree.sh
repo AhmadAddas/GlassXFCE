@@ -233,6 +233,11 @@ say "checking welcome experience"
 grep -Fq "welcome.py" config/includes.chroot/usr/local/bin/glassxfce-welcome || fail "welcome helper must launch the native GTK app"
 [ -f config/includes.chroot/usr/share/applications/glassxfce-welcome.desktop ] || fail "missing welcome application entry"
 grep -q 'glassxfce-welcome.desktop' config/includes.chroot/etc/skel/.config/xfce4/panel/whiskermenu-1.rc || fail "welcome entry must be visible in Whisker favorites"
+[ -f config/includes.chroot/usr/share/applications/glassxfce-search.desktop ] || fail "missing branded Glass Search entry"
+grep -q '^Exec=glassxfce-launcher$' config/includes.chroot/usr/share/applications/glassxfce-search.desktop || fail "Glass Search must use the lightweight launcher helper"
+for hidden in rofi.desktop rofi-theme-selector.desktop; do
+  grep -q '^Hidden=true$' "config/includes.chroot/etc/skel/.local/share/applications/$hidden" || fail "raw Rofi menu entry must be hidden: $hidden"
+done
 
 say "checking installer live-session guard"
 [ -f config/includes.chroot/usr/local/bin/glassxfce-installer ] || fail "missing guarded installer wrapper"

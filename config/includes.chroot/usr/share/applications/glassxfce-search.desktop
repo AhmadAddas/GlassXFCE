@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Glass Search
+GenericName=Application Search
+Comment=Search and launch installed applications
+Exec=glassxfce-launcher
+Icon=system-search
+Terminal=false
+StartupNotify=true
+Categories=Utility;
+Keywords=search;launcher;applications;spotlight;

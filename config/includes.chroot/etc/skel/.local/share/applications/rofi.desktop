@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=Rofi
+Exec=true
+Hidden=true
+NoDisplay=true
