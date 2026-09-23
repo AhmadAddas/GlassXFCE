@@ -5,15 +5,11 @@ A Debian 13 (Trixie) XFCE live ISO concept with a lightweight macOS-inspired vis
 ## Repository setup
 
 ```bash
-git clone https://github.com/YOURNAME/glassxfce-live.git
-cd glassxfce-live
-./scripts/add-theme-submodules.sh
-git add .
-git commit -m "feat: add pinned visual assets"
-git push
+git clone https://github.com/AhmadAddas/GlassXFCE
+cd GlassXFCE
 ```
 
-The theme repositories are Git submodules, so your project records exact upstream commits. CI checks them out recursively.
+Theme sources are pinned by release tag and verified commit prefix during the build. WhiteSur GTK is staged from upstream's precompiled Light/Dark release archives, while the icon theme is generated from its pinned source tree.
 
 ## Build locally on Debian 13
 
@@ -58,17 +54,6 @@ Press `Super+Space` in the live desktop to open the bundled Rofi launcher, style
 
 The repository includes a fixed abstract GlassXFCE wallpaper, so CI never downloads random artwork. If you replace it with third-party artwork, keep author/source/license information beside it in `assets/wallpapers/CREDITS.md`.
 
-## Commit style
-
-Use lower-case Conventional Commit messages, such as:
-
-```text
-feat: add glass dock layout
-fix: correct installer launcher
-ci: update iso release workflow
-chore: refresh theme pins
-```
-
 ## Desktop layout
 
 GlassXFCE ships a two-panel layout by default:
@@ -82,7 +67,7 @@ The default session also applies WhiteSur light styling, Inter typography, four 
 
 ### Theme source pinning
 
-A fresh clone no longer requires pre-created theme submodules. During staging, the build fetches the WhiteSur `2026-09-10` release tags and verifies the expected release commit prefixes before installing the generated theme files. Optional submodules are still supported for offline/local work.
+A fresh clone no longer requires pre-created theme submodules. During staging, the build fetches the WhiteSur `2026-09-10` release tags and verifies the expected release commit prefixes. GTK Light/Dark themes are unpacked from upstream precompiled release archives, while the pinned icon source is staged separately. Optional local source trees are still supported for offline development.
 
 ### CI policy
 
