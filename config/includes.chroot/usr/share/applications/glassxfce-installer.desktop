@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Install GlassXFCE
+GenericName=System Installer
+Comment=Install GlassXFCE to this computer
+Exec=calamares-install-debian
+Icon=install-debian
+Terminal=false
+StartupNotify=true
+Categories=System;Settings;
+Keywords=install;installer;system;
