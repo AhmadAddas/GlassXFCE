@@ -44,9 +44,69 @@ jobs:
         shell: bash
         run: ./scripts/validate-release-version.sh "$GITHUB_REF_NAME" "${{ steps.version.outputs.value }}"
 
+      - name: Verify checked-out build tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          required=(
+            build.sh
+            auto/config
+            scripts/build-host-preflight.sh
+            scripts/release-check.sh
+            scripts/report-iso-payload.sh
+            scripts/smoke-test-iso.sh
+            scripts/verify-boot-menu.sh
+            scripts/verify-build-metadata.sh
+            scripts/verify-glass-assets.sh
+            scripts/verify-image-identity.sh
+            scripts/verify-installer-payload.sh
+            scripts/verify-runtime-packages.sh
+            scripts/verify-secure-boot.sh
+            scripts/verify-squashfs-format.sh
+          )
+
+          missing=0
+          for path in "${required[@]}"; do
+            if [[ ! -f "$path" ]]; then
+              echo "::error file=$path::Required build file is missing from the checked-out revision"
+              missing=1
+            fi
+          done
+
+          if (( missing )); then
+            echo "::error::The selected branch/tag is not a complete GlassXFCE build snapshot. Upload/extract the cumulative commit ZIP as a whole, including scripts/."
+            exit 1
+          fi
+
+          chmod +x build.sh scripts/*.sh auto/*
+
       - name: Check build network sources
         shell: bash
-        run: ./scripts/check-build-network.sh
+        run: |
+          set -euo pipefail
+
+          probe() {
+            local label="$1" url="$2"
+            echo "network-preflight: checking $label"
+            curl \
+              --fail \
+              --silent \
+              --show-error \
+              --location \
+              --retry 3 \
+              --retry-all-errors \
+              --connect-timeout 10 \
+              --max-time 45 \
+              --output /dev/null \
+              "$url"
+          }
+
+          probe "Debian Trixie archive" \
+            "https://deb.debian.org/debian/dists/trixie/InRelease"
+          probe "WhiteSur source host" \
+            "https://github.com/vinceliuice/WhiteSur-gtk-theme.git/info/refs?service=git-upload-pack"
+
+          echo "network-preflight: required build sources are reachable"
 
       - name: Build Debian 13 ISO in Debian container
         id: iso_build

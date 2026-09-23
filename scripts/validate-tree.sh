@@ -177,8 +177,15 @@ say "checking semantic release tags"
 grep -q 'validate-release-version.sh' .github/workflows/build-iso.yml || fail "tagged builds must validate semantic release versions"
 
 say "checking build network preflight"
-[ -x scripts/check-build-network.sh ] || fail "build network preflight is missing or not executable"
-grep -Fq 'check-build-network.sh' .github/workflows/build-iso.yml || fail "build workflow does not run the network preflight"
+[ -x scripts/check-build-network.sh ] || fail "local build network preflight is missing or not executable"
+if ! grep -Fq 'check-build-network.sh' .github/workflows/build-iso.yml; then
+  grep -Fq 'https://deb.debian.org/debian/dists/trixie/InRelease' .github/workflows/build-iso.yml || fail "build workflow does not probe Debian Trixie"
+  grep -Fq 'WhiteSur-gtk-theme.git/info/refs?service=git-upload-pack' .github/workflows/build-iso.yml || fail "build workflow does not probe the WhiteSur source host"
+fi
+
+say "checking workflow checkout integrity guard"
+grep -Fq 'Verify checked-out build tree' .github/workflows/build-iso.yml || fail "build workflow does not verify its checked-out source tree"
+grep -Fq 'Required build file is missing from the checked-out revision' .github/workflows/build-iso.yml || fail "checkout integrity guard does not report missing required files"
 
 say "checking failed build log retention"
 grep -Fq 'id: iso_build' .github/workflows/build-iso.yml || fail "ISO build step must have a stable id"
