@@ -52,7 +52,7 @@ Press `Super+Space` in the live desktop to open the bundled Rofi launcher, style
 
 ## Wallpaper policy
 
-The repository includes a fixed abstract GlassXFCE wallpaper, so CI never downloads random artwork. If you replace it with third-party artwork, keep author/source/license information beside it in `assets/wallpapers/CREDITS.md`.
+The repository ships three original modern GlassXFCE wallpapers (`aurora`, `midnight-glass`, and `silver-wave`) and removes the stock Debian/XFCE wallpaper set from the live image. WhiteSur remains the primary icon style, with Papirus packaged underneath it as a broad fallback for applications WhiteSur does not cover.
 
 ## Desktop layout
 
@@ -63,7 +63,7 @@ GlassXFCE ships a two-panel layout by default:
 
 The panel configuration is stored in `/etc/skel`, so both the live user and newly created installed users receive the same layout without a first-run wizard.
 
-The default session also applies WhiteSur light styling, Inter typography, four workspaces, centered window titles, left-side window controls, a clean bundled wallpaper and macOS-like Super-key shortcuts. Picom remains the only compositor so Xfwm compositing stays disabled.
+The default session also applies WhiteSur light styling, Inter typography, four workspaces, centered window titles, left-side window controls, the original Aurora wallpaper and macOS-like Super-key shortcuts. Picom remains the only compositor so Xfwm compositing stays disabled.
 
 ### Theme source pinning
 

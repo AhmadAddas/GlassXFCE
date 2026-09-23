@@ -19,7 +19,7 @@ xfconf-query -c xsettings -p /Gtk/FontName -n -t string -s "Inter 10" 2>/dev/nul
 xfconf-query -c xfwm4 -p /general/theme -s "WhiteSur-Light" 2>/dev/null || true
 
 # Apply the bundled wallpaper to every currently-created workspace/monitor property.
-WALL="/usr/share/backgrounds/glassxfce/default.jpg"
+WALL="/usr/share/backgrounds/glassxfce/aurora.svg"
 if [ -f "$WALL" ]; then
   xfconf-query -c xfce4-desktop -l 2>/dev/null | while IFS= read -r prop; do
     case "$prop" in

@@ -35,7 +35,7 @@ for para in status.split('\n\n'):
     if fields.get('Status') == 'install ok installed' and fields.get('Package'):
         installed.add(fields['Package'])
 required = [
-    'live-config', 'live-config-systemd', 'user-setup', 'sudo',
+    'live-config', 'live-config-systemd', 'user-setup', 'sudo', 'papirus-icon-theme',
     'xfce4-power-manager-plugins', 'xfce4-pulseaudio-plugin', 'pipewire-audio', 'network-manager-gnome',
     'bluez', 'blueman',
     'firmware-iwlwifi', 'firmware-realtek', 'firmware-atheros',

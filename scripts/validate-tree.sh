@@ -100,7 +100,7 @@ grep -qi 'install' config/bootloaders/syslinux_common/menu.cfg || fail "Syslinux
 
 say "checking protected glass asset policy"
 [ -f scripts/verify-glass-assets.sh ] || fail "missing Glass asset verifier"
-for asset in WhiteSur-Light WhiteSur-Dark default.jpg picom.conf glass.rasi glassxfce.plymouth 50-glassxfce.conf welcome.png; do
+for asset in WhiteSur-Light WhiteSur-Dark aurora.svg picom.conf glass.rasi glassxfce.plymouth 50-glassxfce.conf welcome.png; do
   grep -Fq "$asset" scripts/verify-glass-assets.sh || fail "Glass asset verifier does not protect: $asset"
 done
 grep -q "verify-glass-assets.sh" .github/workflows/build-iso.yml || fail "ISO workflow must verify the Glass design payload"
@@ -177,6 +177,8 @@ grep -Eq 'for command in .*\bxz\b' scripts/build-host-preflight.sh || fail "buil
 grep -Fq 'xz-utils file sassc' .github/workflows/build-iso.yml || fail "ISO build container must install the file utility for live-build installer detection"
 grep -Eq 'for command in .*\bfile\b' scripts/build-host-preflight.sh || fail "build host preflight must require the file utility"
 grep -Fq 'PATH="$shim:$PATH" bash "$source/install.sh"' scripts/stage-design.sh || fail "WhiteSur icon staging must not depend on host GTK tooling"
+grep -Fq 'Inherits=Papirus,Adwaita,hicolor' scripts/stage-design.sh || fail "WhiteSur must inherit the broad Papirus fallback"
+[ -f config/hooks/live/0410-glassxfce-wallpapers.hook.chroot ] || fail "missing stock-wallpaper cleanup hook"
 [ -f config/hooks/live/0300-glassxfce-icon-cache.hook.chroot ] || fail "missing target-image icon cache hook"
 
 say "checking build source metadata"

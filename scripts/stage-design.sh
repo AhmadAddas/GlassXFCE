@@ -136,9 +136,22 @@ EOF
 
 stage_icon_theme "$ICONS" "$ICON_DEST"
 
-if [ -f "$ROOT/assets/wallpapers/default.jpg" ]; then
-  install -Dm0644 "$ROOT/assets/wallpapers/default.jpg" \
-    "$ROOT/config/includes.chroot/usr/share/backgrounds/glassxfce/default.jpg"
-else
-  echo "Note: assets/wallpapers/default.jpg is missing; ISO will use the Debian/XFCE default wallpaper." >&2
-fi
+WALL_DEST="$ROOT/config/includes.chroot/usr/share/backgrounds/glassxfce"
+rm -rf "$WALL_DEST"
+mkdir -p "$WALL_DEST"
+for wallpaper in "$ROOT"/assets/wallpapers/*.svg; do
+  [ -f "$wallpaper" ] || continue
+  install -m0644 "$wallpaper" "$WALL_DEST/$(basename "$wallpaper")"
+done
+[ -f "$WALL_DEST/aurora.svg" ] || { echo "GlassXFCE default wallpaper is missing." >&2; exit 1; }
+
+# WhiteSur keeps the macOS-inspired first choice. Papirus is packaged as a very
+# broad fallback for applications that WhiteSur does not cover.
+for index in "$ICON_DEST"/WhiteSur*/index.theme; do
+  [ -f "$index" ] || continue
+  if grep -q '^Inherits=' "$index"; then
+    sed -i 's/^Inherits=.*/Inherits=Papirus,Adwaita,hicolor/' "$index"
+  else
+    printf '\nInherits=Papirus,Adwaita,hicolor\n' >> "$index"
+  fi
+done
