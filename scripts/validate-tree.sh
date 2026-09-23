@@ -111,6 +111,12 @@ say "checking Debian package validation policy"
 grep -q 'validate-packages.sh' .github/workflows/validate.yml || fail "normal CI must validate Debian package availability"
 grep -q 'debian:13' .github/workflows/validate.yml || fail "package validation must run against Debian 13"
 
+say "checking release checksum generation"
+grep -q '( cd dist && sha256sum "$ISO_BASE" )' build.sh || fail "build must checksum the ISO from inside dist/"
+if grep -q 'sha256sum "$(basename "$ISO_DST")"' build.sh; then
+  fail "build checksum must not reference the ISO basename from repository root"
+fi
+
 say "checking build workflow policy"
 workflow=.github/workflows/build-iso.yml
 grep -q 'workflow_dispatch:' "$workflow" || fail "ISO workflow is missing manual trigger"

@@ -180,3 +180,7 @@ Release CI does not trust the source package list alone. It opens the built ISO,
 ### ISO payload size reporting
 
 Every manual or tagged build reports the final ISO size, the compressed `filesystem.squashfs` size, and the remaining bootloader/installer overhead in the GitHub Actions summary. This tells us whether future size growth is coming from the actual desktop or from ISO/installer infrastructure.
+
+### Release checksum behavior
+
+Release checksums are generated from inside `dist/`, so both the per-image checksum and `SHA256SUMS` contain only the ISO filename. This keeps verification portable after downloading release assets.

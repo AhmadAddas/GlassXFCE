@@ -35,10 +35,10 @@ fi
 
 ISO_DST="dist/glassxfce-${VERSION}-amd64.iso"
 mv "$ISO_SRC" "$ISO_DST"
-sha256sum "$(basename "$ISO_DST")" > "$ISO_DST.sha256.tmp"
-# Make the checksum portable by storing only the ISO basename.
-sed "s#  .*#  $(basename "$ISO_DST")#" "$ISO_DST.sha256.tmp" > "$ISO_DST.sha256"
-rm -f "$ISO_DST.sha256.tmp"
+ISO_BASE="$(basename "$ISO_DST")"
+# Generate the checksum from inside dist/ so the checksum file contains only
+# the portable ISO basename rather than a repository-relative path.
+( cd dist && sha256sum "$ISO_BASE" ) > "$ISO_DST.sha256"
 cp "$ISO_DST.sha256" dist/SHA256SUMS
 
 COMMIT="unknown"
