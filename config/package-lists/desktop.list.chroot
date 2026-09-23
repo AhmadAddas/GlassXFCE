@@ -1,7 +1,18 @@
 # Debian live/XFCE base
 live-task-xfce
-xfce4-goodies
+
+# Keep the XFCE pieces GlassXFCE actually uses. We intentionally avoid the
+# xfce4-goodies metapackage because it pulls in many panel monitors/utilities
+# that are not part of the default GlassXFCE experience.
+xfce4-terminal
+xfce4-whiskermenu-plugin
+xfce4-screenshooter
+xfce4-clipman-plugin
+xfce4-power-manager
 xfce4-docklike-plugin
+thunar-archive-plugin
+thunar-volman
+mate-polkit
 
 # Visual layer
 picom
@@ -18,8 +29,8 @@ network-manager-gnome
 pipewire-audio
 pavucontrol
 firefox-esr
-thunar-archive-plugin
 gvfs-backends
+xdg-utils
 
 # Graphical installer available from the live desktop
 calamares

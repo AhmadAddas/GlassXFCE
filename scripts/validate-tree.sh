@@ -49,9 +49,13 @@ PY
 
 say "checking required packages"
 packages=config/package-lists/desktop.list.chroot
-for pkg in live-task-xfce xfce4-docklike-plugin picom rofi lightdm calamares; do
+for pkg in live-task-xfce xfce4-docklike-plugin xfce4-whiskermenu-plugin xfce4-power-manager xfce4-terminal xfce4-screenshooter picom rofi lightdm calamares; do
   grep -qx "$pkg" "$packages" || fail "required package is missing: $pkg"
 done
+if grep -qx "xfce4-goodies" "$packages"; then
+  fail "xfce4-goodies metapackage defeats the lean live-image package policy"
+fi
+grep -q -- "--apt-recommends false" auto/config || fail "live build must keep APT recommends disabled"
 
 say "checking boot choices"
 grep -qi 'live' config/bootloaders/grub-pc/grub.cfg || fail "GRUB menu has no live entry"

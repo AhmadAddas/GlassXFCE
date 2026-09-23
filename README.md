@@ -111,3 +111,8 @@ Xfce Notifyd is explicit in the package list and uses a bundled `GlassXFCE` noti
 ### Release integrity
 
 ISO builds now emit a portable per-image checksum, `SHA256SUMS`, and `build-info.txt`. The release workflow validates the expected filename/version, rejects suspiciously small images, verifies both checksum files, then runs the boot smoke test before any upload or GitHub Release publication. See `docs/release-checklist.md` for the manual VM/install checks required before treating a tag as stable.
+
+
+## Lean live package policy
+
+The live image disables automatic APT Recommends and explicitly lists the XFCE components used by the GlassXFCE experience. This avoids pulling in large desktop-task extras such as LibreOffice and the full `xfce4-goodies` metapackage while keeping the browser, networking, terminal, power management, screenshots, installer, and all Glass design components.

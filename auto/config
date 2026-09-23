@@ -12,7 +12,7 @@ lb config noauto \
   --archive-areas "main contrib non-free-firmware" \
   --security true \
   --updates true \
-  --apt-recommends true \
+  --apt-recommends false \
   --image-name glassxfce \
   --iso-volume "GLASSXFCE" \
   --iso-application "GlassXFCE Live" \
