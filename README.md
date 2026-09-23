@@ -164,3 +164,7 @@ The live image explicitly carries a targeted set of Debian 13 `non-free-firmware
 ### Panel audio integration
 
 The default top bar includes XFCE's native PulseAudio panel plugin backed by PipeWire/Pulse compatibility. The plugin is listed explicitly instead of relying on `xfce4-goodies` or APT Recommends, so the volume indicator cannot disappear from the lean image by accident.
+
+### Bluetooth
+
+GlassXFCE includes BlueZ plus Blueman so Bluetooth keyboards, mice, headsets and phones can be paired from the live desktop without downloading extra packages first. Blueman lives in the normal notification area, keeping the top bar clean.

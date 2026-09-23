@@ -60,7 +60,7 @@ grep -q -- "-b 1M" config/hooks/live/9100-glassxfce-squashfs.hook.binary || fail
 
 say "checking required packages"
 packages=config/package-lists/desktop.list.chroot
-for pkg in live-task-xfce xfce4-docklike-plugin xfce4-whiskermenu-plugin xfce4-power-manager xfce4-pulseaudio-plugin xfce4-terminal xfce4-screenshooter picom rofi lightdm calamares firmware-iwlwifi firmware-realtek firmware-amd-graphics firmware-intel-graphics firmware-sof-signed intel-microcode amd64-microcode; do
+for pkg in live-task-xfce xfce4-docklike-plugin xfce4-whiskermenu-plugin xfce4-power-manager xfce4-pulseaudio-plugin xfce4-terminal xfce4-screenshooter picom rofi lightdm calamares firmware-iwlwifi firmware-realtek firmware-amd-graphics firmware-intel-graphics firmware-sof-signed intel-microcode amd64-microcode bluez blueman; do
   grep -qx "$pkg" "$packages" || fail "required package is missing: $pkg"
 done
 if grep -qx "xfce4-goodies" "$packages"; then
