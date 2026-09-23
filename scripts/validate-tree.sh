@@ -92,6 +92,12 @@ for asset in WhiteSur-Light WhiteSur-Dark default.jpg picom.conf glass.rasi glas
 done
 grep -q "verify-glass-assets.sh" .github/workflows/build-iso.yml || fail "ISO workflow must verify the Glass design payload"
 
+say "checking installer payload verification"
+[ -x scripts/verify-installer-payload.sh ] || fail "missing executable installer payload verifier"
+grep -q 'verify-installer-payload.sh' .github/workflows/build-iso.yml || fail "ISO workflow must verify installer payloads"
+grep -q '/install.amd' scripts/verify-installer-payload.sh || fail "installer verifier must inspect the Debian installer payload"
+grep -q 'usr/bin/calamares' scripts/verify-installer-payload.sh || fail "installer verifier must protect Calamares"
+
 say "checking QEMU boot smoke coverage"
 [ -x scripts/smoke-test-iso.sh ] || fail "missing executable ISO smoke test"
 grep -q 'OVMF_CODE' scripts/smoke-test-iso.sh || fail "smoke test must exercise UEFI through OVMF"

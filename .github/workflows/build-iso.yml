@@ -98,6 +98,10 @@ jobs:
         shell: bash
         run: ./scripts/verify-runtime-packages.sh dist/*.iso
 
+      - name: Verify live and installer payloads
+        shell: bash
+        run: ./scripts/verify-installer-payload.sh dist/*.iso
+
       - name: Smoke-test ISO boot structure
         shell: bash
         run: ./scripts/smoke-test-iso.sh dist/*.iso
