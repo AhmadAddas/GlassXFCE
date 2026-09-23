@@ -1,0 +1,11 @@
+#!/bin/sh
+set -eu
+
+# Icon caches are an optimization, not a prerequisite for staging. Refresh them
+# in the target image when GTK tooling is available there.
+if command -v gtk-update-icon-cache >/dev/null 2>&1; then
+    for theme in /usr/share/icons/WhiteSur /usr/share/icons/WhiteSur-light /usr/share/icons/WhiteSur-dark; do
+        [ -f "$theme/index.theme" ] || continue
+        gtk-update-icon-cache -q -f "$theme" || true
+    done
+fi

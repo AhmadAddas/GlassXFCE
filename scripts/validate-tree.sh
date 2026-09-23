@@ -158,6 +158,8 @@ grep -Fq 'build-host-preflight.sh' .github/workflows/build-iso.yml || fail "ISO 
 grep -Fq 'MIN_BUILD_FREE_GIB:-10' scripts/build-host-preflight.sh || fail "build host preflight must protect working disk space"
 grep -Fq 'xz-utils' .github/workflows/build-iso.yml || fail "ISO build container must install xz-utils for .tar.xz theme archives"
 grep -Eq 'for command in .*\bxz\b' scripts/build-host-preflight.sh || fail "build host preflight must require the xz decompressor"
+grep -Fq 'libgtk-3-bin' .github/workflows/build-iso.yml || fail "ISO build container must install libgtk-3-bin for WhiteSur icon cache generation"
+grep -Eq 'for command in .*gtk-update-icon-cache' scripts/build-host-preflight.sh || fail "build host preflight must require gtk-update-icon-cache"
 
 say "checking build source metadata"
 grep -q 'GIT_COMMIT="$GITHUB_SHA"' .github/workflows/build-iso.yml || fail "ISO workflow must pass the source commit into the build container"

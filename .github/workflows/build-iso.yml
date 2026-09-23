@@ -133,7 +133,7 @@ jobs:
                 install -y --no-install-recommends \
                 live-build debootstrap squashfs-tools xorriso isolinux syslinux-common \
                 grub-pc-bin grub-efi-amd64-bin mtools dosfstools ca-certificates git rsync \
-                xz-utils sassc libglib2.0-dev-bin libxml2-utils
+                xz-utils libgtk-3-bin sassc libglib2.0-dev-bin libxml2-utils
               bash ./scripts/build-host-preflight.sh
               bash ./build.sh
             ' 2>&1 | tee build.log
