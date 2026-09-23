@@ -52,6 +52,8 @@ require_path usr/share/themes/GlassXFCE/xfce-notify-4.0/gtk.css
 
 # Glass behavior/configuration
 require_path etc/skel/.config/picom/picom.conf
+require_path etc/skel/.config/picom/picom-fallback.conf
+require_path etc/skel/.face
 require_path etc/skel/.config/rofi/config.rasi
 require_path etc/skel/.config/rofi/glass.rasi
 require_path etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml

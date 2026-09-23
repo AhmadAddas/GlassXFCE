@@ -1,5 +1,23 @@
 #!/bin/sh
-# Xfwm's compositor and Picom cannot own X11 compositing at the same time.
-xfconf-query -c xfwm4 -p /general/use_compositing -s false 2>/dev/null || true
-sleep 0.2
-exec picom --config "$HOME/.config/picom/picom.conf"
+set -u
+
+PRIMARY="$HOME/.config/picom/picom.conf"
+FALLBACK="$HOME/.config/picom/picom-fallback.conf"
+LOG="${XDG_RUNTIME_DIR:-/tmp}/glassxfce-picom.log"
+
+if pgrep -x picom >/dev/null 2>&1; then
+  exit 0
+fi
+
+# Prefer the full GLX glass path. If the GPU/X stack cannot initialize GLX,
+# fall back to XRender so shadows/rounding still work instead of losing the
+# compositor entirely.
+if picom --config "$PRIMARY" --daemon >>"$LOG" 2>&1; then
+  exit 0
+fi
+
+printf '%s\n' 'GlassXFCE: primary Picom backend failed; trying XRender fallback.' >>"$LOG"
+picom --config "$FALLBACK" --daemon >>"$LOG" 2>&1 || {
+  printf '%s\n' 'GlassXFCE: Picom fallback failed; continuing with XFCE without Picom.' >>"$LOG"
+  exit 0
+}

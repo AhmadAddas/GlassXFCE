@@ -44,7 +44,7 @@ That tag builds one ISO and publishes the ISO + checksum directly to a GitHub Re
 
 Do not hand-maintain a huge XFCE XML configuration initially. First get the image building, boot it in a VM, tune XFCE panels/dock/theme interactively, then copy the resulting files from `~/.config/xfce4/xfconf/xfce-perchannel-xml/` into `config/includes.chroot/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/`. That makes the exact panel layout reproducible for every live user and installed user.
 
-The supplied first-login helper applies WhiteSur, Inter and the wallpaper. Picom is autostarted separately and supplies blur, shadows, rounded corners and open/close animations.
+The supplied first-login helper applies WhiteSur, Inter and the wallpaper. Picom is autostarted as a background compositor and supplies blur, shadows, rounded corners and open/close animations. It is not exposed as a clickable application. GlassXFCE first tries the full GLX configuration and automatically falls back to a lighter XRender profile on GPUs that cannot initialize the GLX path.
 
 The live image also carries a matching LightDM greeter and a small GlassXFCE Plymouth theme so the visual language starts before the desktop session.
 

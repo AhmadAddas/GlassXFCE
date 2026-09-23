@@ -226,6 +226,13 @@ if grep -Eq '^[[:space:]]+branches:' "$workflow"; then
   fail "ISO workflow must not build on branch pushes"
 fi
 
+say "checking compositor presentation"
+[ -f config/includes.chroot/etc/skel/.config/picom/picom-fallback.conf ] || fail "missing Picom hardware fallback"
+grep -q 'backend = "xrender"' config/includes.chroot/etc/skel/.config/picom/picom-fallback.conf || fail "Picom fallback must use XRender"
+grep -q -- '--daemon' config/includes.chroot/usr/local/bin/glassxfce-start-picom || fail "Picom wrapper must daemonize cleanly"
+grep -q '^Hidden=true$' config/includes.chroot/etc/skel/.local/share/applications/picom.desktop || fail "raw Picom menu entry must be hidden"
+[ -f config/includes.chroot/etc/skel/.face ] || fail "missing GlassXFCE user avatar"
+
 say "checking welcome experience"
 [ -f config/includes.chroot/usr/share/glassxfce/welcome/welcome.py ] || fail "missing native welcome app"
 [ -f config/includes.chroot/usr/local/bin/glassxfce-welcome ] || fail "missing welcome launcher helper"

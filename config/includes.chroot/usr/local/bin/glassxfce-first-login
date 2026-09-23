@@ -4,6 +4,8 @@ set -eu
 MARKER="$HOME/.config/glassxfce-initialized"
 [ -e "$MARKER" ] && exit 0
 mkdir -p "$HOME/.config"
+# Ensure user menus show the GlassXFCE account mark, never the Debian fallback.
+[ -f "$HOME/.face" ] || cp /usr/share/icons/hicolor/scalable/apps/glassxfce-menu.svg "$HOME/.face" 2>/dev/null || true
 
 # Clean generic Calamares desktop files that may have been copied from an older
 # live skeleton. GlassXFCE owns the only installer shortcut shown to users.
