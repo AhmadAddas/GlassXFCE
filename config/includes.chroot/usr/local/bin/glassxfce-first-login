@@ -25,4 +25,9 @@ if [ -f "$WALL" ]; then
   done
 fi
 
+# Spotlight-style application launcher.
+xfconf-query -c xfce4-keyboard-shortcuts \
+  -p "/commands/custom/<Super>space" -n -t string \
+  -s "glassxfce-launcher" 2>/dev/null || true
+
 touch "$MARKER"

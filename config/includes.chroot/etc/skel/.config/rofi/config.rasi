@@ -1,0 +1,14 @@
+configuration {
+    modi: "drun,run,window";
+    show-icons: true;
+    drun-display-format: "{name}";
+    display-drun: "Applications";
+    display-run: "Run";
+    display-window: "Windows";
+    font: "Inter 12";
+    matching: "fuzzy";
+    sort: true;
+    terminal: "xfce4-terminal";
+}
+
+@theme "glass"

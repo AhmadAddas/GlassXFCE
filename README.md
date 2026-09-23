@@ -52,6 +52,8 @@ The supplied first-login helper applies WhiteSur, Inter and the wallpaper. Picom
 
 The live image also carries a matching LightDM greeter and a small GlassXFCE Plymouth theme so the visual language starts before the desktop session.
 
+Press `Super+Space` in the live desktop to open the bundled Rofi launcher, styled as a compact translucent Spotlight-like search surface.
+
 ## Wallpaper policy
 
 The repository includes a fixed abstract GlassXFCE wallpaper, so CI never downloads random artwork. If you replace it with third-party artwork, keep author/source/license information beside it in `assets/wallpapers/CREDITS.md`.
