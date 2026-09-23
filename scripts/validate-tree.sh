@@ -92,6 +92,11 @@ for asset in WhiteSur-Light WhiteSur-Dark default.jpg picom.conf glass.rasi glas
 done
 grep -q "verify-glass-assets.sh" .github/workflows/build-iso.yml || fail "ISO workflow must verify the Glass design payload"
 
+say "checking image identity verification"
+[ -x scripts/verify-image-identity.sh ] || fail "missing executable image identity verifier"
+grep -q 'verify-image-identity.sh' .github/workflows/build-iso.yml || fail "ISO workflow must verify the built image identity"
+grep -q 'VERSION_CODENAME=trixie' scripts/verify-image-identity.sh || fail "identity verifier must protect the Debian suite"
+
 say "checking installer payload verification"
 [ -x scripts/verify-installer-payload.sh ] || fail "missing executable installer payload verifier"
 grep -q 'verify-installer-payload.sh' .github/workflows/build-iso.yml || fail "ISO workflow must verify installer payloads"
