@@ -1,6 +1,6 @@
 # GlassXFCE Live
 
-A Debian 13 (Trixie) XFCE live ISO concept with a lightweight macOS-inspired visual layer: WhiteSur GTK/icons, Picom blur/rounded corners/animations, Docklike Taskbar, Rofi, Inter, and a graphical installer.
+A Debian 13 (Trixie) XFCE live ISO concept with a lightweight macOS-inspired visual layer: WhiteSur GTK/icons, Picom blur/rounded corners/animations, a Plank floating dock, Rofi-powered search, Inter, and a graphical installer.
 
 ## Repository setup
 
@@ -59,7 +59,7 @@ The repository includes a fixed abstract GlassXFCE wallpaper, so CI never downlo
 GlassXFCE ships a two-panel layout by default:
 
 - a 32 px top bar with the application menu, centered spacer, clock and status controls;
-- a compact 54 px bottom Docklike Taskbar configured as a floating, intelligently hidden dock.
+- a compact Plank bottom dock with magnification, intelligent hiding and stable pinned essentials.
 
 The panel configuration is stored in `/etc/skel`, so both the live user and newly created installed users receive the same layout without a first-run wizard.
 
@@ -79,7 +79,7 @@ Manual and tagged ISO builds now perform a post-build smoke test before anything
 
 ### Dock favorites
 
-The floating panel now ships with stable launcher buttons for Files, Web, Terminal, Settings and the live installer, followed by Docklike Taskbar for running/grouped windows. Using normal XFCE launcher plugins for the fixed favorites avoids depending on Docklike's private pinned-item storage format.
+The bottom experience now uses Plank rather than a second XFCE panel. It ships pinned Files, Web, Terminal, Settings and live-installer items, intelligent hiding and gentle magnification, while the top XFCE panel is heavily restyled as a compact glass menu bar.
 
 ### Application menu branding
 
@@ -132,7 +132,7 @@ Each build stages a GlassXFCE `/etc/os-release` and console identity from `confi
 
 ## Installer cleanup after installation
 
-Every installer entry point now goes through `glassxfce-installer`, which refuses to launch Calamares outside a live session. On the first installed XFCE login, a small one-shot cleanup removes the live-only desktop icon and installer dock launcher and shadows the installer menu entry for that user. The Glass dock, theme and other defaults remain unchanged.
+Every installer entry point now goes through `glassxfce-installer`, which refuses to launch Calamares outside a live session. On the first installed XFCE login, a small one-shot cleanup removes the live-only desktop icon and installer dock launcher and shadows the installer menu entry for that user. The Glass dock, theme and other defaults remain unchanged; only the live installer dock item is removed after installation.
 
 ## Welcome app
 

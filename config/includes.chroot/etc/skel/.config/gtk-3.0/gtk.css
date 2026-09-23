@@ -1,12 +1,18 @@
-/* GlassXFCE panel polish. Picom supplies the real blur and window rounding. */
+/* GlassXFCE top bar. Picom supplies background blur and window rounding. */
 .xfce4-panel.background {
-    background-color: rgba(12, 18, 31, 0.76);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    background-color: rgba(10, 15, 27, 0.86);
+    border: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
 }
 
 .xfce4-panel button,
 .xfce4-panel .flat {
-    border-radius: 10px;
+    min-width: 28px;
+    min-height: 28px;
+    margin: 3px 2px;
+    padding: 0 7px;
+    border-radius: 9px;
     border: 0;
     box-shadow: none;
     background-color: transparent;
@@ -14,29 +20,15 @@
 
 .xfce4-panel button:hover,
 .xfce4-panel .flat:hover {
-    background-color: rgba(255, 255, 255, 0.10);
+    background-color: rgba(255, 255, 255, 0.11);
 }
 
 .xfce4-panel button:checked,
 .xfce4-panel .flat:checked {
-    background-color: rgba(255, 255, 255, 0.15);
+    background-color: rgba(255, 255, 255, 0.16);
 }
 
-/* Floating Docklike panel. */
-.xfce4-panel#XfcePanelWindowWrapper-2,
-.xfce4-panel.background#XfcePanelWindowWrapper-2 {
-    border-radius: 18px;
-    padding: 4px 8px;
-    background-color: rgba(14, 20, 34, 0.78);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-#docklike-plugin button {
-    border-radius: 13px;
-    margin: 2px;
-    padding: 3px;
-}
-
-#docklike-plugin button:hover {
-    background-color: rgba(255, 255, 255, 0.12);
+/* Plank is the floating bottom dock; keep its GTK surface soft and compact. */
+.plank {
+    background-color: transparent;
 }

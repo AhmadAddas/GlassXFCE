@@ -9,7 +9,7 @@ marker="$HOME/.config/glassxfce-installed-cleanup"
 mkdir -p "$HOME/.config" "$HOME/.local/share/applications"
 
 rm -f "$HOME/Desktop/install-glassxfce.desktop"
-rm -f "$HOME/.config/xfce4/panel/launcher-25/glass-install.desktop"
+rm -f "$HOME/.config/plank/dock1/launchers/glassxfce-installer.dockitem"
 
 # Shadow the system-wide installer menu entry for installed users.
 cat > "$HOME/.local/share/applications/glassxfce-installer.desktop" <<'DESKTOP'
@@ -19,14 +19,6 @@ Name=Install GlassXFCE
 Hidden=true
 DESKTOP
 
-# Remove the installer launcher from the default dock, but leave all other
-# pinned launchers and Docklike itself untouched.
-if command -v xfconf-query >/dev/null 2>&1; then
-  xfconf-query -c xfce4-panel -p /panels/panel-2/plugin-ids -a \
-    -t int -s 21 -t int -s 22 -t int -s 23 -t int -s 24 -t int -s 20 \
-    2>/dev/null || true
-  xfconf-query -c xfce4-panel -p /plugins/plugin-25 -r -R 2>/dev/null || true
-  xfce4-panel -r >/dev/null 2>&1 || true
-fi
+# Plank notices dockitem removal automatically; leave the rest of the dock untouched.
 
 touch "$marker"

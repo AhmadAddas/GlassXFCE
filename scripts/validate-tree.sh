@@ -68,7 +68,7 @@ fi
 
 say "checking required packages"
 packages=config/package-lists/desktop.list.chroot
-for pkg in live-task-xfce live-config live-config-systemd user-setup sudo xfce4-docklike-plugin xfce4-whiskermenu-plugin xfce4-power-manager xfce4-power-manager-plugins xfce4-pulseaudio-plugin xfce4-terminal xfce4-screenshooter picom rofi lightdm python3-gi gir1.2-gtk-3.0 calamares xserver-xorg-core xserver-xorg-video-all libgl1-mesa-dri mesa-vulkan-drivers firmware-iwlwifi firmware-realtek firmware-amd-graphics firmware-intel-graphics firmware-nvidia-graphics firmware-misc-nonfree firmware-sof-signed intel-microcode amd64-microcode bluez blueman; do
+for pkg in live-task-xfce live-config live-config-systemd user-setup sudo plank xfce4-whiskermenu-plugin xfce4-power-manager xfce4-power-manager-plugins xfce4-pulseaudio-plugin xfce4-terminal xfce4-screenshooter picom rofi lightdm python3-gi gir1.2-gtk-3.0 calamares xserver-xorg-core xserver-xorg-video-all libgl1-mesa-dri mesa-vulkan-drivers firmware-iwlwifi firmware-realtek firmware-amd-graphics firmware-intel-graphics firmware-nvidia-graphics firmware-misc-nonfree firmware-sof-signed intel-microcode amd64-microcode bluez blueman; do
   grep -qx "$pkg" "$packages" || fail "required package is missing: $pkg"
 done
 if grep -qx "xfce4-goodies" "$packages"; then
@@ -78,6 +78,11 @@ grep -q -- "--apt-recommends false" auto/config || fail "live build must keep AP
 
 # The default top panel references the PulseAudio plugin explicitly.
 grep -q 'value="pulseaudio"' config/includes.chroot/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml || fail "default panel must expose audio controls"
+[ -f config/includes.chroot/etc/xdg/autostart/glassxfce-plank.desktop ] || fail "missing Plank autostart"
+[ -f config/includes.chroot/etc/skel/.config/plank/dock1/settings ] || fail "missing Plank dock defaults"
+if grep -q 'panel-2' config/includes.chroot/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml; then
+  fail "bottom dock must not be a second XFCE panel"
+fi
 
 say "checking power defaults"
 power=config/includes.chroot/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml
@@ -230,10 +235,11 @@ say "checking installer live-session guard"
 [ -f config/includes.chroot/usr/local/bin/glassxfce-installed-cleanup ] || fail "missing installed-system cleanup helper"
 for launcher in \
   config/includes.chroot/usr/share/applications/glassxfce-installer.desktop \
-  config/includes.chroot/etc/skel/Desktop/install-glassxfce.desktop \
-  config/includes.chroot/etc/skel/.config/xfce4/panel/launcher-25/glass-install.desktop; do
+  config/includes.chroot/etc/skel/Desktop/install-glassxfce.desktop; do
   grep -q '^Exec=glassxfce-installer$' "$launcher" || fail "installer entry bypasses live-session guard: $launcher"
 done
+[ -f config/includes.chroot/etc/skel/.config/plank/dock1/launchers/glassxfce-installer.dockitem ] || fail "missing installer Plank item"
+grep -Fq 'glassxfce-installer.desktop' config/includes.chroot/etc/skel/.config/plank/dock1/launchers/glassxfce-installer.dockitem || fail "Plank installer item must launch the GlassXFCE installer entry"
 [ -f config/includes.chroot/etc/xdg/autostart/glassxfce-installed-cleanup.desktop ] || fail "missing installed cleanup autostart"
 
 say "checking live session defaults"

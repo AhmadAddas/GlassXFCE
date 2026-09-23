@@ -1,8 +1,0 @@
-[Desktop Entry]
-Type=Application
-Name=Web
-Comment=Browse the web
-Exec=exo-open --launch WebBrowser
-Icon=firefox-esr
-Terminal=false
-StartupNotify=true

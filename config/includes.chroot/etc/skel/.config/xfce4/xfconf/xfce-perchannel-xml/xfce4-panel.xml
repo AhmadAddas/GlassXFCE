@@ -3,49 +3,27 @@
   <property name="configver" type="int" value="2"/>
   <property name="panels" type="array">
     <value type="int" value="1"/>
-    <value type="int" value="2"/>
     <property name="panel-1" type="empty">
       <property name="position" type="string" value="p=6;x=0;y=0"/>
       <property name="position-locked" type="bool" value="true"/>
-      <property name="size" type="uint" value="32"/>
+      <property name="size" type="uint" value="36"/>
       <property name="nrows" type="uint" value="1"/>
       <property name="length" type="uint" value="100"/>
       <property name="length-adjust" type="bool" value="false"/>
       <property name="span-monitors" type="bool" value="true"/>
       <property name="background-style" type="uint" value="0"/>
-      <property name="background-alpha" type="uint" value="82"/>
+      <property name="background-alpha" type="uint" value="88"/>
       <property name="enter-opacity" type="uint" value="100"/>
-      <property name="leave-opacity" type="uint" value="100"/>
+      <property name="leave-opacity" type="uint" value="98"/>
       <property name="autohide-behavior" type="uint" value="0"/>
       <property name="plugin-ids" type="array">
         <value type="int" value="1"/>
         <value type="int" value="2"/>
         <value type="int" value="3"/>
+        <value type="int" value="7"/>
         <value type="int" value="4"/>
         <value type="int" value="5"/>
         <value type="int" value="6"/>
-      </property>
-    </property>
-    <property name="panel-2" type="empty">
-      <property name="position" type="string" value="p=10;x=0;y=28"/>
-      <property name="position-locked" type="bool" value="true"/>
-      <property name="size" type="uint" value="54"/>
-      <property name="nrows" type="uint" value="1"/>
-      <property name="length" type="uint" value="38"/>
-      <property name="length-adjust" type="bool" value="true"/>
-      <property name="span-monitors" type="bool" value="false"/>
-      <property name="background-style" type="uint" value="0"/>
-      <property name="background-alpha" type="uint" value="78"/>
-      <property name="enter-opacity" type="uint" value="100"/>
-      <property name="leave-opacity" type="uint" value="92"/>
-      <property name="autohide-behavior" type="uint" value="1"/>
-      <property name="plugin-ids" type="array">
-        <value type="int" value="21"/>
-        <value type="int" value="22"/>
-        <value type="int" value="23"/>
-        <value type="int" value="24"/>
-        <value type="int" value="25"/>
-        <value type="int" value="20"/>
       </property>
     </property>
   </property>
@@ -64,6 +42,10 @@
       <property name="digital-format" type="string" value="%a %d %b   %H:%M"/>
       <property name="tooltip-format" type="string" value="%A, %d %B %Y"/>
     </property>
+    <property name="plugin-7" type="string" value="separator">
+      <property name="style" type="uint" value="0"/>
+      <property name="expand" type="bool" value="true"/>
+    </property>
     <property name="plugin-4" type="string" value="systray">
       <property name="square-icons" type="bool" value="true"/>
     </property>
@@ -71,21 +53,5 @@
       <property name="enable-keyboard-shortcuts" type="bool" value="true"/>
     </property>
     <property name="plugin-6" type="string" value="power-manager-plugin"/>
-    <property name="plugin-21" type="string" value="launcher">
-      <property name="items" type="array"><value type="string" value="glass-files.desktop"/></property>
-    </property>
-    <property name="plugin-22" type="string" value="launcher">
-      <property name="items" type="array"><value type="string" value="glass-browser.desktop"/></property>
-    </property>
-    <property name="plugin-23" type="string" value="launcher">
-      <property name="items" type="array"><value type="string" value="glass-terminal.desktop"/></property>
-    </property>
-    <property name="plugin-24" type="string" value="launcher">
-      <property name="items" type="array"><value type="string" value="glass-settings.desktop"/></property>
-    </property>
-    <property name="plugin-25" type="string" value="launcher">
-      <property name="items" type="array"><value type="string" value="glass-install.desktop"/></property>
-    </property>
-    <property name="plugin-20" type="string" value="docklike"/>
   </property>
 </channel>
