@@ -131,3 +131,8 @@ The build omits cached APT indices from the finished live root and removes packa
 ## ISO size budget
 
 The single official live ISO has an internal release ceiling of **1800 MiB**, leaving safety margin below GitHub's per-release-asset limit. CI fails before upload when the image exceeds the budget. See `docs/size-budget.md` for the protected GlassXFCE components that may never be removed just to save space.
+
+
+## Protected design payload
+
+Release CI opens the built ISO, reads the live SquashFS, and verifies the GlassXFCE themes, icon theme, wallpaper, Picom/Rofi/XFCE configuration, notification style, Plymouth, LightDM, and Calamares branding are actually present. A size-optimization change cannot publish an ISO that silently falls back to plain XFCE.

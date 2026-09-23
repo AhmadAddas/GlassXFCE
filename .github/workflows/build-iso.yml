@@ -60,7 +60,7 @@ jobs:
         shell: bash
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends qemu-system-x86 xorriso
+          sudo apt-get install -y --no-install-recommends qemu-system-x86 xorriso squashfs-tools
 
       - name: Validate release artifacts
         shell: bash
@@ -79,6 +79,10 @@ jobs:
             echo "- Size: **${mib} MiB**"
             echo "- Release budget: **${MAX_ISO_MIB} MiB**"
           } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Verify protected Glass design assets
+        shell: bash
+        run: ./scripts/verify-glass-assets.sh dist/*.iso
 
       - name: Smoke-test ISO boot structure
         shell: bash
