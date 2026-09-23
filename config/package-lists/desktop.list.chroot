@@ -24,3 +24,7 @@ gvfs-backends
 # Graphical installer available from the live desktop
 calamares
 calamares-settings-debian
+
+# Notifications
+xfce4-notifyd
+libnotify-bin

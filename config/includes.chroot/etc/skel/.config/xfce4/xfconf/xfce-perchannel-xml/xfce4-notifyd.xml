@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<channel name="xfce4-notifyd" version="1.0">
+  <property name="theme" type="string" value="GlassXFCE"/>
+  <property name="notify-location" type="string" value="top-right"/>
+  <property name="show-notifications-on" type="string" value="active-monitor"/>
+  <property name="initial-opacity" type="double" value="0.92"/>
+  <property name="do-fadeout" type="bool" value="true"/>
+  <property name="do-slideout" type="bool" value="false"/>
+  <property name="expire-timeout-enabled" type="bool" value="true"/>
+  <property name="expire-timeout" type="int" value="6"/>
+  <property name="notification-log" type="bool" value="false"/>
+</channel>

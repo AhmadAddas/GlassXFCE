@@ -103,3 +103,7 @@ The top-left Whisker button uses a GlassXFCE-owned icon rather than an Apple log
 ### Light and dark appearance
 
 Run `glassxfce-appearance toggle` or press `Super+Shift+A` to switch between the installed WhiteSur light and dark variants. The switcher updates both GTK/XSettings and the Xfwm window-decoration theme without replacing the lightweight Picom compositor.
+
+### Glass notifications
+
+Xfce Notifyd is explicit in the package list and uses a bundled `GlassXFCE` notification theme. Notifications appear at the top-right of the active monitor with translucent dark surfaces, rounded corners and Picom background blur; no separate notification daemon is introduced.
