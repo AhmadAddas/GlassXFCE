@@ -29,6 +29,11 @@ bash ./scripts/stage-design.sh
 bash ./scripts/stage-identity.sh
 lb clean --purge || true
 bash ./auto/config
+
+# live-build creates filesystem.squashfs during binary_rootfs, after binary hooks.
+# Pass the size-focused options directly to that mksquashfs invocation instead
+# of trying to repack an image that does not exist yet.
+export MKSQUASHFS_OPTIONS="-b 1M -Xdict-size 100% -Xbcj x86"
 lb build
 
 mkdir -p dist

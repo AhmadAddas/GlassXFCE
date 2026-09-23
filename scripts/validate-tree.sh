@@ -11,9 +11,12 @@ bash -n build.sh
 for file in scripts/*.sh; do
   bash -n "$file"
 done
-for file in auto/config auto/clean config/hooks/live/*.hook.chroot config/hooks/live/*.hook.binary; do
+for file in auto/config auto/clean; do
   sh -n "$file"
 done
+while IFS= read -r -d '' file; do
+  sh -n "$file"
+done < <(find config/hooks/live -maxdepth 1 -type f \( -name '*.hook.chroot' -o -name '*.hook.binary' \) -print0)
 
 say "checking XML"
 python3 - <<'PY'
@@ -56,7 +59,8 @@ fi
 
 say "checking squashfs size policy"
 grep -q -- "--chroot-squashfs-compression-type xz" auto/config || fail "SquashFS must use xz compression"
-grep -q -- "-b 1M" config/hooks/live/9100-glassxfce-squashfs.hook.binary || fail "SquashFS repack must use 1 MiB blocks"
+grep -Fq 'export MKSQUASHFS_OPTIONS="-b 1M -Xdict-size 100% -Xbcj x86"' build.sh || fail "live-build must create SquashFS with 1 MiB XZ/BCJ options"
+[ ! -e config/hooks/live/9100-glassxfce-squashfs.hook.binary ] || fail "SquashFS must not be repacked from a binary hook before binary_rootfs"
 
 say "checking required packages"
 packages=config/package-lists/desktop.list.chroot

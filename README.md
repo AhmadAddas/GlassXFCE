@@ -105,7 +105,7 @@ The live image disables automatic APT Recommends and explicitly lists the XFCE c
 
 ## SquashFS compression
 
-Release builds keep the live root as XZ-compressed SquashFS and repack it with 1 MiB blocks plus the x86 BCJ filter. This intentionally trades build time for a smaller ISO; it does not remove applications, themes, icons, wallpaper, or other GlassXFCE assets.
+Release builds keep the live root as XZ-compressed SquashFS and pass 1 MiB block, full XZ dictionary, and x86 BCJ options directly to live-build's `binary_rootfs` stage. This intentionally trades build time for a smaller ISO; it does not remove applications, themes, icons, wallpaper, or other GlassXFCE assets.
 
 
 ## Conservative image cleanup
