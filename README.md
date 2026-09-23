@@ -95,3 +95,7 @@ Manual and tagged ISO builds now perform a post-build smoke test before anything
 ### Dock favorites
 
 The floating panel now ships with stable launcher buttons for Files, Web, Terminal, Settings and the live installer, followed by Docklike Taskbar for running/grouped windows. Using normal XFCE launcher plugins for the fixed favorites avoids depending on Docklike's private pinned-item storage format.
+
+### Application menu branding
+
+The top-left Whisker button uses a GlassXFCE-owned icon rather than an Apple logo or other third-party trademark. The menu opens icon-only from the panel and ships sensible favorites matching the default dock.
