@@ -156,6 +156,8 @@ say "checking build host preflight"
 [ -f scripts/build-host-preflight.sh ] || fail "missing build host preflight"
 grep -Fq 'build-host-preflight.sh' .github/workflows/build-iso.yml || fail "ISO build must run the build host preflight"
 grep -Fq 'MIN_BUILD_FREE_GIB:-10' scripts/build-host-preflight.sh || fail "build host preflight must protect working disk space"
+grep -Fq 'xz-utils' .github/workflows/build-iso.yml || fail "ISO build container must install xz-utils for .tar.xz theme archives"
+grep -Eq 'for command in .*\bxz\b' scripts/build-host-preflight.sh || fail "build host preflight must require the xz decompressor"
 
 say "checking build source metadata"
 grep -q 'GIT_COMMIT="$GITHUB_SHA"' .github/workflows/build-iso.yml || fail "ISO workflow must pass the source commit into the build container"

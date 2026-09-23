@@ -12,7 +12,7 @@ case "$MIN_BUILD_FREE_GIB" in
 esac
 [ "$MIN_BUILD_FREE_GIB" -gt 0 ] || fail "MIN_BUILD_FREE_GIB must be greater than zero"
 
-for command in lb debootstrap mksquashfs unsquashfs xorriso git rsync sassc; do
+for command in lb debootstrap mksquashfs unsquashfs xorriso git rsync xz sassc; do
   command -v "$command" >/dev/null 2>&1 || fail "missing required build command: $command"
 done
 
