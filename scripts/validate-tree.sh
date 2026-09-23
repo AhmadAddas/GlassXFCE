@@ -47,6 +47,13 @@ for path in paths:
     print(f'desktop ok: {path}')
 PY
 
+say "checking live image cleanup policy"
+grep -q -- "--apt-indices false" auto/config || fail "final live image must omit cached APT indices"
+grep -q "apt-get clean" config/hooks/live/9000-glassxfce-cleanup.hook.chroot || fail "cleanup hook must clean APT cache"
+if grep -Eq "/usr/share/(doc|locale)" config/hooks/live/9000-glassxfce-cleanup.hook.chroot; then
+  fail "cleanup hook must not strip packaged docs or locales"
+fi
+
 say "checking squashfs size policy"
 grep -q -- "--chroot-squashfs-compression-type xz" auto/config || fail "SquashFS must use xz compression"
 grep -q -- "-b 1M" config/hooks/live/9100-glassxfce-squashfs.hook.binary || fail "SquashFS repack must use 1 MiB blocks"

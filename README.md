@@ -121,3 +121,8 @@ The live image disables automatic APT Recommends and explicitly lists the XFCE c
 ## SquashFS compression
 
 Release builds keep the live root as XZ-compressed SquashFS and repack it with 1 MiB blocks plus the x86 BCJ filter. This intentionally trades build time for a smaller ISO; it does not remove applications, themes, icons, wallpaper, or other GlassXFCE assets.
+
+
+## Conservative image cleanup
+
+The build omits cached APT indices from the finished live root and removes package-download caches, temporary files, and build logs before SquashFS is finalized. It deliberately does **not** delete packaged documentation/locales or any GlassXFCE theme, icon, wallpaper, firmware, or application files. Users can run `sudo apt update` in the live or installed system when package indexes are needed.

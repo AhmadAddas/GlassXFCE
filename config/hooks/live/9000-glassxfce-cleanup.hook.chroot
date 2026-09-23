@@ -1,0 +1,15 @@
+#!/bin/sh
+set -eu
+
+# Remove build-time/download state that is not needed to boot the live desktop.
+# Do not strip packaged documentation, locales, themes, icons, firmware, or application
+# payloads: this hook is intentionally conservative and package-integrity safe.
+apt-get clean
+rm -rf /var/lib/apt/lists/*
+rm -f /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb 2>/dev/null || true
+rm -rf /tmp/* /var/tmp/*
+
+# Build logs are not useful in a freshly booted image. Keep the files/dirs
+# expected by services, but remove rotated/compressed history and empty logs.
+find /var/log -type f \( -name '*.gz' -o -name '*.[0-9]' \) -delete 2>/dev/null || true
+find /var/log -type f -exec sh -c ': > "$1"' _ {} \; 2>/dev/null || true

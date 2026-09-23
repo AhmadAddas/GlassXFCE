@@ -14,6 +14,7 @@ lb config noauto \
   --security true \
   --updates true \
   --apt-recommends false \
+  --apt-indices false \
   --image-name glassxfce \
   --iso-volume "GLASSXFCE" \
   --iso-application "GlassXFCE Live" \
