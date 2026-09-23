@@ -90,6 +90,10 @@ for asset in WhiteSur-Light WhiteSur-Dark default.jpg picom.conf glass.rasi glas
 done
 grep -q "verify-glass-assets.sh" .github/workflows/build-iso.yml || fail "ISO workflow must verify the Glass design payload"
 
+say "checking ISO payload reporting"
+[ -x scripts/report-iso-payload.sh ] || fail "missing executable ISO payload reporter"
+grep -q 'report-iso-payload.sh' .github/workflows/build-iso.yml || fail "ISO workflow must report compressed payload size"
+
 say "checking runtime package verification"
 [ -x scripts/verify-runtime-packages.sh ] || fail "missing executable runtime package verifier"
 grep -q 'verify-runtime-packages.sh' .github/workflows/build-iso.yml || fail "ISO workflow must verify runtime packages"

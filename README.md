@@ -176,3 +176,7 @@ The default profile keeps brightness keys and resume locking enabled, blanks the
 ### Runtime package verification
 
 Release CI does not trust the source package list alone. It opens the built ISO, reads the `dpkg` status database from `filesystem.squashfs`, and verifies that the critical firmware, networking, Bluetooth and audio packages actually made it into the Live filesystem.
+
+### ISO payload size reporting
+
+Every manual or tagged build reports the final ISO size, the compressed `filesystem.squashfs` size, and the remaining bootloader/installer overhead in the GitHub Actions summary. This tells us whether future size growth is coming from the actual desktop or from ISO/installer infrastructure.
