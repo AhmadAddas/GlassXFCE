@@ -114,7 +114,8 @@ grep -Fq 'Install GlassXFCE' scripts/verify-boot-menu.sh || fail "boot menu veri
 say "checking installer payload verification"
 [ -f scripts/verify-installer-payload.sh ] || fail "missing installer payload verifier"
 grep -q 'verify-installer-payload.sh' .github/workflows/build-iso.yml || fail "ISO workflow must verify installer payloads"
-grep -q '/install.amd' scripts/verify-installer-payload.sh || fail "installer verifier must inspect the Debian installer payload"
+grep -Fq '/install /install.amd' scripts/verify-installer-payload.sh || fail "installer verifier must recognize the Trixie /install layout"
+grep -Fq 'gtk/vmlinuz' scripts/verify-installer-payload.sh || fail "installer verifier must protect the graphical Debian installer payload"
 grep -q 'usr/bin/calamares' scripts/verify-installer-payload.sh || fail "installer verifier must protect Calamares"
 
 say "checking Secure Boot verification"
@@ -166,6 +167,8 @@ grep -Fq 'build-host-preflight.sh' .github/workflows/build-iso.yml || fail "ISO 
 grep -Fq 'MIN_BUILD_FREE_GIB:-10' scripts/build-host-preflight.sh || fail "build host preflight must protect working disk space"
 grep -Fq 'xz-utils' .github/workflows/build-iso.yml || fail "ISO build container must install xz-utils for .tar.xz theme archives"
 grep -Eq 'for command in .*\bxz\b' scripts/build-host-preflight.sh || fail "build host preflight must require the xz decompressor"
+grep -Fq 'xz-utils file sassc' .github/workflows/build-iso.yml || fail "ISO build container must install the file utility for live-build installer detection"
+grep -Eq 'for command in .*\bfile\b' scripts/build-host-preflight.sh || fail "build host preflight must require the file utility"
 grep -Fq 'PATH="$shim:$PATH" bash "$source/install.sh"' scripts/stage-design.sh || fail "WhiteSur icon staging must not depend on host GTK tooling"
 [ -f config/hooks/live/0300-glassxfce-icon-cache.hook.chroot ] || fail "missing target-image icon cache hook"
 
