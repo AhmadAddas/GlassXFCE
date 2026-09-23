@@ -78,6 +78,8 @@ grep -q 'name="dpms-enabled" type="bool" value="true"' "$power" || fail "DPMS mu
 grep -q 'name="lock-screen-suspend-hibernate" type="bool" value="true"' "$power" || fail "resume lock protection must be enabled"
 
 say "checking boot choices"
+grep -q -- '--bootloaders "grub-efi syslinux"' auto/config || fail "build must include BIOS and UEFI bootloaders"
+grep -q -- '--uefi-secure-boot enable' auto/config || fail "UEFI Secure Boot support must remain enabled"
 grep -qi 'live' config/bootloaders/grub-pc/grub.cfg || fail "GRUB menu has no live entry"
 grep -qi 'install' config/bootloaders/grub-pc/grub.cfg || fail "GRUB menu has no installer entry"
 grep -qi 'live' config/bootloaders/syslinux_common/menu.cfg || fail "Syslinux menu has no live entry"

@@ -184,3 +184,7 @@ Every manual or tagged build reports the final ISO size, the compressed `filesys
 ### Release checksum behavior
 
 Release checksums are generated from inside `dist/`, so both the per-image checksum and `SHA256SUMS` contain only the ISO filename. This keeps verification portable after downloading release assets.
+
+### UEFI Secure Boot
+
+The amd64 live image explicitly enables Debian live-build's signed GRUB/shim path for UEFI Secure Boot, while Syslinux remains the BIOS bootloader. This keeps the same Live/Install image usable on both modern UEFI systems and legacy BIOS machines.
