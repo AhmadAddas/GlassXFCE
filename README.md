@@ -87,3 +87,7 @@ A fresh clone no longer requires pre-created theme submodules. During staging, t
 ### CI policy
 
 Every branch push and pull request runs lightweight static validation only. It checks scripts, XML, desktop launchers, package requirements and boot-menu invariants, but it does **not** build or upload an ISO. Full ISO builds remain manual or `v*` tag-triggered.
+
+### ISO smoke testing
+
+Manual and tagged ISO builds now perform a post-build smoke test before anything is uploaded or released. The check verifies the live SquashFS/kernel/initrd, BIOS and UEFI El Torito entries, then keeps the ISO alive in a short QEMU BIOS boot window. This is intentionally a smoke test rather than a full interactive installer test.

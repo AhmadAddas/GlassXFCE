@@ -54,6 +54,16 @@ jobs:
               ./build.sh
             '
 
+      - name: Install ISO smoke-test tools
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends qemu-system-x86 xorriso
+
+      - name: Smoke-test ISO boot structure
+        shell: bash
+        run: ./scripts/smoke-test-iso.sh dist/*.iso
+
       # Manual builds are short-lived test artifacts only.
       - name: Upload manual test ISO
         if: github.event_name == 'workflow_dispatch'
