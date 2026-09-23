@@ -21,3 +21,22 @@
 .xfce4-panel .flat:checked {
     background-color: rgba(255, 255, 255, 0.15);
 }
+
+/* Floating Docklike panel. */
+.xfce4-panel#XfcePanelWindowWrapper-2,
+.xfce4-panel.background#XfcePanelWindowWrapper-2 {
+    border-radius: 18px;
+    padding: 4px 8px;
+    background-color: rgba(14, 20, 34, 0.78);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+#docklike-plugin button {
+    border-radius: 13px;
+    margin: 2px;
+    padding: 3px;
+}
+
+#docklike-plugin button:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+}

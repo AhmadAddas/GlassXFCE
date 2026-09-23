@@ -68,3 +68,12 @@ fix: correct installer launcher
 ci: update iso release workflow
 chore: refresh theme pins
 ```
+
+## Desktop layout
+
+GlassXFCE ships a two-panel layout by default:
+
+- a 32 px top bar with the application menu, centered spacer, clock and status controls;
+- a compact 54 px bottom Docklike Taskbar configured as a floating, intelligently hidden dock.
+
+The panel configuration is stored in `/etc/skel`, so both the live user and newly created installed users receive the same layout without a first-run wizard.
