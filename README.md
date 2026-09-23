@@ -192,3 +192,7 @@ The amd64 live image explicitly enables Debian live-build's signed GRUB/shim pat
 ### Fast live-build validation
 
 Normal CI now asks Debian 13's own `live-build` to validate `auto/config` using `lb config --validate`. This catches unsupported or misspelled live-build options before the manual ISO workflow spends time downloading and assembling the full image.
+
+### Pre-commit whitespace validation
+
+`validate-tree.sh` checks both unstaged and staged changes as well as the latest committed diff. This means the same validation command can catch whitespace errors before a commit and again in CI after checkout.

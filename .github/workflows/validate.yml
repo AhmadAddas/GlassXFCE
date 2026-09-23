@@ -58,4 +58,3 @@ jobs:
               DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends live-build
               ./scripts/validate-live-build-config.sh
             '
-

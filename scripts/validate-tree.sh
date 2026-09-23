@@ -163,10 +163,14 @@ grep -q 'stage-identity.sh' build.sh || fail "build must stage the release ident
 [ -x scripts/stage-identity.sh ] || fail "identity staging helper must be executable"
 
 say "checking repository whitespace"
-if git rev-parse --verify HEAD^ >/dev/null 2>&1; then
-  git diff --check HEAD^ HEAD
-else
+# During development, check the current worktree/index so formatting problems
+# are caught before commit. In CI the checkout is clean, so validate the latest
+# committed change instead.
+if ! git diff --quiet || ! git diff --cached --quiet; then
   git diff --check
+  git diff --cached --check
+elif git rev-parse --verify HEAD^ >/dev/null 2>&1; then
+  git diff --check HEAD^ HEAD
 fi
 
 say "all static checks passed"
