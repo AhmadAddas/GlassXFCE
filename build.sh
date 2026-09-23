@@ -9,6 +9,19 @@ fi
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$ROOT"
 
+# Cumulative ZIPs are often extracted over an existing GitHub working tree.
+# Extraction replaces files but does not remove paths deleted by newer snapshots.
+# Remove known obsolete build hooks before live-build scans config/hooks.
+LEGACY_PATHS=(
+  config/hooks/live/9100-glassxfce-squashfs.hook.binary
+)
+for legacy_path in "${LEGACY_PATHS[@]}"; do
+  if [ -e "$legacy_path" ]; then
+    echo "Removing obsolete GlassXFCE build file: $legacy_path"
+    rm -f -- "$legacy_path"
+  fi
+done
+
 VERSION="${VERSION:-dev}"
 case "$VERSION" in
   *[!0-9A-Za-z._-]*|'')

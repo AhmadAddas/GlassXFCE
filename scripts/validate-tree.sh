@@ -60,7 +60,11 @@ fi
 say "checking squashfs size policy"
 grep -q -- "--chroot-squashfs-compression-type xz" auto/config || fail "SquashFS must use xz compression"
 grep -Fq 'export MKSQUASHFS_OPTIONS="-b 1M -Xdict-size 100% -Xbcj x86"' build.sh || fail "live-build must create SquashFS with 1 MiB XZ/BCJ options"
-[ ! -e config/hooks/live/9100-glassxfce-squashfs.hook.binary ] || fail "SquashFS must not be repacked from a binary hook before binary_rootfs"
+grep -Fq 'config/hooks/live/9100-glassxfce-squashfs.hook.binary' build.sh || fail "build must clean the obsolete pre-binary_rootfs SquashFS hook left by ZIP overlays"
+grep -Fq 'rm -f -- "$legacy_path"' build.sh || fail "build must remove obsolete ZIP-overlay paths before live-build scans hooks"
+if [ -e config/hooks/live/9100-glassxfce-squashfs.hook.binary ]; then
+  say "legacy SquashFS hook is present in this overlaid tree; build.sh will remove it before live-build"
+fi
 
 say "checking required packages"
 packages=config/package-lists/desktop.list.chroot
