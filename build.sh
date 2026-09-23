@@ -24,7 +24,31 @@ if [ ! -f "$ISO_SRC" ]; then
 fi
 
 VERSION="${VERSION:-dev}"
+case "$VERSION" in
+  *[!0-9A-Za-z._-]*|'')
+    echo "VERSION may contain only letters, numbers, dot, underscore and dash." >&2
+    exit 2
+    ;;
+esac
 ISO_DST="dist/glassxfce-${VERSION}-amd64.iso"
 mv "$ISO_SRC" "$ISO_DST"
-sha256sum "$ISO_DST" > "$ISO_DST.sha256"
+sha256sum "$(basename "$ISO_DST")" > "$ISO_DST.sha256.tmp"
+# Make the checksum portable by storing only the ISO basename.
+sed "s#  .*#  $(basename "$ISO_DST")#" "$ISO_DST.sha256.tmp" > "$ISO_DST.sha256"
+rm -f "$ISO_DST.sha256.tmp"
+cp "$ISO_DST.sha256" dist/SHA256SUMS
+
+COMMIT="unknown"
+if command -v git >/dev/null 2>&1; then
+  COMMIT="$(git rev-parse HEAD 2>/dev/null || printf unknown)"
+fi
+cat > dist/build-info.txt <<INFO
+project=GlassXFCE
+version=$VERSION
+architecture=amd64
+debian_suite=trixie
+image=$(basename "$ISO_DST")
+git_commit=$COMMIT
+INFO
+
 echo "Built: $ISO_DST"

@@ -107,3 +107,7 @@ Run `glassxfce-appearance toggle` or press `Super+Shift+A` to switch between the
 ### Glass notifications
 
 Xfce Notifyd is explicit in the package list and uses a bundled `GlassXFCE` notification theme. Notifications appear at the top-right of the active monitor with translucent dark surfaces, rounded corners and Picom background blur; no separate notification daemon is introduced.
+
+### Release integrity
+
+ISO builds now emit a portable per-image checksum, `SHA256SUMS`, and `build-info.txt`. The release workflow validates the expected filename/version, rejects suspiciously small images, verifies both checksum files, then runs the boot smoke test before any upload or GitHub Release publication. See `docs/release-checklist.md` for the manual VM/install checks required before treating a tag as stable.

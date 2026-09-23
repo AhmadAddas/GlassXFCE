@@ -60,6 +60,10 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends qemu-system-x86 xorriso
 
+      - name: Validate release artifacts
+        shell: bash
+        run: ./scripts/release-check.sh dist "${{ steps.version.outputs.value }}"
+
       - name: Smoke-test ISO boot structure
         shell: bash
         run: ./scripts/smoke-test-iso.sh dist/*.iso
@@ -73,6 +77,8 @@ jobs:
           path: |
             dist/*.iso
             dist/*.sha256
+            dist/SHA256SUMS
+            dist/build-info.txt
           retention-days: 3
           compression-level: 0
 
@@ -84,6 +90,6 @@ jobs:
         shell: bash
         run: |
           gh release create "$GITHUB_REF_NAME" \
-            dist/*.iso dist/*.sha256 \
+            dist/*.iso dist/*.sha256 dist/SHA256SUMS dist/build-info.txt \
             --title "GlassXFCE $GITHUB_REF_NAME" \
             --generate-notes
