@@ -40,3 +40,22 @@ jobs:
               apt-get update
               ./scripts/validate-packages.sh
             '
+  live-build-config:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Validate Debian live-build configuration
+        shell: bash
+        run: |
+          docker run --rm \
+            -v "$GITHUB_WORKSPACE:/work:ro" \
+            -w /work \
+            debian:13 \
+            bash -euxo pipefail -c '
+              apt-get update
+              DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends live-build
+              ./scripts/validate-live-build-config.sh
+            '
+

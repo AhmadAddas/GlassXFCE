@@ -113,6 +113,11 @@ say "checking Debian package validation policy"
 grep -q 'validate-packages.sh' .github/workflows/validate.yml || fail "normal CI must validate Debian package availability"
 grep -q 'debian:13' .github/workflows/validate.yml || fail "package validation must run against Debian 13"
 
+say "checking live-build configuration validation"
+[ -x scripts/validate-live-build-config.sh ] || fail "missing executable live-build configuration validator"
+grep -q 'validate-live-build-config.sh' .github/workflows/validate.yml || fail "normal CI must validate live-build configuration"
+grep -q './auto/config --validate' scripts/validate-live-build-config.sh || fail "live-build validation must use lb config validation mode"
+
 say "checking release checksum generation"
 grep -q '( cd dist && sha256sum "$ISO_BASE" )' build.sh || fail "build must checksum the ISO from inside dist/"
 if grep -q 'sha256sum "$(basename "$ISO_DST")"' build.sh; then

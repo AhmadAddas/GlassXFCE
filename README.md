@@ -188,3 +188,7 @@ Release checksums are generated from inside `dist/`, so both the per-image check
 ### UEFI Secure Boot
 
 The amd64 live image explicitly enables Debian live-build's signed GRUB/shim path for UEFI Secure Boot, while Syslinux remains the BIOS bootloader. This keeps the same Live/Install image usable on both modern UEFI systems and legacy BIOS machines.
+
+### Fast live-build validation
+
+Normal CI now asks Debian 13's own `live-build` to validate `auto/config` using `lb config --validate`. This catches unsupported or misspelled live-build options before the manual ISO workflow spends time downloading and assembling the full image.
