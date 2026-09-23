@@ -148,3 +148,7 @@ Each build stages a GlassXFCE `/etc/os-release` and console identity from `confi
 ## Installer cleanup after installation
 
 Every installer entry point now goes through `glassxfce-installer`, which refuses to launch Calamares outside a live session. On the first installed XFCE login, a small one-shot cleanup removes the live-only desktop icon and installer dock launcher and shadows the installer menu entry for that user. The Glass dock, theme and other defaults remain unchanged.
+
+## Welcome page
+
+The application menu includes `Welcome to GlassXFCE`, an offline local page covering the core shortcuts, appearance toggle, live installer and Debian/XFCE base. It reuses the already-installed browser through `xdg-open`, so the ISO does not gain another GUI toolkit or help application solely for onboarding.

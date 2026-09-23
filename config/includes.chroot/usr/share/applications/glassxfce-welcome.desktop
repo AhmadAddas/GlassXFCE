@@ -1,0 +1,11 @@
+[Desktop Entry]
+Type=Application
+Name=Welcome to GlassXFCE
+GenericName=Welcome
+Comment=Learn the GlassXFCE shortcuts and desktop basics
+Exec=glassxfce-welcome
+Icon=glassxfce-menu
+Terminal=false
+StartupNotify=true
+Categories=Utility;System;
+Keywords=welcome;about;help;shortcuts;

@@ -94,6 +94,12 @@ if grep -Eq '^[[:space:]]+branches:' "$workflow"; then
   fail "ISO workflow must not build on branch pushes"
 fi
 
+say "checking welcome experience"
+[ -f config/includes.chroot/usr/share/glassxfce/welcome/index.html ] || fail "missing offline welcome page"
+[ -x config/includes.chroot/usr/local/bin/glassxfce-welcome ] || fail "missing welcome launcher helper"
+[ -f config/includes.chroot/usr/share/applications/glassxfce-welcome.desktop ] || fail "missing welcome application entry"
+grep -q 'glassxfce-welcome.desktop' config/includes.chroot/etc/skel/.config/xfce4/panel/whiskermenu-1.rc || fail "welcome entry must be visible in Whisker favorites"
+
 say "checking installer live-session guard"
 [ -x config/includes.chroot/usr/local/bin/glassxfce-installer ] || fail "missing guarded installer wrapper"
 [ -x config/includes.chroot/usr/local/bin/glassxfce-installed-cleanup ] || fail "missing installed-system cleanup helper"
