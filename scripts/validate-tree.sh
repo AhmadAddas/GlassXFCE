@@ -163,6 +163,11 @@ say "checking build network preflight"
 [ -x scripts/check-build-network.sh ] || fail "build network preflight is missing or not executable"
 grep -Fq 'check-build-network.sh' .github/workflows/build-iso.yml || fail "build workflow does not run the network preflight"
 
+say "checking failed build log retention"
+grep -Fq 'id: iso_build' .github/workflows/build-iso.yml || fail "ISO build step must have a stable id"
+grep -Fq 'tee build.log' .github/workflows/build-iso.yml || fail "ISO build output must be captured"
+grep -Fq "steps.iso_build.outcome == 'failure'" .github/workflows/build-iso.yml || fail "failed build log upload must be failure-only"
+
 say "checking build workflow policy"
 workflow=.github/workflows/build-iso.yml
 grep -q 'workflow_dispatch:' "$workflow" || fail "ISO workflow is missing manual trigger"

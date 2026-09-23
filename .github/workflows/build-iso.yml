@@ -49,8 +49,10 @@ jobs:
         run: ./scripts/check-build-network.sh
 
       - name: Build Debian 13 ISO in Debian container
+        id: iso_build
         shell: bash
         run: |
+          set -o pipefail
           docker run --rm --privileged \
             -e VERSION="${{ steps.version.outputs.value }}" \
             -e GIT_COMMIT="$GITHUB_SHA" \
@@ -68,7 +70,16 @@ jobs:
                 grub-pc-bin grub-efi-amd64-bin mtools dosfstools ca-certificates git rsync \
                 sassc libglib2.0-dev-bin libxml2-utils
               ./build.sh
-            '
+            ' 2>&1 | tee build.log
+
+      - name: Upload failed build log
+        if: failure() && steps.iso_build.outcome == 'failure'
+        uses: actions/upload-artifact@v7
+        with:
+          name: glassxfce-build-log-${{ steps.version.outputs.value }}
+          path: build.log
+          retention-days: 3
+          if-no-files-found: ignore
 
       - name: Install ISO smoke-test tools
         shell: bash
