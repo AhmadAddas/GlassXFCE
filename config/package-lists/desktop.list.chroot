@@ -1,6 +1,15 @@
 # Debian live/XFCE base
 live-task-xfce
 
+# Live-session account and privilege setup
+# live-config only recommends these packages, while GlassXFCE builds with
+# --apt-recommends false. Keep them explicit so the live account is created,
+# LightDM can autologin it, and sudo works in the live session.
+live-config
+live-config-systemd
+user-setup
+sudo
+
 # Keep the XFCE pieces GlassXFCE actually uses. We intentionally avoid the
 # xfce4-goodies metapackage because it pulls in many panel monitors/utilities
 # that are not part of the default GlassXFCE experience.

@@ -35,6 +35,7 @@ for para in status.split('\n\n'):
     if fields.get('Status') == 'install ok installed' and fields.get('Package'):
         installed.add(fields['Package'])
 required = [
+    'live-config', 'live-config-systemd', 'user-setup', 'sudo',
     'xfce4-pulseaudio-plugin', 'pipewire-audio', 'network-manager-gnome',
     'bluez', 'blueman',
     'firmware-iwlwifi', 'firmware-realtek', 'firmware-atheros',
@@ -47,5 +48,5 @@ for pkg in required:
     print(f"runtime-packages: {'ok' if pkg in installed else 'MISSING'}: {pkg}")
 if missing:
     raise SystemExit('runtime-packages: missing required packages: ' + ', '.join(missing))
-print(f'runtime-packages: verified {len(required)} hardware/audio/network packages')
+print(f'runtime-packages: verified {len(required)} live-session/hardware/audio/network packages')
 PY

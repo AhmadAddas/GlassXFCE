@@ -128,7 +128,7 @@ Each build stages a GlassXFCE `/etc/os-release` and console identity from `confi
 
 ## Live session defaults
 
-`live-config` is given stable GlassXFCE defaults for the live hostname, username, full name and locale. `/usr/local/bin/glassxfce-is-live` provides one small shared detector for features that must behave differently on the booted ISO versus an installed system.
+`live-config` is given stable GlassXFCE defaults for the live hostname, username, full name and locale. Because the image deliberately disables APT recommends, `live-config`, `live-config-systemd`, `user-setup`, and `sudo` are explicit packages rather than relying on recommended dependencies. The live desktop should therefore log in automatically; if a greeter is ever shown, the fallback credentials are **`live` / `live`**. `/usr/local/bin/glassxfce-is-live` provides one small shared detector for features that must behave differently on the booted ISO versus an installed system.
 
 ## Installer cleanup after installation
 

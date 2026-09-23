@@ -68,7 +68,7 @@ fi
 
 say "checking required packages"
 packages=config/package-lists/desktop.list.chroot
-for pkg in live-task-xfce xfce4-docklike-plugin xfce4-whiskermenu-plugin xfce4-power-manager xfce4-pulseaudio-plugin xfce4-terminal xfce4-screenshooter picom rofi lightdm calamares firmware-iwlwifi firmware-realtek firmware-amd-graphics firmware-intel-graphics firmware-sof-signed intel-microcode amd64-microcode bluez blueman; do
+for pkg in live-task-xfce live-config live-config-systemd user-setup sudo xfce4-docklike-plugin xfce4-whiskermenu-plugin xfce4-power-manager xfce4-pulseaudio-plugin xfce4-terminal xfce4-screenshooter picom rofi lightdm calamares firmware-iwlwifi firmware-realtek firmware-amd-graphics firmware-intel-graphics firmware-sof-signed intel-microcode amd64-microcode bluez blueman; do
   grep -qx "$pkg" "$packages" || fail "required package is missing: $pkg"
 done
 if grep -qx "xfce4-goodies" "$packages"; then
@@ -238,6 +238,9 @@ say "checking live session defaults"
 [ -f config/includes.chroot/etc/live/config.conf.d/10-glassxfce.conf ] || fail "missing live-config defaults"
 grep -q '^LIVE_USERNAME="live"$' config/includes.chroot/etc/live/config.conf.d/10-glassxfce.conf || fail "live username must remain live"
 grep -q '^LIVE_HOSTNAME="glassxfce"$' config/includes.chroot/etc/live/config.conf.d/10-glassxfce.conf || fail "live hostname must remain glassxfce"
+for pkg in live-config live-config-systemd user-setup sudo; do
+  grep -qx "$pkg" "$packages" || fail "live session requires explicit package with APT recommends disabled: $pkg"
+done
 [ -f config/includes.chroot/usr/local/bin/glassxfce-is-live ] || fail "missing live-session detector"
 
 say "checking distribution identity staging"
