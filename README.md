@@ -8,7 +8,6 @@ A Debian 13 (Trixie) XFCE live ISO concept with a lightweight macOS-inspired vis
 git clone https://github.com/YOURNAME/glassxfce-live.git
 cd glassxfce-live
 ./scripts/add-theme-submodules.sh
-# Add assets/wallpapers/default.jpg and assets/wallpapers/CREDITS.md
 git add .
 git commit -m "feat: add pinned visual assets"
 git push
@@ -53,7 +52,7 @@ The supplied first-login helper applies WhiteSur, Inter and the wallpaper. Picom
 
 ## Wallpaper policy
 
-Use a fixed image, not a random image downloaded during CI. Commit the image only when its license permits redistribution, and keep author/source/license information beside it in `assets/wallpapers/CREDITS.md`.
+The repository includes a fixed abstract GlassXFCE wallpaper, so CI never downloads random artwork. If you replace it with third-party artwork, keep author/source/license information beside it in `assets/wallpapers/CREDITS.md`.
 
 ## Commit style
 

@@ -1,5 +1,9 @@
 # Wallpaper
 
-Put the selected wallpaper here as `default.jpg`.
+`default.jpg` is the bundled GlassXFCE wallpaper. Keep replacement artwork fixed
+in the repository so ISO builds remain deterministic. If you replace it with a
+third-party image, document the author, source URL, and redistribution license in
+`CREDITS.md`.
 
-For reproducible/public ISO releases, commit a fixed image rather than downloading a random image at build time. Also keep its source URL, author and license in this directory (for example in `CREDITS.md`). Prefer images with no identifiable people, logos or third-party artwork.
+Prefer abstract or landscape artwork without identifiable people, logos, or
+third-party artwork.
