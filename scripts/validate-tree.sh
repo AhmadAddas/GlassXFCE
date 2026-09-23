@@ -138,6 +138,11 @@ say "checking build source metadata"
 grep -q 'GIT_COMMIT="$GITHUB_SHA"' .github/workflows/build-iso.yml || fail "ISO workflow must pass the source commit into the build container"
 grep -q 'COMMIT="${GIT_COMMIT:-unknown}"' build.sh || fail "build metadata must prefer the explicit source commit"
 
+say "checking build metadata verification"
+[ -x scripts/verify-build-metadata.sh ] || fail "missing executable build metadata verifier"
+grep -q 'verify-build-metadata.sh' .github/workflows/build-iso.yml || fail "ISO workflow must verify build metadata"
+grep -q 'source commit mismatch' scripts/verify-build-metadata.sh || fail "metadata verifier must compare the source commit"
+
 say "checking release checksum generation"
 grep -q '( cd dist && sha256sum "$ISO_BASE" )' build.sh || fail "build must checksum the ISO from inside dist/"
 if grep -q 'sha256sum "$(basename "$ISO_DST")"' build.sh; then
