@@ -42,7 +42,7 @@ jobs:
       - name: Validate release tag
         if: github.ref_type == 'tag'
         shell: bash
-        run: ./scripts/validate-release-version.sh "$GITHUB_REF_NAME" "${{ steps.version.outputs.value }}"
+        run: bash ./scripts/validate-release-version.sh "$GITHUB_REF_NAME" "${{ steps.version.outputs.value }}"
 
       - name: Verify checked-out build tree
         shell: bash
@@ -78,7 +78,12 @@ jobs:
             exit 1
           fi
 
-          chmod +x build.sh scripts/*.sh auto/*
+          # GitHub web uploads and ZIP extraction can lose executable bits.
+          # Normalize them here before live-build sees the source tree.
+          chmod +x build.sh scripts/*.sh auto/config auto/clean
+          find config/hooks -type f \( -name '*.hook.chroot' -o -name '*.hook.binary' \) -exec chmod +x {} +
+          find config/includes.chroot/usr/local/bin -maxdepth 1 -type f -exec chmod +x {} +
+          chmod +x config/includes.chroot/etc/skel/Desktop/install-glassxfce.desktop
 
       - name: Check build network sources
         shell: bash
@@ -129,8 +134,8 @@ jobs:
                 live-build debootstrap squashfs-tools xorriso isolinux syslinux-common \
                 grub-pc-bin grub-efi-amd64-bin mtools dosfstools ca-certificates git rsync \
                 sassc libglib2.0-dev-bin libxml2-utils
-              ./scripts/build-host-preflight.sh
-              ./build.sh
+              bash ./scripts/build-host-preflight.sh
+              bash ./build.sh
             ' 2>&1 | tee build.log
 
       - name: Upload failed build log
@@ -150,11 +155,11 @@ jobs:
 
       - name: Validate release artifacts
         shell: bash
-        run: ./scripts/release-check.sh dist "${{ steps.version.outputs.value }}"
+        run: bash ./scripts/release-check.sh dist "${{ steps.version.outputs.value }}"
 
       - name: Verify build metadata
         shell: bash
-        run: ./scripts/verify-build-metadata.sh dist "${{ steps.version.outputs.value }}" "$GITHUB_SHA"
+        run: bash ./scripts/verify-build-metadata.sh dist "${{ steps.version.outputs.value }}" "$GITHUB_SHA"
 
       - name: Report ISO size
         shell: bash
@@ -172,39 +177,39 @@ jobs:
 
       - name: Report compressed payload breakdown
         shell: bash
-        run: ./scripts/report-iso-payload.sh dist/*.iso >> "$GITHUB_STEP_SUMMARY"
+        run: bash ./scripts/report-iso-payload.sh dist/*.iso >> "$GITHUB_STEP_SUMMARY"
 
       - name: Verify SquashFS release compression
         shell: bash
-        run: ./scripts/verify-squashfs-format.sh dist/*.iso
+        run: bash ./scripts/verify-squashfs-format.sh dist/*.iso
 
       - name: Verify protected Glass design assets
         shell: bash
-        run: ./scripts/verify-glass-assets.sh dist/*.iso
+        run: bash ./scripts/verify-glass-assets.sh dist/*.iso
 
       - name: Verify live hardware and desktop packages
         shell: bash
-        run: ./scripts/verify-runtime-packages.sh dist/*.iso
+        run: bash ./scripts/verify-runtime-packages.sh dist/*.iso
 
       - name: Verify live and installer payloads
         shell: bash
-        run: ./scripts/verify-installer-payload.sh dist/*.iso
+        run: bash ./scripts/verify-installer-payload.sh dist/*.iso
 
       - name: Verify live and install boot menu choices
         shell: bash
-        run: ./scripts/verify-boot-menu.sh dist/*.iso
+        run: bash ./scripts/verify-boot-menu.sh dist/*.iso
 
       - name: Verify image identity
         shell: bash
-        run: ./scripts/verify-image-identity.sh dist/*.iso "${{ steps.version.outputs.value }}"
+        run: bash ./scripts/verify-image-identity.sh dist/*.iso "${{ steps.version.outputs.value }}"
 
       - name: Verify signed UEFI bootloader
         shell: bash
-        run: ./scripts/verify-secure-boot.sh dist/*.iso
+        run: bash ./scripts/verify-secure-boot.sh dist/*.iso
 
       - name: Smoke-test ISO boot structure
         shell: bash
-        run: ./scripts/smoke-test-iso.sh dist/*.iso
+        run: bash ./scripts/smoke-test-iso.sh dist/*.iso
 
       # Manual builds are short-lived test artifacts only.
       - name: Upload manual test ISO

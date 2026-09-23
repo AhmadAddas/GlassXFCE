@@ -86,53 +86,53 @@ grep -qi 'live' config/bootloaders/syslinux_common/menu.cfg || fail "Syslinux me
 grep -qi 'install' config/bootloaders/syslinux_common/menu.cfg || fail "Syslinux menu has no installer entry"
 
 say "checking protected glass asset policy"
-[ -x scripts/verify-glass-assets.sh ] || fail "missing executable Glass asset verifier"
+[ -f scripts/verify-glass-assets.sh ] || fail "missing Glass asset verifier"
 for asset in WhiteSur-Light WhiteSur-Dark default.jpg picom.conf glass.rasi glassxfce.plymouth 50-glassxfce.conf welcome.png; do
   grep -Fq "$asset" scripts/verify-glass-assets.sh || fail "Glass asset verifier does not protect: $asset"
 done
 grep -q "verify-glass-assets.sh" .github/workflows/build-iso.yml || fail "ISO workflow must verify the Glass design payload"
 
 say "checking image identity verification"
-[ -x scripts/verify-image-identity.sh ] || fail "missing executable image identity verifier"
+[ -f scripts/verify-image-identity.sh ] || fail "missing image identity verifier"
 grep -q 'verify-image-identity.sh' .github/workflows/build-iso.yml || fail "ISO workflow must verify the built image identity"
 grep -q 'VERSION_CODENAME=trixie' scripts/verify-image-identity.sh || fail "identity verifier must protect the Debian suite"
 
 say "checking built boot menu verification"
-[ -x scripts/verify-boot-menu.sh ] || fail "missing executable built boot menu verifier"
+[ -f scripts/verify-boot-menu.sh ] || fail "missing built boot menu verifier"
 grep -Fq 'verify-boot-menu.sh' .github/workflows/build-iso.yml || fail "ISO workflow must verify built boot menu choices"
 grep -Fq 'Try GlassXFCE Live' scripts/verify-boot-menu.sh || fail "boot menu verifier must protect the Live choice"
 grep -Fq 'Install GlassXFCE' scripts/verify-boot-menu.sh || fail "boot menu verifier must protect the Install choice"
 
 say "checking installer payload verification"
-[ -x scripts/verify-installer-payload.sh ] || fail "missing executable installer payload verifier"
+[ -f scripts/verify-installer-payload.sh ] || fail "missing installer payload verifier"
 grep -q 'verify-installer-payload.sh' .github/workflows/build-iso.yml || fail "ISO workflow must verify installer payloads"
 grep -q '/install.amd' scripts/verify-installer-payload.sh || fail "installer verifier must inspect the Debian installer payload"
 grep -q 'usr/bin/calamares' scripts/verify-installer-payload.sh || fail "installer verifier must protect Calamares"
 
 say "checking Secure Boot verification"
-[ -x scripts/verify-secure-boot.sh ] || fail "missing executable Secure Boot verifier"
+[ -f scripts/verify-secure-boot.sh ] || fail "missing Secure Boot verifier"
 grep -q 'verify-secure-boot.sh' .github/workflows/build-iso.yml || fail "ISO workflow must verify the signed UEFI bootloader"
 grep -q 'sbsigntool' .github/workflows/build-iso.yml || fail "ISO workflow must install sbverify tooling"
 grep -q 'sbverify --list' scripts/verify-secure-boot.sh || fail "Secure Boot verifier must inspect PE signatures"
 
 say "checking QEMU boot smoke coverage"
-[ -x scripts/smoke-test-iso.sh ] || fail "missing executable ISO smoke test"
+[ -f scripts/smoke-test-iso.sh ] || fail "missing ISO smoke test"
 grep -q 'OVMF_CODE' scripts/smoke-test-iso.sh || fail "smoke test must exercise UEFI through OVMF"
 grep -q 'ovmf' .github/workflows/build-iso.yml || fail "ISO workflow must install OVMF for UEFI smoke testing"
 
 say "checking ISO payload reporting"
-[ -x scripts/report-iso-payload.sh ] || fail "missing executable ISO payload reporter"
+[ -f scripts/report-iso-payload.sh ] || fail "missing ISO payload reporter"
 grep -q 'report-iso-payload.sh' .github/workflows/build-iso.yml || fail "ISO workflow must report compressed payload size"
 
 say "checking runtime package verification"
-[ -x scripts/verify-runtime-packages.sh ] || fail "missing executable runtime package verifier"
+[ -f scripts/verify-runtime-packages.sh ] || fail "missing runtime package verifier"
 grep -q 'verify-runtime-packages.sh' .github/workflows/build-iso.yml || fail "ISO workflow must verify runtime packages"
 for pkg in firmware-iwlwifi firmware-realtek firmware-amd-graphics xfce4-pulseaudio-plugin bluez; do
   grep -Fq "'$pkg'" scripts/verify-runtime-packages.sh || fail "runtime verifier does not protect package: $pkg"
 done
 
 say "checking squashfs release format verification"
-[ -x scripts/verify-squashfs-format.sh ] || fail "missing executable SquashFS verifier"
+[ -f scripts/verify-squashfs-format.sh ] || fail "missing SquashFS verifier"
 grep -Fq 'verify-squashfs-format.sh' .github/workflows/build-iso.yml || fail "ISO workflow must verify SquashFS release compression"
 grep -Fq "Compression[[:space:]]+xz" scripts/verify-squashfs-format.sh || fail "SquashFS verifier must require XZ"
 grep -Fq "Block size[[:space:]]+1048576" scripts/verify-squashfs-format.sh || fail "SquashFS verifier must require 1 MiB blocks"
@@ -143,17 +143,17 @@ grep -q "MAX_ISO_MIB: 1800" .github/workflows/build-iso.yml || fail "ISO workflo
 [ -f docs/size-budget.md ] || fail "missing documented ISO size policy"
 
 say "checking Debian package validation policy"
-[ -x scripts/validate-packages.sh ] || fail "missing executable package manifest validator"
+[ -f scripts/validate-packages.sh ] || fail "missing package manifest validator"
 grep -q 'validate-packages.sh' .github/workflows/validate.yml || fail "normal CI must validate Debian package availability"
 grep -q 'debian:13' .github/workflows/validate.yml || fail "package validation must run against Debian 13"
 
 say "checking live-build configuration validation"
-[ -x scripts/validate-live-build-config.sh ] || fail "missing executable live-build configuration validator"
+[ -f scripts/validate-live-build-config.sh ] || fail "missing live-build configuration validator"
 grep -q 'validate-live-build-config.sh' .github/workflows/validate.yml || fail "normal CI must validate live-build configuration"
-grep -q './auto/config --validate' scripts/validate-live-build-config.sh || fail "live-build validation must use lb config validation mode"
+grep -Fq './auto/config --validate' scripts/validate-live-build-config.sh || fail "live-build validation must use lb config validation mode"
 
 say "checking build host preflight"
-[ -x scripts/build-host-preflight.sh ] || fail "missing executable build host preflight"
+[ -f scripts/build-host-preflight.sh ] || fail "missing build host preflight"
 grep -Fq 'build-host-preflight.sh' .github/workflows/build-iso.yml || fail "ISO build must run the build host preflight"
 grep -Fq 'MIN_BUILD_FREE_GIB:-10' scripts/build-host-preflight.sh || fail "build host preflight must protect working disk space"
 
@@ -162,7 +162,7 @@ grep -q 'GIT_COMMIT="$GITHUB_SHA"' .github/workflows/build-iso.yml || fail "ISO 
 grep -q 'COMMIT="${GIT_COMMIT:-unknown}"' build.sh || fail "build metadata must prefer the explicit source commit"
 
 say "checking build metadata verification"
-[ -x scripts/verify-build-metadata.sh ] || fail "missing executable build metadata verifier"
+[ -f scripts/verify-build-metadata.sh ] || fail "missing build metadata verifier"
 grep -q 'verify-build-metadata.sh' .github/workflows/build-iso.yml || fail "ISO workflow must verify build metadata"
 grep -q 'source commit mismatch' scripts/verify-build-metadata.sh || fail "metadata verifier must compare the source commit"
 
@@ -173,11 +173,11 @@ if grep -q 'sha256sum "$(basename "$ISO_DST")"' build.sh; then
 fi
 
 say "checking semantic release tags"
-[ -x scripts/validate-release-version.sh ] || fail "missing executable release version validator"
+[ -f scripts/validate-release-version.sh ] || fail "missing release version validator"
 grep -q 'validate-release-version.sh' .github/workflows/build-iso.yml || fail "tagged builds must validate semantic release versions"
 
 say "checking build network preflight"
-[ -x scripts/check-build-network.sh ] || fail "local build network preflight is missing or not executable"
+[ -f scripts/check-build-network.sh ] || fail "local build network preflight is missing"
 if ! grep -Fq 'check-build-network.sh' .github/workflows/build-iso.yml; then
   grep -Fq 'https://deb.debian.org/debian/dists/trixie/InRelease' .github/workflows/build-iso.yml || fail "build workflow does not probe Debian Trixie"
   grep -Fq 'WhiteSur-gtk-theme.git/info/refs?service=git-upload-pack' .github/workflows/build-iso.yml || fail "build workflow does not probe the WhiteSur source host"
@@ -202,13 +202,13 @@ fi
 
 say "checking welcome experience"
 [ -f config/includes.chroot/usr/share/glassxfce/welcome/index.html ] || fail "missing offline welcome page"
-[ -x config/includes.chroot/usr/local/bin/glassxfce-welcome ] || fail "missing welcome launcher helper"
+[ -f config/includes.chroot/usr/local/bin/glassxfce-welcome ] || fail "missing welcome launcher helper"
 [ -f config/includes.chroot/usr/share/applications/glassxfce-welcome.desktop ] || fail "missing welcome application entry"
 grep -q 'glassxfce-welcome.desktop' config/includes.chroot/etc/skel/.config/xfce4/panel/whiskermenu-1.rc || fail "welcome entry must be visible in Whisker favorites"
 
 say "checking installer live-session guard"
-[ -x config/includes.chroot/usr/local/bin/glassxfce-installer ] || fail "missing guarded installer wrapper"
-[ -x config/includes.chroot/usr/local/bin/glassxfce-installed-cleanup ] || fail "missing installed-system cleanup helper"
+[ -f config/includes.chroot/usr/local/bin/glassxfce-installer ] || fail "missing guarded installer wrapper"
+[ -f config/includes.chroot/usr/local/bin/glassxfce-installed-cleanup ] || fail "missing installed-system cleanup helper"
 for launcher in \
   config/includes.chroot/usr/share/applications/glassxfce-installer.desktop \
   config/includes.chroot/etc/skel/Desktop/install-glassxfce.desktop \
@@ -221,14 +221,14 @@ say "checking live session defaults"
 [ -f config/includes.chroot/etc/live/config.conf.d/10-glassxfce.conf ] || fail "missing live-config defaults"
 grep -q '^LIVE_USERNAME="live"$' config/includes.chroot/etc/live/config.conf.d/10-glassxfce.conf || fail "live username must remain live"
 grep -q '^LIVE_HOSTNAME="glassxfce"$' config/includes.chroot/etc/live/config.conf.d/10-glassxfce.conf || fail "live hostname must remain glassxfce"
-[ -x config/includes.chroot/usr/local/bin/glassxfce-is-live ] || fail "missing executable live-session detector"
+[ -f config/includes.chroot/usr/local/bin/glassxfce-is-live ] || fail "missing live-session detector"
 
 say "checking distribution identity staging"
 [ -f config/branding/os-release.in ] || fail "missing os-release identity template"
 grep -q '^ID=glassxfce$' config/branding/os-release.in || fail "identity template must use ID=glassxfce"
 grep -q '^ID_LIKE=debian$' config/branding/os-release.in || fail "identity template must declare Debian compatibility"
 grep -q 'stage-identity.sh' build.sh || fail "build must stage the release identity"
-[ -x scripts/stage-identity.sh ] || fail "identity staging helper must be executable"
+[ -f scripts/stage-identity.sh ] || fail "identity staging helper is missing"
 
 say "checking repository whitespace"
 # During development, check the current worktree/index so formatting problems

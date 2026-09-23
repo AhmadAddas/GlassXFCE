@@ -20,7 +20,7 @@ jobs:
           fetch-depth: 2
 
       - name: Validate live-build tree
-        run: ./scripts/validate-tree.sh
+        run: bash ./scripts/validate-tree.sh
 
   packages:
     runs-on: ubuntu-24.04
@@ -38,7 +38,7 @@ jobs:
             bash -euxo pipefail -c '
               sed -i "s/Components: main/Components: main contrib non-free-firmware/" /etc/apt/sources.list.d/debian.sources
               apt-get update
-              ./scripts/validate-packages.sh
+              bash ./scripts/validate-packages.sh
             '
   live-build-config:
     runs-on: ubuntu-24.04
@@ -56,5 +56,5 @@ jobs:
             bash -euxo pipefail -c '
               apt-get update
               DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends live-build
-              ./scripts/validate-live-build-config.sh
+              bash ./scripts/validate-live-build-config.sh
             '

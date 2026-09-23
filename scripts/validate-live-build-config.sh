@@ -10,6 +10,6 @@ command -v lb >/dev/null 2>&1 || {
 }
 
 echo "live-build-config: validating auto/config with the installed live-build"
-./auto/config --validate
+sh ./auto/config --validate
 
 echo "live-build-config: configuration accepted"

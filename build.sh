@@ -18,10 +18,17 @@ case "$VERSION" in
 esac
 export VERSION
 
-./scripts/stage-design.sh
-./scripts/stage-identity.sh
+# Do not rely on Git executable bits. GitHub web uploads and ZIP extraction
+# can store shell helpers as 0644 even when the original repository used 0755.
+chmod +x auto/config auto/clean
+find config/hooks -type f \( -name '*.hook.chroot' -o -name '*.hook.binary' \) -exec chmod +x {} +
+find config/includes.chroot/usr/local/bin -maxdepth 1 -type f -exec chmod +x {} +
+chmod +x config/includes.chroot/etc/skel/Desktop/install-glassxfce.desktop
+
+bash ./scripts/stage-design.sh
+bash ./scripts/stage-identity.sh
 lb clean --purge || true
-./auto/config
+bash ./auto/config
 lb build
 
 mkdir -p dist
