@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=GlassXFCE Color Management
+Comment=Register X displays with the system color-profile service
+Exec=xiccd
+OnlyShowIn=XFCE;
+X-GNOME-Autostart-enabled=true
+NoDisplay=true

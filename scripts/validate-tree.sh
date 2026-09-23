@@ -68,7 +68,7 @@ fi
 
 say "checking required packages"
 packages=config/package-lists/desktop.list.chroot
-for pkg in live-task-xfce live-config live-config-systemd user-setup sudo plank xfce4-whiskermenu-plugin xfce4-power-manager xfce4-power-manager-plugins xfce4-pulseaudio-plugin xfce4-terminal xfce4-screenshooter picom rofi lightdm python3-gi gir1.2-gtk-3.0 calamares xserver-xorg-core xserver-xorg-video-all libgl1-mesa-dri mesa-vulkan-drivers firmware-iwlwifi firmware-realtek firmware-amd-graphics firmware-intel-graphics firmware-nvidia-graphics firmware-misc-nonfree firmware-sof-signed intel-microcode amd64-microcode bluez blueman; do
+for pkg in live-task-xfce live-config live-config-systemd user-setup sudo plank xfce4-whiskermenu-plugin xfce4-power-manager xfce4-power-manager-plugins xfce4-pulseaudio-plugin xfce4-terminal xfce4-screenshooter picom rofi lightdm python3-gi gir1.2-gtk-3.0 calamares xserver-xorg-core xserver-xorg-video-all libgl1-mesa-dri mesa-vulkan-drivers firmware-iwlwifi firmware-realtek firmware-amd-graphics firmware-intel-graphics firmware-nvidia-graphics firmware-misc-nonfree firmware-sof-signed intel-microcode amd64-microcode bluez blueman colord xiccd; do
   grep -qx "$pkg" "$packages" || fail "required package is missing: $pkg"
 done
 if grep -qx "xfce4-goodies" "$packages"; then
@@ -79,6 +79,8 @@ grep -q -- "--apt-recommends false" auto/config || fail "live build must keep AP
 # The default top panel references the PulseAudio plugin explicitly.
 grep -q 'value="pulseaudio"' config/includes.chroot/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml || fail "default panel must expose audio controls"
 [ -f config/includes.chroot/etc/xdg/autostart/glassxfce-plank.desktop ] || fail "missing Plank autostart"
+[ -f config/includes.chroot/etc/xdg/autostart/glassxfce-color-management.desktop ] || fail "missing XFCE color-management autostart"
+grep -q '^Exec=xiccd$' config/includes.chroot/etc/xdg/autostart/glassxfce-color-management.desktop || fail "color-management autostart must run xiccd"
 [ -f config/includes.chroot/etc/skel/.config/plank/dock1/settings ] || fail "missing Plank dock defaults"
 if grep -q 'panel-2' config/includes.chroot/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml; then
   fail "bottom dock must not be a second XFCE panel"

@@ -74,6 +74,8 @@ pavucontrol
 firefox-esr
 gvfs-backends
 xdg-utils
+colord
+xiccd
 
 # Graphical installer available from the live desktop
 calamares

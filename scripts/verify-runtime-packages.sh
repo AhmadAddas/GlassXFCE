@@ -37,7 +37,7 @@ for para in status.split('\n\n'):
 required = [
     'live-config', 'live-config-systemd', 'user-setup', 'sudo', 'papirus-icon-theme',
     'xfce4-power-manager-plugins', 'xfce4-pulseaudio-plugin', 'pipewire-audio', 'network-manager-gnome',
-    'bluez', 'blueman',
+    'bluez', 'blueman', 'colord', 'xiccd',
     'firmware-iwlwifi', 'firmware-realtek', 'firmware-atheros',
     'xserver-xorg-core', 'xserver-xorg-video-all', 'libgl1-mesa-dri',
     'mesa-vulkan-drivers',
