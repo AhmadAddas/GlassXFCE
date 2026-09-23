@@ -94,6 +94,12 @@ if grep -Eq '^[[:space:]]+branches:' "$workflow"; then
   fail "ISO workflow must not build on branch pushes"
 fi
 
+say "checking live session defaults"
+[ -f config/includes.chroot/etc/live/config.conf.d/10-glassxfce.conf ] || fail "missing live-config defaults"
+grep -q '^LIVE_USERNAME="live"$' config/includes.chroot/etc/live/config.conf.d/10-glassxfce.conf || fail "live username must remain live"
+grep -q '^LIVE_HOSTNAME="glassxfce"$' config/includes.chroot/etc/live/config.conf.d/10-glassxfce.conf || fail "live hostname must remain glassxfce"
+[ -x config/includes.chroot/usr/local/bin/glassxfce-is-live ] || fail "missing executable live-session detector"
+
 say "checking distribution identity staging"
 [ -f config/branding/os-release.in ] || fail "missing os-release identity template"
 grep -q '^ID=glassxfce$' config/branding/os-release.in || fail "identity template must use ID=glassxfce"

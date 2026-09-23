@@ -1,0 +1,8 @@
+#!/bin/sh
+# Return success only when running from the live medium.
+set -eu
+
+[ -d /run/live/medium ] && exit 0
+[ -d /lib/live/mount/medium ] && exit 0
+[ -r /proc/cmdline ] && grep -Eq '(^|[[:space:]])boot=live([[:space:]]|$)' /proc/cmdline && exit 0
+exit 1

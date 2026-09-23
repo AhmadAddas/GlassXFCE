@@ -140,3 +140,7 @@ Release CI opens the built ISO, reads the live SquashFS, and verifies the GlassX
 ## Distribution identity
 
 Each build stages a GlassXFCE `/etc/os-release` and console identity from `config/branding/os-release.in`. The build version is taken from `VERSION` (the same value used in the ISO filename), while `ID_LIKE=debian` and the Trixie codename make the Debian base explicit. Generated identity files are not committed, so building a test version does not dirty the repository.
+
+## Live session defaults
+
+`live-config` is given stable GlassXFCE defaults for the live hostname, username, full name and locale. `/usr/local/bin/glassxfce-is-live` provides one small shared detector for features that must behave differently on the booted ISO versus an installed system.
