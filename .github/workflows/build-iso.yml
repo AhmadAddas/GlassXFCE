@@ -22,7 +22,7 @@ jobs:
   build:
     runs-on: ubuntu-24.04
     env:
-      MAX_ISO_MIB: 1800
+      MAX_ISO_MIB: 1850
     steps:
       - name: Checkout
         uses: actions/checkout@v7

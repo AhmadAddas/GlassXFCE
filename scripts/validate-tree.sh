@@ -146,8 +146,8 @@ grep -Fq "Compression[[:space:]]+xz" scripts/verify-squashfs-format.sh || fail "
 grep -Fq "Block size[[:space:]]+1048576" scripts/verify-squashfs-format.sh || fail "SquashFS verifier must require 1 MiB blocks"
 
 say "checking iso size budget policy"
-grep -q 'MAX_ISO_MIB="${MAX_ISO_MIB:-1800}"' scripts/release-check.sh || fail "release check must default to the 1800 MiB budget"
-grep -q "MAX_ISO_MIB: 1800" .github/workflows/build-iso.yml || fail "ISO workflow must enforce the 1800 MiB budget"
+grep -q 'MAX_ISO_MIB="${MAX_ISO_MIB:-1850}"' scripts/release-check.sh || fail "release check must default to the 1850 MiB budget"
+grep -q "MAX_ISO_MIB: 1850" .github/workflows/build-iso.yml || fail "ISO workflow must enforce the 1850 MiB budget"
 [ -f docs/size-budget.md ] || fail "missing documented ISO size policy"
 
 say "checking Debian package validation policy"

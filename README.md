@@ -115,7 +115,7 @@ The build omits cached APT indices from the finished live root and removes packa
 
 ## ISO size budget
 
-The single official live ISO has an internal release ceiling of **1800 MiB**, leaving safety margin below GitHub's per-release-asset limit. CI fails before upload when the image exceeds the budget. See `docs/size-budget.md` for the protected GlassXFCE components that may never be removed just to save space.
+The single official live ISO has an internal release ceiling of **1850 MiB**, leaving safety margin below GitHub's per-release-asset limit. CI fails before upload when the image exceeds the budget. See `docs/size-budget.md` for the protected GlassXFCE components that may never be removed just to save space.
 
 
 ## Protected design payload
