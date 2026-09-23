@@ -6,6 +6,7 @@ lb config noauto \
   --distribution trixie \
   --architectures amd64 \
   --binary-image iso-hybrid \
+  --chroot-squashfs-compression-type xz \
   --bootloaders "grub-efi syslinux" \
   --debian-installer live \
   --debian-installer-gui true \

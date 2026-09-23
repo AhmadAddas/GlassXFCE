@@ -116,3 +116,8 @@ ISO builds now emit a portable per-image checksum, `SHA256SUMS`, and `build-info
 ## Lean live package policy
 
 The live image disables automatic APT Recommends and explicitly lists the XFCE components used by the GlassXFCE experience. This avoids pulling in large desktop-task extras such as LibreOffice and the full `xfce4-goodies` metapackage while keeping the browser, networking, terminal, power management, screenshots, installer, and all Glass design components.
+
+
+## SquashFS compression
+
+Release builds keep the live root as XZ-compressed SquashFS and repack it with 1 MiB blocks plus the x86 BCJ filter. This intentionally trades build time for a smaller ISO; it does not remove applications, themes, icons, wallpaper, or other GlassXFCE assets.

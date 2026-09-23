@@ -1,0 +1,28 @@
+#!/bin/sh
+set -eu
+
+# live-build already uses SquashFS for the live root. Repack it with a larger
+# block size and XZ's x86 BCJ filter so the release ISO favours size over build
+# speed. The BCJ option tries both filtered and unfiltered data and keeps the
+# better result.
+SQUASHFS="binary/live/filesystem.squashfs"
+[ -f "$SQUASHFS" ] || {
+  echo "GlassXFCE: expected SquashFS image is missing: $SQUASHFS" >&2
+  exit 1
+}
+
+TMP="$(mktemp -d "${TMPDIR:-/tmp}/glassxfce-squashfs.XXXXXX")"
+trap 'rm -rf "$TMP"' EXIT HUP INT TERM
+
+before="$(stat -c %s "$SQUASHFS")"
+unsquashfs -no-progress -d "$TMP/root" "$SQUASHFS" >/dev/null
+mksquashfs "$TMP/root" "$TMP/filesystem.squashfs" \
+  -noappend \
+  -comp xz \
+  -b 1M \
+  -Xdict-size 100% \
+  -Xbcj x86 \
+  -no-progress >/dev/null
+mv "$TMP/filesystem.squashfs" "$SQUASHFS"
+after="$(stat -c %s "$SQUASHFS")"
+printf 'GlassXFCE: SquashFS repacked: %s -> %s bytes\n' "$before" "$after"

@@ -11,7 +11,7 @@ bash -n build.sh
 for file in scripts/*.sh; do
   bash -n "$file"
 done
-for file in auto/config auto/clean config/hooks/live/*.hook.chroot; do
+for file in auto/config auto/clean config/hooks/live/*.hook.chroot config/hooks/live/*.hook.binary; do
   sh -n "$file"
 done
 
@@ -46,6 +46,10 @@ for path in paths:
         raise SystemExit(f'{path}: application is missing Exec')
     print(f'desktop ok: {path}')
 PY
+
+say "checking squashfs size policy"
+grep -q -- "--chroot-squashfs-compression-type xz" auto/config || fail "SquashFS must use xz compression"
+grep -q -- "-b 1M" config/hooks/live/9100-glassxfce-squashfs.hook.binary || fail "SquashFS repack must use 1 MiB blocks"
 
 say "checking required packages"
 packages=config/package-lists/desktop.list.chroot
