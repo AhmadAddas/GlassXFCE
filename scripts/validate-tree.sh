@@ -94,6 +94,17 @@ if grep -Eq '^[[:space:]]+branches:' "$workflow"; then
   fail "ISO workflow must not build on branch pushes"
 fi
 
+say "checking installer live-session guard"
+[ -x config/includes.chroot/usr/local/bin/glassxfce-installer ] || fail "missing guarded installer wrapper"
+[ -x config/includes.chroot/usr/local/bin/glassxfce-installed-cleanup ] || fail "missing installed-system cleanup helper"
+for launcher in \
+  config/includes.chroot/usr/share/applications/glassxfce-installer.desktop \
+  config/includes.chroot/etc/skel/Desktop/install-glassxfce.desktop \
+  config/includes.chroot/etc/skel/.config/xfce4/panel/launcher-25/glass-install.desktop; do
+  grep -q '^Exec=glassxfce-installer$' "$launcher" || fail "installer entry bypasses live-session guard: $launcher"
+done
+[ -f config/includes.chroot/etc/xdg/autostart/glassxfce-installed-cleanup.desktop ] || fail "missing installed cleanup autostart"
+
 say "checking live session defaults"
 [ -f config/includes.chroot/etc/live/config.conf.d/10-glassxfce.conf ] || fail "missing live-config defaults"
 grep -q '^LIVE_USERNAME="live"$' config/includes.chroot/etc/live/config.conf.d/10-glassxfce.conf || fail "live username must remain live"

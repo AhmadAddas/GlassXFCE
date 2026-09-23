@@ -2,7 +2,7 @@
 Type=Application
 Name=Install GlassXFCE
 Comment=Install GlassXFCE to disk
-Exec=calamares
+Exec=glassxfce-installer
 Icon=install-debian
 Terminal=false
 StartupNotify=true

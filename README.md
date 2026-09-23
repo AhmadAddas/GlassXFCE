@@ -144,3 +144,7 @@ Each build stages a GlassXFCE `/etc/os-release` and console identity from `confi
 ## Live session defaults
 
 `live-config` is given stable GlassXFCE defaults for the live hostname, username, full name and locale. `/usr/local/bin/glassxfce-is-live` provides one small shared detector for features that must behave differently on the booted ISO versus an installed system.
+
+## Installer cleanup after installation
+
+Every installer entry point now goes through `glassxfce-installer`, which refuses to launch Calamares outside a live session. On the first installed XFCE login, a small one-shot cleanup removes the live-only desktop icon and installer dock launcher and shadows the installer menu entry for that user. The Glass dock, theme and other defaults remain unchanged.
