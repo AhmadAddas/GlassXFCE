@@ -69,6 +69,7 @@ jobs:
                 live-build debootstrap squashfs-tools xorriso isolinux syslinux-common \
                 grub-pc-bin grub-efi-amd64-bin mtools dosfstools ca-certificates git rsync \
                 sassc libglib2.0-dev-bin libxml2-utils
+              ./scripts/build-host-preflight.sh
               ./build.sh
             ' 2>&1 | tee build.log
 

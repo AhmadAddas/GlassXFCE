@@ -152,6 +152,11 @@ say "checking live-build configuration validation"
 grep -q 'validate-live-build-config.sh' .github/workflows/validate.yml || fail "normal CI must validate live-build configuration"
 grep -q './auto/config --validate' scripts/validate-live-build-config.sh || fail "live-build validation must use lb config validation mode"
 
+say "checking build host preflight"
+[ -x scripts/build-host-preflight.sh ] || fail "missing executable build host preflight"
+grep -Fq 'build-host-preflight.sh' .github/workflows/build-iso.yml || fail "ISO build must run the build host preflight"
+grep -Fq 'MIN_BUILD_FREE_GIB:-10' scripts/build-host-preflight.sh || fail "build host preflight must protect working disk space"
+
 say "checking build source metadata"
 grep -q 'GIT_COMMIT="$GITHUB_SHA"' .github/workflows/build-iso.yml || fail "ISO workflow must pass the source commit into the build container"
 grep -q 'COMMIT="${GIT_COMMIT:-unknown}"' build.sh || fail "build metadata must prefer the explicit source commit"
