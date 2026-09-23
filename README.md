@@ -160,3 +160,7 @@ Normal CI now has a second lightweight job that starts a clean `debian:13` conta
 ### Hardware coverage
 
 The live image explicitly carries a targeted set of Debian 13 `non-free-firmware` packages for common Intel/AMD graphics, Intel/Realtek/Atheros/Broadcom networking, modern Intel audio, and Intel/AMD CPU microcode. This is intentional even with `--apt-recommends false`: a Live USB must have working networking and graphics before it can download anything. The selection is kept narrower than Debian's entire firmware catalog to protect the ISO size budget.
+
+### Panel audio integration
+
+The default top bar includes XFCE's native PulseAudio panel plugin backed by PipeWire/Pulse compatibility. The plugin is listed explicitly instead of relying on `xfce4-goodies` or APT Recommends, so the volume indicator cannot disappear from the lean image by accident.

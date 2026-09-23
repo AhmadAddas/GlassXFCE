@@ -60,13 +60,16 @@ grep -q -- "-b 1M" config/hooks/live/9100-glassxfce-squashfs.hook.binary || fail
 
 say "checking required packages"
 packages=config/package-lists/desktop.list.chroot
-for pkg in live-task-xfce xfce4-docklike-plugin xfce4-whiskermenu-plugin xfce4-power-manager xfce4-terminal xfce4-screenshooter picom rofi lightdm calamares firmware-iwlwifi firmware-realtek firmware-amd-graphics firmware-intel-graphics firmware-sof-signed intel-microcode amd64-microcode; do
+for pkg in live-task-xfce xfce4-docklike-plugin xfce4-whiskermenu-plugin xfce4-power-manager xfce4-pulseaudio-plugin xfce4-terminal xfce4-screenshooter picom rofi lightdm calamares firmware-iwlwifi firmware-realtek firmware-amd-graphics firmware-intel-graphics firmware-sof-signed intel-microcode amd64-microcode; do
   grep -qx "$pkg" "$packages" || fail "required package is missing: $pkg"
 done
 if grep -qx "xfce4-goodies" "$packages"; then
   fail "xfce4-goodies metapackage defeats the lean live-image package policy"
 fi
 grep -q -- "--apt-recommends false" auto/config || fail "live build must keep APT recommends disabled"
+
+# The default top panel references the PulseAudio plugin explicitly.
+grep -q 'value="pulseaudio"' config/includes.chroot/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml || fail "default panel must expose audio controls"
 
 say "checking boot choices"
 grep -qi 'live' config/bootloaders/grub-pc/grub.cfg || fail "GRUB menu has no live entry"
