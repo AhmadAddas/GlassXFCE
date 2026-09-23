@@ -61,4 +61,53 @@ case "$rc" in
     ;;
 esac
 
-echo "smoke: ISO checks passed"
+echo "smoke: starting a short QEMU UEFI boot-survival test"
+OVMF_CODE=""
+OVMF_VARS=""
+if [ -f /usr/share/OVMF/OVMF_CODE_4M.fd ] && [ -f /usr/share/OVMF/OVMF_VARS_4M.fd ]; then
+  OVMF_CODE=/usr/share/OVMF/OVMF_CODE_4M.fd
+  OVMF_VARS=/usr/share/OVMF/OVMF_VARS_4M.fd
+elif [ -f /usr/share/OVMF/OVMF_CODE.fd ] && [ -f /usr/share/OVMF/OVMF_VARS.fd ]; then
+  OVMF_CODE=/usr/share/OVMF/OVMF_CODE.fd
+  OVMF_VARS=/usr/share/OVMF/OVMF_VARS.fd
+else
+  echo "smoke: OVMF firmware files were not found" >&2
+  exit 2
+fi
+
+UEFI_VARS="${TMPDIR:-/tmp}/glassxfce-ovmf-vars-$$.fd"
+cp "$OVMF_VARS" "$UEFI_VARS"
+trap 'rm -f "$UEFI_VARS"' EXIT HUP INT TERM
+
+set +e
+timeout --signal=TERM --kill-after=5s 35s \
+  qemu-system-x86_64 \
+    -machine q35,accel=tcg \
+    -m 1024 \
+    -smp 2 \
+    -boot d \
+    -cdrom "$ISO" \
+    -snapshot \
+    -display none \
+    -monitor none \
+    -serial stdio \
+    -no-reboot \
+    -drive if=pflash,format=raw,readonly=on,file="$OVMF_CODE" \
+    -drive if=pflash,format=raw,file="$UEFI_VARS"
+uefi_rc=$?
+set -e
+
+case "$uefi_rc" in
+  124|137|143)
+    echo "smoke: QEMU UEFI remained alive through the boot window"
+    ;;
+  0)
+    echo "smoke: QEMU UEFI exited cleanly"
+    ;;
+  *)
+    echo "smoke: QEMU UEFI exited early with status $uefi_rc" >&2
+    exit "$uefi_rc"
+    ;;
+esac
+
+echo "smoke: BIOS and UEFI ISO checks passed"

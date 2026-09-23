@@ -60,7 +60,7 @@ jobs:
         shell: bash
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends qemu-system-x86 xorriso squashfs-tools
+          sudo apt-get install -y --no-install-recommends qemu-system-x86 ovmf xorriso squashfs-tools
 
       - name: Validate release artifacts
         shell: bash

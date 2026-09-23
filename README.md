@@ -195,4 +195,8 @@ Normal CI now asks Debian 13's own `live-build` to validate `auto/config` using 
 
 ### Pre-commit whitespace validation
 
-`validate-tree.sh` checks both unstaged and staged changes as well as the latest committed diff. This means the same validation command can catch whitespace errors before a commit and again in CI after checkout.
+`validate-tree.sh` checks current staged/unstaged changes before commit, and checks the latest committed diff in a clean CI checkout. This catches whitespace errors at both points.
+
+### BIOS and UEFI smoke tests
+
+Manual and tagged ISO builds now survive-test both boot paths in QEMU. The existing BIOS test remains, and a second run boots through OVMF so a release cannot pass merely because its legacy BIOS path works while UEFI is broken.

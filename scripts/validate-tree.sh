@@ -92,6 +92,11 @@ for asset in WhiteSur-Light WhiteSur-Dark default.jpg picom.conf glass.rasi glas
 done
 grep -q "verify-glass-assets.sh" .github/workflows/build-iso.yml || fail "ISO workflow must verify the Glass design payload"
 
+say "checking QEMU boot smoke coverage"
+[ -x scripts/smoke-test-iso.sh ] || fail "missing executable ISO smoke test"
+grep -q 'OVMF_CODE' scripts/smoke-test-iso.sh || fail "smoke test must exercise UEFI through OVMF"
+grep -q 'ovmf' .github/workflows/build-iso.yml || fail "ISO workflow must install OVMF for UEFI smoke testing"
+
 say "checking ISO payload reporting"
 [ -x scripts/report-iso-payload.sh ] || fail "missing executable ISO payload reporter"
 grep -q 'report-iso-payload.sh' .github/workflows/build-iso.yml || fail "ISO workflow must report compressed payload size"
