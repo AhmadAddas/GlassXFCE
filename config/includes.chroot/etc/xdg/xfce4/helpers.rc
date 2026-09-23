@@ -1,0 +1,4 @@
+WebBrowser=firefox
+MailReader=debian-sensible-browser
+FileManager=Thunar
+TerminalEmulator=xfce4-terminal

@@ -77,3 +77,5 @@ GlassXFCE ships a two-panel layout by default:
 - a compact 54 px bottom Docklike Taskbar configured as a floating, intelligently hidden dock.
 
 The panel configuration is stored in `/etc/skel`, so both the live user and newly created installed users receive the same layout without a first-run wizard.
+
+The default session also applies WhiteSur light styling, Inter typography, four workspaces, centered window titles, left-side window controls, a clean bundled wallpaper and macOS-like Super-key shortcuts. Picom remains the only compositor so Xfwm compositing stays disabled.
