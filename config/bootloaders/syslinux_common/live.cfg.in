@@ -1,0 +1,12 @@
+label live-@FLAVOUR@
+    menu label ^Try GlassXFCE Live
+    menu default
+    linux @LINUX@
+    initrd @INITRD@
+    append @APPEND_LIVE@
+
+label live-@FLAVOUR@-failsafe
+    menu label Try GlassXFCE Live (^safe graphics)
+    linux @LINUX@
+    initrd @INITRD@
+    append @APPEND_LIVE_FAILSAFE@

@@ -42,7 +42,7 @@ That tag builds one ISO and publishes the ISO + checksum directly to a GitHub Re
 
 ## Live + installer
 
-`auto/config` uses `--debian-installer live`, so the generated media can include live boot and installer entries. The desktop package list also includes Calamares + Debian's Calamares settings for a friendly installer launched from the live session.
+`auto/config` uses `--debian-installer live`. The UEFI GRUB menu now exposes **Try GlassXFCE Live**, **Install GlassXFCE**, safe graphics, and advanced installer options. The BIOS/Syslinux path receives the same GlassXFCE splash and live labels. The desktop package list also includes Calamares + Debian's Calamares settings for a friendly installer launched from the live session.
 
 ## Design workflow
 
