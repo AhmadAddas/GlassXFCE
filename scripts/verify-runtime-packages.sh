@@ -36,9 +36,11 @@ for para in status.split('\n\n'):
         installed.add(fields['Package'])
 required = [
     'live-config', 'live-config-systemd', 'user-setup', 'sudo', 'papirus-icon-theme',
-    'xfce4-power-manager-plugins', 'xfce4-pulseaudio-plugin', 'pipewire-audio', 'network-manager-gnome',
+    'xfce4-power-manager-plugins', 'xfce4-pulseaudio-plugin', 'pipewire-audio',
+    'network-manager', 'network-manager-gnome', 'wpasupplicant', 'wireless-regdb', 'iw', 'rfkill',
     'bluez', 'blueman', 'colord', 'xiccd',
     'firmware-iwlwifi', 'firmware-realtek', 'firmware-atheros',
+    'firmware-mediatek', 'firmware-libertas', 'firmware-ti-connectivity', 'firmware-zd1211',
     'xserver-xorg-core', 'xserver-xorg-video-all', 'libgl1-mesa-dri',
     'mesa-vulkan-drivers',
     'firmware-brcm80211', 'firmware-amd-graphics', 'firmware-intel-graphics',

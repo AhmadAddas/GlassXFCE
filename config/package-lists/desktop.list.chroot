@@ -68,7 +68,16 @@ bluez
 blueman
 
 # Desktop essentials
+network-manager
 network-manager-gnome
+wpasupplicant
+wireless-regdb
+iw
+rfkill
+firmware-mediatek
+firmware-libertas
+firmware-ti-connectivity
+firmware-zd1211
 pipewire-audio
 pavucontrol
 firefox-esr

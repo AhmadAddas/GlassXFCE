@@ -150,6 +150,10 @@ The live image explicitly carries a broad cross-GPU stack: X.Org core's generic 
 
 The default top bar includes XFCE's native PulseAudio panel plugin backed by PipeWire/Pulse compatibility. The plugin is listed explicitly instead of relying on `xfce4-goodies` or APT Recommends, so the volume indicator cannot disappear from the lean image by accident.
 
+### Broad Wi-Fi support
+
+Because GlassXFCE disables APT Recommends, the image explicitly carries NetworkManager's wireless essentials (`wpasupplicant`, `wireless-regdb`, `iw`, and `rfkill`) rather than assuming Debian will pull them automatically. Firmware coverage includes Intel, Realtek, Atheros, Broadcom, MediaTek/Ralink, Marvell/NXP, TI Connectivity, and older ZyDAS USB adapters.
+
 ### Bluetooth
 
 GlassXFCE includes BlueZ plus Blueman so Bluetooth keyboards, mice, headsets and phones can be paired from the live desktop without downloading extra packages first. Blueman lives in the normal notification area, keeping the top bar clean.
