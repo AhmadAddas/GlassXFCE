@@ -40,6 +40,11 @@
       <property name="leave-opacity" type="uint" value="92"/>
       <property name="autohide-behavior" type="uint" value="1"/>
       <property name="plugin-ids" type="array">
+        <value type="int" value="21"/>
+        <value type="int" value="22"/>
+        <value type="int" value="23"/>
+        <value type="int" value="24"/>
+        <value type="int" value="25"/>
         <value type="int" value="20"/>
       </property>
     </property>
@@ -65,6 +70,21 @@
       <property name="enable-keyboard-shortcuts" type="bool" value="true"/>
     </property>
     <property name="plugin-6" type="string" value="power-manager-plugin"/>
+    <property name="plugin-21" type="string" value="launcher">
+      <property name="items" type="array"><value type="string" value="glass-files.desktop"/></property>
+    </property>
+    <property name="plugin-22" type="string" value="launcher">
+      <property name="items" type="array"><value type="string" value="glass-browser.desktop"/></property>
+    </property>
+    <property name="plugin-23" type="string" value="launcher">
+      <property name="items" type="array"><value type="string" value="glass-terminal.desktop"/></property>
+    </property>
+    <property name="plugin-24" type="string" value="launcher">
+      <property name="items" type="array"><value type="string" value="glass-settings.desktop"/></property>
+    </property>
+    <property name="plugin-25" type="string" value="launcher">
+      <property name="items" type="array"><value type="string" value="glass-install.desktop"/></property>
+    </property>
     <property name="plugin-20" type="string" value="docklike"/>
   </property>
 </channel>

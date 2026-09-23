@@ -91,3 +91,7 @@ Every branch push and pull request runs lightweight static validation only. It c
 ### ISO smoke testing
 
 Manual and tagged ISO builds now perform a post-build smoke test before anything is uploaded or released. The check verifies the live SquashFS/kernel/initrd, BIOS and UEFI El Torito entries, then keeps the ISO alive in a short QEMU BIOS boot window. This is intentionally a smoke test rather than a full interactive installer test.
+
+### Dock favorites
+
+The floating panel now ships with stable launcher buttons for Files, Web, Terminal, Settings and the live installer, followed by Docklike Taskbar for running/grouped windows. Using normal XFCE launcher plugins for the fixed favorites avoids depending on Docklike's private pinned-item storage format.
