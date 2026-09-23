@@ -44,6 +44,10 @@ jobs:
         shell: bash
         run: ./scripts/validate-release-version.sh "$GITHUB_REF_NAME" "${{ steps.version.outputs.value }}"
 
+      - name: Check build network sources
+        shell: bash
+        run: ./scripts/check-build-network.sh
+
       - name: Build Debian 13 ISO in Debian container
         shell: bash
         run: |
