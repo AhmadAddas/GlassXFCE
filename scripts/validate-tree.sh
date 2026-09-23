@@ -68,7 +68,7 @@ fi
 
 say "checking required packages"
 packages=config/package-lists/desktop.list.chroot
-for pkg in live-task-xfce live-config live-config-systemd user-setup sudo xfce4-docklike-plugin xfce4-whiskermenu-plugin xfce4-power-manager xfce4-pulseaudio-plugin xfce4-terminal xfce4-screenshooter picom rofi lightdm calamares xserver-xorg-core xserver-xorg-video-all libgl1-mesa-dri mesa-vulkan-drivers firmware-iwlwifi firmware-realtek firmware-amd-graphics firmware-intel-graphics firmware-nvidia-graphics firmware-misc-nonfree firmware-sof-signed intel-microcode amd64-microcode bluez blueman; do
+for pkg in live-task-xfce live-config live-config-systemd user-setup sudo xfce4-docklike-plugin xfce4-whiskermenu-plugin xfce4-power-manager xfce4-power-manager-plugins xfce4-pulseaudio-plugin xfce4-terminal xfce4-screenshooter picom rofi lightdm calamares xserver-xorg-core xserver-xorg-video-all libgl1-mesa-dri mesa-vulkan-drivers firmware-iwlwifi firmware-realtek firmware-amd-graphics firmware-intel-graphics firmware-nvidia-graphics firmware-misc-nonfree firmware-sof-signed intel-microcode amd64-microcode bluez blueman; do
   grep -qx "$pkg" "$packages" || fail "required package is missing: $pkg"
 done
 if grep -qx "xfce4-goodies" "$packages"; then
@@ -138,7 +138,7 @@ grep -q 'report-iso-payload.sh' .github/workflows/build-iso.yml || fail "ISO wor
 say "checking runtime package verification"
 [ -f scripts/verify-runtime-packages.sh ] || fail "missing runtime package verifier"
 grep -q 'verify-runtime-packages.sh' .github/workflows/build-iso.yml || fail "ISO workflow must verify runtime packages"
-for pkg in firmware-iwlwifi firmware-realtek firmware-amd-graphics firmware-nvidia-graphics firmware-misc-nonfree xserver-xorg-core xserver-xorg-video-all libgl1-mesa-dri mesa-vulkan-drivers xfce4-pulseaudio-plugin bluez; do
+for pkg in firmware-iwlwifi firmware-realtek firmware-amd-graphics firmware-nvidia-graphics firmware-misc-nonfree xserver-xorg-core xserver-xorg-video-all libgl1-mesa-dri mesa-vulkan-drivers xfce4-power-manager-plugins xfce4-pulseaudio-plugin bluez; do
   grep -Fq "'$pkg'" scripts/verify-runtime-packages.sh || fail "runtime verifier does not protect package: $pkg"
 done
 
