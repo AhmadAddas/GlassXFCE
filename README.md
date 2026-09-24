@@ -217,3 +217,8 @@ The boot backgrounds are kept text-free in the menu area so GRUB/Syslinux labels
 ## Writing the GlassXFCE ISO to USB
 
 See `docs/usb-writing.md`. In short: if Rufus asks to download matching Syslinux/GRUB files in **ISO mode**, prefer **DD mode** or a raw-image writer. Those prompts are Rufus-side compatibility prompts rather than GlassXFCE runtime errors.
+
+
+## GRUB theme compatibility
+
+The image carries a real `/boot/grub/themes/glassxfce/` theme directory plus `/boot/grub/theme.cfg`. This keeps live-build generated GRUB fragments compatible without restoring the opaque stock boot-menu panel.
