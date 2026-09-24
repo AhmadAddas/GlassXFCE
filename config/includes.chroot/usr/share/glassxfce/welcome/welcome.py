@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-import os
 import subprocess
 import gi
 
@@ -7,19 +6,24 @@ gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk, Gdk
 
 CSS = b"""
-window { background: #111827; color: #f8fafc; }
+#glassxfce-welcome {
+  background-image: linear-gradient(135deg, #07111f, #12395d 54%, #281b4f);
+  color: #f8fafc;
+}
+#glassxfce-welcome .content { background-color: rgba(6, 12, 24, 0.30); }
 .header { font-size: 28px; font-weight: 700; }
-.subtitle { color: #cbd5e1; font-size: 14px; }
-.card { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14); border-radius: 16px; padding: 18px; }
+.subtitle { color: #d8e5f3; font-size: 14px; }
+.hint { color: #b8cae0; font-size: 13px; }
+.card { background: rgba(255,255,255,0.09); border: 1px solid rgba(255,255,255,0.16); border-radius: 16px; padding: 18px; }
 .card-title { font-weight: 700; font-size: 15px; }
-.card-text { color: #dbe4f0; }
+.card-text { color: #e1eaf4; }
 .action { border-radius: 12px; padding: 8px 14px; }
 """
 
 CARDS = [
     ("Glass Search", "Press Super + Space to search applications from anywhere."),
-    ("Appearance", "Press Super + Shift + A to switch between the bundled light and dark themes."),
-    ("Essentials", "Super + Return opens Terminal. Super + E opens Files."),
+    ("Appearance", "Press Super + Shift + A to switch between light and dark themes."),
+    ("Essentials", "Super + Enter opens Terminal. Super + E opens Files. Super + N opens Notepad."),
     ("Install", "Use Install GlassXFCE when you are ready to copy the live system to disk."),
     ("Built on Debian", "GlassXFCE uses Debian 13 Trixie and XFCE with a custom lightweight visual layer."),
     ("Designed to stay light", "Rounded surfaces, blur and polished icons without replacing XFCE with a heavyweight desktop."),
@@ -28,9 +32,11 @@ CARDS = [
 class Welcome(Gtk.Window):
     def __init__(self):
         super().__init__(title="Welcome to GlassXFCE")
-        self.set_default_size(760, 560)
+        self.set_name("glassxfce-welcome")
+        self.set_default_size(900, 680)
+        self.set_size_request(640, 460)
+        self.set_resizable(True)
         self.set_position(Gtk.WindowPosition.CENTER)
-        self.set_border_width(26)
         self.set_icon_name("glassxfce-menu")
 
         provider = Gtk.CssProvider()
@@ -39,8 +45,14 @@ class Welcome(Gtk.Window):
             Gdk.Screen.get_default(), provider, Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
         )
 
+        scroll = Gtk.ScrolledWindow()
+        scroll.set_policy(Gtk.PolicyType.NEVER, Gtk.PolicyType.AUTOMATIC)
+        self.add(scroll)
+
         outer = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=18)
-        self.add(outer)
+        outer.set_border_width(28)
+        outer.get_style_context().add_class("content")
+        scroll.add(outer)
 
         title = Gtk.Label(label="Welcome to GlassXFCE")
         title.set_xalign(0)
@@ -49,8 +61,14 @@ class Welcome(Gtk.Window):
 
         subtitle = Gtk.Label(label="A lightweight Debian + XFCE desktop with a polished glass-inspired interface.")
         subtitle.set_xalign(0)
+        subtitle.set_line_wrap(True)
         subtitle.get_style_context().add_class("subtitle")
         outer.pack_start(subtitle, False, False, 0)
+
+        hint = Gtk.Label(label="Tip: Super means the Windows key on most PC keyboards.")
+        hint.set_xalign(0)
+        hint.get_style_context().add_class("hint")
+        outer.pack_start(hint, False, False, 0)
 
         grid = Gtk.Grid(column_spacing=14, row_spacing=14, column_homogeneous=True)
         outer.pack_start(grid, True, True, 0)
@@ -64,7 +82,7 @@ class Welcome(Gtk.Window):
             b = Gtk.Label(label=body)
             b.set_xalign(0)
             b.set_line_wrap(True)
-            b.set_max_width_chars(38)
+            b.set_max_width_chars(42)
             b.get_style_context().add_class("card-text")
             box.pack_start(h, False, False, 0)
             box.pack_start(b, False, False, 0)
@@ -72,17 +90,18 @@ class Welcome(Gtk.Window):
 
         actions = Gtk.Box(spacing=10)
         outer.pack_start(actions, False, False, 0)
-        settings = Gtk.Button(label="Open Settings")
-        settings.get_style_context().add_class("action")
-        settings.connect("clicked", lambda *_: subprocess.Popen(["xfce4-settings-manager"]))
-        install = Gtk.Button(label="Install GlassXFCE")
-        install.get_style_context().add_class("action")
-        install.connect("clicked", lambda *_: subprocess.Popen(["glassxfce-installer"]))
+        for label, argv in (
+            ("Open Settings", ["xfce4-settings-manager"]),
+            ("Notepad", ["mousepad"]),
+            ("Install GlassXFCE", ["glassxfce-installer"]),
+        ):
+            button = Gtk.Button(label=label)
+            button.get_style_context().add_class("action")
+            button.connect("clicked", lambda _b, cmd=argv: subprocess.Popen(cmd))
+            actions.pack_start(button, False, False, 0)
         close = Gtk.Button(label="Get Started")
         close.get_style_context().add_class("action")
         close.connect("clicked", lambda *_: self.destroy())
-        actions.pack_start(settings, False, False, 0)
-        actions.pack_start(install, False, False, 0)
         actions.pack_end(close, False, False, 0)
 
         self.connect("destroy", Gtk.main_quit)

@@ -102,7 +102,7 @@ grep -qi 'install' config/bootloaders/syslinux_common/menu.cfg || fail "Syslinux
 
 say "checking protected glass asset policy"
 [ -f scripts/verify-glass-assets.sh ] || fail "missing Glass asset verifier"
-for asset in WhiteSur-Light WhiteSur-Dark aurora.svg picom.conf glass.rasi glassxfce.plymouth 50-glassxfce.conf welcome.png; do
+for asset in WhiteSur-Light WhiteSur-Dark aurora.svg aurora.png picom.conf glass.rasi glassxfce.plymouth 50-glassxfce.conf welcome.png; do
   grep -Fq "$asset" scripts/verify-glass-assets.sh || fail "Glass asset verifier does not protect: $asset"
 done
 grep -q "verify-glass-assets.sh" .github/workflows/build-iso.yml || fail "ISO workflow must verify the Glass design payload"

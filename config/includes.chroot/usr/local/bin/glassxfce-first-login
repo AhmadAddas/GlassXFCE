@@ -23,7 +23,7 @@ xfconf-query -c xfwm4 -p /general/theme -s "WhiteSur-Light" 2>/dev/null || true
 xfconf-query -c xfwm4 -p /general/button_layout -n -t string -s "|HMC" 2>/dev/null || true
 
 # Apply the bundled wallpaper to every currently-created workspace/monitor property.
-WALL="/usr/share/backgrounds/glassxfce/aurora.svg"
+WALL="/usr/share/backgrounds/glassxfce/aurora.png"
 if [ -f "$WALL" ]; then
   xfconf-query -c xfce4-desktop -l 2>/dev/null | while IFS= read -r prop; do
     case "$prop" in
@@ -33,9 +33,21 @@ if [ -f "$WALL" ]; then
   done
 fi
 
-# Spotlight-style application launcher.
-xfconf-query -c xfce4-keyboard-shortcuts \
-  -p "/commands/custom/<Super>space" -n -t string \
-  -s "glassxfce-launcher" 2>/dev/null || true
+# Force the primary shortcuts at first login. The skeleton XML is still the
+# default, but live-session migrations can otherwise leave old XFCE bindings.
+set_shortcut() {
+  prop="$1"
+  command="$2"
+  xfconf-query -c xfce4-keyboard-shortcuts -p "$prop" -s "$command" 2>/dev/null || \
+    xfconf-query -c xfce4-keyboard-shortcuts -p "$prop" -n -t string -s "$command" 2>/dev/null || true
+}
+set_shortcut "/commands/custom/<Super>space" "glassxfce-launcher"
+set_shortcut "/commands/custom/<Super>Return" "xfce4-terminal"
+set_shortcut "/commands/custom/<Super>KP_Enter" "xfce4-terminal"
+set_shortcut "/commands/custom/<Super>e" "thunar"
+set_shortcut "/commands/custom/<Super>n" "mousepad"
+set_shortcut "/commands/custom/<Super><Shift>a" "glassxfce-appearance toggle"
+
+xfdesktop --reload >/dev/null 2>&1 || true
 
 touch "$MARKER"

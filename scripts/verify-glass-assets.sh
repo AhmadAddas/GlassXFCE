@@ -46,6 +46,7 @@ require_path usr/share/themes/WhiteSur-Light
 require_path usr/share/themes/WhiteSur-Dark
 require_path usr/share/icons/WhiteSur
 require_path usr/share/backgrounds/glassxfce/aurora.svg
+require_path usr/share/backgrounds/glassxfce/aurora.png
 require_path usr/share/backgrounds/glassxfce/midnight-glass.svg
 require_path usr/share/backgrounds/glassxfce/silver-wave.svg
 require_path usr/share/themes/GlassXFCE/xfce-notify-4.0/gtk.css

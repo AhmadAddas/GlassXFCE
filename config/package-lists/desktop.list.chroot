@@ -14,6 +14,8 @@ sudo
 # xfce4-goodies metapackage because it pulls in many panel monitors/utilities
 # that are not part of the default GlassXFCE experience.
 xfce4-terminal
+mousepad
+nano
 xfce4-whiskermenu-plugin
 xfce4-screenshooter
 xfce4-clipman-plugin
