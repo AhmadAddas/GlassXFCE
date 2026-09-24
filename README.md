@@ -227,3 +227,8 @@ The image carries a real `/boot/grub/themes/glassxfce/` theme directory plus `/b
 ## Default appearance
 
 GlassXFCE now starts with the bright Silver Wave wallpaper and WhiteSur Dark controls. The wallpaper remains light even when dark mode is active, so the desktop feels airy instead of becoming an all-black surface.
+
+
+## GRUB compatibility shim
+
+Generated Debian live-build submenu fragments may source `/boot/grub/theme.cfg`. GlassXFCE keeps that file as a command shim only: it clears GRUB theme parsing and reuses the splash image, avoiding firmware-specific theme-directory errors.
