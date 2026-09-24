@@ -4,14 +4,14 @@ set -eu
 THEME=/usr/share/icons/GlassXFCE
 PAPIRUS=/usr/share/icons/Papirus
 rm -rf "$THEME"
-mkdir -p "$THEME/scalable/places" "$THEME/scalable/devices" "$THEME/scalable/status"
+mkdir -p "$THEME/scalable/places" "$THEME/scalable/devices" "$THEME/scalable/status" "$THEME/scalable/actions" "$THEME/scalable/apps"
 
 cat > "$THEME/index.theme" <<'EOF'
 [Icon Theme]
 Name=GlassXFCE
 Comment=GlassXFCE system icon overlay with WhiteSur and Papirus fallbacks
 Inherits=WhiteSur,Papirus,Adwaita,hicolor
-Directories=scalable/places,scalable/devices,scalable/status
+Directories=scalable/places,scalable/devices,scalable/status,scalable/actions,scalable/apps
 
 [scalable/places]
 Size=64
@@ -33,6 +33,20 @@ Type=Scalable
 MinSize=16
 MaxSize=512
 Context=Status
+
+[scalable/actions]
+Size=64
+Type=Scalable
+MinSize=16
+MaxSize=512
+Context=Actions
+
+[scalable/apps]
+Size=64
+Type=Scalable
+MinSize=16
+MaxSize=512
+Context=Applications
 EOF
 
 link_papirus() {
@@ -61,3 +75,10 @@ for icon in network-wired network-wireless audio-volume-high audio-volume-muted 
 done
 
 gtk-update-icon-cache -f "$THEME" >/dev/null 2>&1 || true
+
+for icon in system-log-out system-reboot system-shutdown system-suspend system-switch-user window-close window-minimize application-exit; do
+  link_papirus actions "$icon"
+done
+for icon in mousepad-accessories text-editor accessories-text-editor system-file-manager preferences-desktop-wallpaper preferences-system preferences-desktop-display preferences-color; do
+  link_papirus apps "$icon"
+done
