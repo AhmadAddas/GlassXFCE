@@ -23,7 +23,7 @@ xfconf-query -c xfwm4 -p /general/theme -s "WhiteSur-Light" 2>/dev/null || true
 xfconf-query -c xfwm4 -p /general/button_layout -n -t string -s "|HMC" 2>/dev/null || true
 
 # Apply the bundled wallpaper to every currently-created workspace/monitor property.
-WALL="/usr/share/backgrounds/glassxfce/aurora.png"
+WALL="/usr/share/backgrounds/glassxfce/sunlit-glass.png"
 if [ -f "$WALL" ]; then
   xfconf-query -c xfce4-desktop -l 2>/dev/null | while IFS= read -r prop; do
     case "$prop" in
