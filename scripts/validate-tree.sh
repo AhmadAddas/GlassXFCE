@@ -110,6 +110,9 @@ grep -qi 'live' config/bootloaders/syslinux_common/menu.cfg || fail "Syslinux me
 grep -qi 'install' config/bootloaders/syslinux_common/menu.cfg || fail "Syslinux menu has no installer entry"
 grep -Fq 'background_image /boot/grub/splash.png' config/bootloaders/grub-pc/grub.cfg || fail "GRUB must render the GlassXFCE splash directly"
 if grep -Fq 'source /boot/grub/theme.cfg' config/bootloaders/grub-pc/grub.cfg; then fail "GRUB submenus must not re-enable the opaque stock live-build theme"; fi
+[ -f config/bootloaders/grub-pc/theme.cfg ] || fail "missing transparent GRUB theme compatibility shim"
+grep -Fq 'set theme=' config/bootloaders/grub-pc/theme.cfg || fail "GRUB theme shim must disable the stock opaque theme"
+grep -Fq 'background_image /boot/grub/splash.png' config/bootloaders/grub-pc/theme.cfg || fail "GRUB theme shim must retain GlassXFCE boot art"
 
 say "checking protected glass asset policy"
 [ -f scripts/verify-glass-assets.sh ] || fail "missing Glass asset verifier"
