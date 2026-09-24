@@ -24,7 +24,7 @@ xfconf-query -c xfwm4 -p /general/button_layout -n -t string -s "|HMC" 2>/dev/nu
 
 # Apply the wallpaper through the delayed monitor-aware helper. Running it here
 # is harmless, while the autostart entry retries once xfdesktop has real outputs.
-/usr/local/bin/glassxfce-apply-wallpaper >/dev/null 2>&1 || true
+/usr/local/bin/glassxfce-apply-wallpaper >/dev/null 2>&1 &
 
 # Force the primary shortcuts at first login. The skeleton XML is still the
 # default, but live-session migrations can otherwise leave old XFCE bindings.

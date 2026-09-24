@@ -232,3 +232,8 @@ GlassXFCE now starts with the bright Silver Wave wallpaper and WhiteSur Dark con
 ## GRUB compatibility shim
 
 Generated Debian live-build submenu fragments may source `/boot/grub/theme.cfg`. GlassXFCE keeps that file as a command shim only: it clears GRUB theme parsing and reuses the splash image, avoiding firmware-specific theme-directory errors.
+
+
+## Wallpaper startup reliability
+
+XFCE can replace its generic `monitor0` backdrop key with a hardware-specific RandR monitor key a few seconds after login. The GlassXFCE wallpaper helper now watches that startup migration and reapplies Silver Wave to each discovered backdrop, preventing the initial black desktop that previously disappeared only after manually switching wallpapers.

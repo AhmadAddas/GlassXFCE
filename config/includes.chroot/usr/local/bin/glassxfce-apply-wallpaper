@@ -4,40 +4,42 @@ set -eu
 WALL="/usr/share/backgrounds/glassxfce/silver-wave.png"
 [ -r "$WALL" ] || exit 0
 
-# xfdesktop creates monitor-specific backdrop keys only after it starts. Wait
-# briefly for those keys instead of assuming the generic monitor0 name exists.
+set_value() {
+  prop="$1"
+  type="$2"
+  value="$3"
+  xfconf-query -c xfce4-desktop -p "$prop" -s "$value" 2>/dev/null || \
+    xfconf-query -c xfce4-desktop -p "$prop" -n -t "$type" -s "$value" 2>/dev/null || true
+}
+
+apply_base() {
+  base="$1"
+  set_value "$base/last-image" string "$WALL"
+  set_value "$base/image-style" int 5
+  set_value "$base/color-style" int 0
+}
+
+# XFCE initially loads the skeleton's generic monitor0 key and then migrates to
+# hardware-specific monitor keys after RandR/xfdesktop discovery. Applying only
+# once can therefore be overwritten and leave a black desktop until the user
+# manually changes the wallpaper. Keep watching briefly and apply to every
+# backdrop key that appears during session startup.
 i=0
-while [ "$i" -lt 20 ]; do
+while [ "$i" -lt 24 ]; do
+  # Always maintain the generic fallback.
+  apply_base "/backdrop/screen0/monitor0/workspace0"
+
   props="$(xfconf-query -c xfce4-desktop -l 2>/dev/null | grep '/last-image$' || true)"
   if [ -n "$props" ]; then
     printf '%s\n' "$props" | while IFS= read -r prop; do
       [ -n "$prop" ] || continue
-      xfconf-query -c xfce4-desktop -p "$prop" -s "$WALL" 2>/dev/null || true
-      style="${prop%/last-image}/image-style"
-      xfconf-query -c xfce4-desktop -p "$style" -s 5 2>/dev/null || \
-        xfconf-query -c xfce4-desktop -p "$style" -n -t int -s 5 2>/dev/null || true
-      color="${prop%/last-image}/color-style"
-      rgba1="${prop%/last-image}/rgba1"
-      rgba2="${prop%/last-image}/rgba2"
-      xfconf-query -c xfce4-desktop -p "$color" -s 0 2>/dev/null || \
-        xfconf-query -c xfce4-desktop -p "$color" -n -t int -s 0 2>/dev/null || true
-      xfconf-query -c xfce4-desktop -p "$rgba1" -n -t double -t double -t double -t double \
-        -s 0.88 -s 0.92 -s 0.96 -s 1.0 2>/dev/null || true
-      xfconf-query -c xfce4-desktop -p "$rgba2" -n -t double -t double -t double -t double \
-        -s 0.72 -s 0.80 -s 0.88 -s 1.0 2>/dev/null || true
+      apply_base "${prop%/last-image}"
     done
-    xfdesktop --reload >/dev/null 2>&1 || true
-    exit 0
   fi
+
   i=$((i + 1))
   sleep 1
 done
 
-# Keep a generic fallback for unusual Xfce monitor naming/migration cases.
-base="/backdrop/screen0/monitor0/workspace0"
-xfconf-query -c xfce4-desktop -p "$base/last-image" -n -t string -s "$WALL" 2>/dev/null || true
-xfconf-query -c xfce4-desktop -p "$base/image-style" -n -t int -s 5 2>/dev/null || true
-xfconf-query -c xfce4-desktop -p "$base/color-style" -n -t int -s 0 2>/dev/null || true
-xfconf-query -c xfce4-desktop -p "$base/rgba1" -n -t double -t double -t double -t double -s 0.88 -s 0.92 -s 0.96 -s 1.0 2>/dev/null || true
-xfconf-query -c xfce4-desktop -p "$base/rgba2" -n -t double -t double -t double -t double -s 0.72 -s 0.80 -s 0.88 -s 1.0 2>/dev/null || true
+# One final refresh after monitor migration has settled.
 xfdesktop --reload >/dev/null 2>&1 || true

@@ -2,7 +2,7 @@
 Type=Application
 Name=GlassXFCE Wallpaper
 Comment=Apply the bundled GlassXFCE wallpaper after xfdesktop is ready
-Exec=/usr/local/bin/glassxfce-apply-wallpaper
+Exec=sh -c 'sleep 2; exec /usr/local/bin/glassxfce-apply-wallpaper'
 OnlyShowIn=XFCE;
 X-GNOME-Autostart-enabled=true
 NoDisplay=true

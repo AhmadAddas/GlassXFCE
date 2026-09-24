@@ -92,6 +92,8 @@ say "checking wallpaper reliability"
 [ -f config/includes.chroot/etc/xdg/autostart/glassxfce-wallpaper.desktop ] || fail "missing delayed wallpaper autostart"
 grep -Fq 'silver-wave.png' config/includes.chroot/etc/lightdm/lightdm-gtk-greeter.conf.d/50-glassxfce.conf || fail "LightDM must use the Silver Wave GlassXFCE background"
 grep -Fq '/last-image$' config/includes.chroot/usr/local/bin/glassxfce-apply-wallpaper || fail "wallpaper helper must discover real monitor backdrop keys"
+grep -Fq 'while [ "$i" -lt 24 ]' config/includes.chroot/usr/local/bin/glassxfce-apply-wallpaper || fail "wallpaper helper must survive xfdesktop monitor migration"
+grep -Fq 'sleep 2' config/includes.chroot/etc/xdg/autostart/glassxfce-wallpaper.desktop || fail "wallpaper autostart must wait briefly for XFCE startup"
 grep -Fq 'COMPAT=/usr/share/images/desktop-base' config/hooks/live/0410-glassxfce-wallpapers.hook.chroot || fail "wallpaper hook must preserve the Debian/Xfce compatibility folder"
 grep -Fq 'desktop-background' config/hooks/live/0410-glassxfce-wallpapers.hook.chroot || fail "wallpaper compatibility folder must expose a default background"
 
