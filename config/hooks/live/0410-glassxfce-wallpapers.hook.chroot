@@ -1,6 +1,23 @@
 #!/bin/sh
 set -eu
 
-# Keep the wallpaper chooser focused on the GlassXFCE collection. These are
-# stock artwork directories only; the GlassXFCE backgrounds live separately.
-rm -rf /usr/share/backgrounds/xfce /usr/share/backgrounds/desktop-base /usr/share/images/desktop-base
+GLASS=/usr/share/backgrounds/glassxfce
+COMPAT=/usr/share/images/desktop-base
+
+# Remove stock artwork while keeping Debian/Xfce's conventional compatibility
+# path alive. xfdesktop's settings UI can still open this directory even after
+# the active wallpaper has been changed, so deleting it causes a user-visible
+# "Unable to load images" dialog.
+rm -rf /usr/share/backgrounds/xfce /usr/share/backgrounds/desktop-base
+rm -rf "$COMPAT"
+mkdir -p "$COMPAT"
+
+# Populate the legacy/default folder only with GlassXFCE artwork. This satisfies
+# Debian desktop-base/Xfce expectations without bringing the stock wallpapers
+# back into the image.
+for file in "$GLASS"/*.png "$GLASS"/*.jpg "$GLASS"/*.jpeg "$GLASS"/*.svg; do
+    [ -f "$file" ] || continue
+    ln -s "$file" "$COMPAT/$(basename "$file")"
+done
+ln -s "$GLASS/sunlit-glass.png" "$COMPAT/desktop-background"
+ln -s "$GLASS/sunlit-glass.png" "$COMPAT/default"

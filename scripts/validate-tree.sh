@@ -92,6 +92,8 @@ say "checking wallpaper reliability"
 [ -f config/includes.chroot/etc/xdg/autostart/glassxfce-wallpaper.desktop ] || fail "missing delayed wallpaper autostart"
 grep -Fq 'sunlit-glass.png' config/includes.chroot/etc/lightdm/lightdm-gtk-greeter.conf.d/50-glassxfce.conf || fail "LightDM must use an existing GlassXFCE background"
 grep -Fq '/last-image$' config/includes.chroot/usr/local/bin/glassxfce-apply-wallpaper || fail "wallpaper helper must discover real monitor backdrop keys"
+grep -Fq 'COMPAT=/usr/share/images/desktop-base' config/hooks/live/0410-glassxfce-wallpapers.hook.chroot || fail "wallpaper hook must preserve the Debian/Xfce compatibility folder"
+grep -Fq 'desktop-background' config/hooks/live/0410-glassxfce-wallpapers.hook.chroot || fail "wallpaper compatibility folder must expose a default background"
 
 say "checking power defaults"
 power=config/includes.chroot/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml

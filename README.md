@@ -52,7 +52,7 @@ Press `Super+Space` in the live desktop to open **Glass Search**, `Super+X` to o
 
 ## Wallpaper policy
 
-The repository ships bright original GlassXFCE wallpapers (`sunlit-glass`, `aurora`, `midnight-glass`, and `silver-wave`) and removes the stock Debian/XFCE wallpaper set from the live image. WhiteSur remains the primary icon style, with Papirus packaged underneath it as a broad fallback for applications WhiteSur does not cover.
+The repository ships bright original GlassXFCE wallpapers (`sunlit-glass`, `aurora`, `midnight-glass`, and `silver-wave`) and removes the stock Debian/XFCE wallpaper set from the live image. A small `/usr/share/images/desktop-base` compatibility directory is retained, but it contains only symlinks to GlassXFCE artwork so XFCE’s wallpaper chooser never opens a missing Debian folder. WhiteSur remains the primary icon style, with Papirus packaged underneath it as a broad fallback for applications WhiteSur does not cover.
 
 ## Desktop layout
 
