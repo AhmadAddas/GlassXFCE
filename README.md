@@ -212,3 +212,8 @@ GitHub passes the workflow's exact `GITHUB_SHA` into the Debian build container.
 ## Boot menu artwork
 
 The boot backgrounds are kept text-free in the menu area so GRUB/Syslinux labels do not collide with branding. Native panel modes are preferred, but no fixed unsupported resolution is forced.
+
+
+## Writing the GlassXFCE ISO to USB
+
+See `docs/usb-writing.md`. In short: if Rufus asks to download matching Syslinux/GRUB files in **ISO mode**, prefer **DD mode** or a raw-image writer. Those prompts are Rufus-side compatibility prompts rather than GlassXFCE runtime errors.
