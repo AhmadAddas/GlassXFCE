@@ -32,3 +32,11 @@
 .plank {
     background-color: transparent;
 }
+
+/* Keep transient menus readable. Picom intentionally does not blur these. */
+menu,
+.menu,
+.context-menu,
+popover {
+    background-color: alpha(@theme_bg_color, 0.98);
+}
