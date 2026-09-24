@@ -207,3 +207,8 @@ Manual and tagged ISO builds now survive-test both boot paths in QEMU. The exist
 ### Source commit metadata
 
 GitHub passes the workflow's exact `GITHUB_SHA` into the Debian build container. `build-info.txt` therefore records the source revision even if Git refuses to inspect the bind-mounted checkout because of container/host ownership differences.
+
+
+## Boot menu artwork
+
+The boot backgrounds are kept text-free in the menu area so GRUB/Syslinux labels do not collide with branding. Native panel modes are preferred, but no fixed unsupported resolution is forced.
