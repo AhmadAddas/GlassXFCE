@@ -303,6 +303,12 @@ grep -Fq 'org.xfce.workspaces' config/hooks/live/0440-glassxfce-system-icons.hoo
 last_cache_line=$(grep -n 'gtk-update-icon-cache -f "$THEME"' config/hooks/live/0440-glassxfce-system-icons.hook.chroot | tail -1 | cut -d: -f1)
 [ -n "$last_cache_line" ] || fail "system icon overlay must rebuild its icon cache"
 
+say "checking graphical session handoff"
+grep -qx 'x11-xserver-utils' "$packages" || fail "X root transition requires explicit x11-xserver-utils"
+[ -f config/includes.chroot/usr/local/bin/glassxfce-display-setup ] || fail "missing pre-session display setup"
+[ -f config/includes.chroot/etc/lightdm/lightdm.conf.d/50-glassxfce-display.conf ] || fail "missing LightDM display setup configuration"
+grep -Fq 'xsetroot -solid' config/includes.chroot/usr/local/bin/glassxfce-display-setup || fail "display setup must paint the X root window before XFCE starts"
+
 say "checking live session defaults"
 [ -f config/includes.chroot/etc/live/config.conf.d/10-glassxfce.conf ] || fail "missing live-config defaults"
 grep -q '^LIVE_USERNAME="live"$' config/includes.chroot/etc/live/config.conf.d/10-glassxfce.conf || fail "live username must remain live"

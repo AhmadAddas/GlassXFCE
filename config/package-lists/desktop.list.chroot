@@ -100,3 +100,5 @@ wamerican
 # Notifications
 xfce4-notifyd
 libnotify-bin
+
+x11-xserver-utils
