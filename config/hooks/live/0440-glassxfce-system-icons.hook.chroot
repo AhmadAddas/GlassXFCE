@@ -74,11 +74,42 @@ for icon in network-wired network-wireless audio-volume-high audio-volume-muted 
   link_papirus status "$icon"
 done
 
-gtk-update-icon-cache -f "$THEME" >/dev/null 2>&1 || true
-
 for icon in system-log-out system-reboot system-shutdown system-suspend system-switch-user window-close window-minimize application-exit; do
   link_papirus actions "$icon"
 done
 for icon in mousepad-accessories text-editor accessories-text-editor system-file-manager preferences-desktop-wallpaper preferences-system preferences-desktop-display preferences-color; do
   link_papirus apps "$icon"
 done
+
+copy_papirus_alias() {
+  category="$1"
+  target="$2"
+  shift 2
+  src=""
+  for candidate in "$@"; do
+    [ -n "$candidate" ] || continue
+    src="$(find "$PAPIRUS" -type f -name "$candidate.svg" -print -quit 2>/dev/null || true)"
+    [ -n "$src" ] && break
+  done
+  if [ -n "$src" ]; then
+    cp -L "$src" "$THEME/scalable/$category/$target.svg"
+  else
+    echo "GlassXFCE: Papirus alias source not found for: $target" >&2
+  fi
+}
+
+# Xfce uses several names that are not the generic freedesktop names. Give
+# them explicit, high-contrast Papirus-backed aliases so dark mode never falls
+# back to nearly-black hicolor/WhiteSur variants.
+copy_papirus_alias actions system-search system-search edit-find
+copy_papirus_alias actions xfsm-logout system-log-out application-exit
+copy_papirus_alias actions xfsm-reboot system-reboot view-refresh
+copy_papirus_alias actions xfsm-shutdown system-shutdown system-shutdown-symbolic
+copy_papirus_alias actions xfsm-suspend system-suspend media-playback-pause
+copy_papirus_alias actions xfsm-switch-user system-switch-user system-users
+copy_papirus_alias apps org.xfce.workspaces preferences-desktop-workspaces desktop-effects
+copy_papirus_alias apps org.xfce.xfwm4 preferences-system-windows preferences-system
+copy_papirus_alias apps org.xfce.xfwm4-tweaks preferences-system-windows preferences-desktop
+
+# Build the cache only after every overlay icon and alias exists.
+gtk-update-icon-cache -f "$THEME" >/dev/null 2>&1 || true

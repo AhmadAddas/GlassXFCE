@@ -296,6 +296,10 @@ say "checking system icon coverage"
 [ -f config/hooks/live/0440-glassxfce-system-icons.hook.chroot ] || fail "missing GlassXFCE system-icon overlay hook"
 grep -Fq 'Inherits=WhiteSur,Papirus,Adwaita,hicolor' config/hooks/live/0440-glassxfce-system-icons.hook.chroot || fail "system icon overlay must retain WhiteSur and Papirus fallbacks"
 grep -Fq 'value="GlassXFCE"' config/includes.chroot/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml || fail "GlassXFCE icon overlay must be the default icon theme"
+grep -Fq 'xfsm-logout' config/hooks/live/0440-glassxfce-system-icons.hook.chroot || fail "system icon overlay must cover Xfce logout actions"
+grep -Fq 'org.xfce.workspaces' config/hooks/live/0440-glassxfce-system-icons.hook.chroot || fail "system icon overlay must cover the Xfce workspaces icon"
+last_cache_line=$(grep -n 'gtk-update-icon-cache -f "$THEME"' config/hooks/live/0440-glassxfce-system-icons.hook.chroot | tail -1 | cut -d: -f1)
+[ -n "$last_cache_line" ] || fail "system icon overlay must rebuild its icon cache"
 
 say "checking live session defaults"
 [ -f config/includes.chroot/etc/live/config.conf.d/10-glassxfce.conf ] || fail "missing live-config defaults"
