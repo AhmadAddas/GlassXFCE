@@ -48,7 +48,7 @@ The supplied first-login helper applies WhiteSur, Inter and the wallpaper. Picom
 
 The live image also carries a matching LightDM greeter and a small GlassXFCE Plymouth theme so the visual language starts before the desktop session.
 
-Press `Super+Space` in the live desktop to open **Glass Search**, a compact translucent Spotlight-like search surface. Rofi remains the lightweight implementation underneath, but its technical launcher/theme-selector entries are hidden from normal application menus.
+Press `Super+Space` in the live desktop to open **Glass Search**, `Super+X` to open Terminal, and `Super+N` to open Notepad. Rofi remains the lightweight implementation underneath, but its technical launcher/theme-selector entries are hidden from normal application menus.
 
 ## Wallpaper policy
 

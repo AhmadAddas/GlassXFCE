@@ -42,6 +42,7 @@ set_shortcut() {
     xfconf-query -c xfce4-keyboard-shortcuts -p "$prop" -n -t string -s "$command" 2>/dev/null || true
 }
 set_shortcut "/commands/custom/<Super>space" "glassxfce-launcher"
+set_shortcut "/commands/custom/<Super>x" "xfce4-terminal"
 set_shortcut "/commands/custom/<Super>Return" "xfce4-terminal"
 set_shortcut "/commands/custom/<Super>KP_Enter" "xfce4-terminal"
 set_shortcut "/commands/custom/<Super>e" "thunar"
