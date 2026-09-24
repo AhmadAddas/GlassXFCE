@@ -1,6 +1,11 @@
 #!/bin/sh
 set -eu
 
+# Debian's Calamares settings package autostarts a helper that recreates
+# calamares-install-debian.desktop after login. GlassXFCE owns the installer
+# surface, so remove that autostart source rather than racing it per-session.
+rm -f /etc/xdg/autostart/calamares-desktop-icon.desktop
+
 for desktop in /usr/share/applications/*.desktop; do
   [ -f "$desktop" ] || continue
   if grep -Eq '^Name=(Install Debian|Debian Installer)$|^Exec=calamares-install-debian([[:space:]]|$)' "$desktop"; then

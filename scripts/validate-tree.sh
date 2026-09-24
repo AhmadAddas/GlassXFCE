@@ -271,6 +271,7 @@ grep -q 'productName: GlassXFCE' config/includes.chroot/etc/calamares/branding/g
 [ -f config/hooks/live/0420-glassxfce-installer-branding.hook.chroot ] || fail "missing Calamares branding cleanup hook"
 [ -f config/hooks/live/0400-glassxfce-desktop-shortcuts.hook.chroot ] || fail "missing generic Calamares desktop-shortcut cleanup hook"
 grep -Fq 'calamares-install-debian.desktop' config/hooks/live/0400-glassxfce-desktop-shortcuts.hook.chroot || fail "generic Calamares desktop shortcut must be removed"
+grep -Fq 'calamares-desktop-icon.desktop' config/hooks/live/0420-glassxfce-installer-branding.hook.chroot || fail "Debian Calamares desktop-icon autostart must be disabled"
 
 say "checking window button placement"
 [ -f config/includes.chroot/usr/local/bin/glassxfce-window-buttons ] || fail "missing window-button side switcher"
