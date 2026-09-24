@@ -37,6 +37,15 @@
 menu,
 .menu,
 .context-menu,
-popover {
-    background-color: alpha(@theme_bg_color, 0.98);
+popover,
+popover.background {
+    background-color: @theme_bg_color;
+    background-image: none;
+    box-shadow: none;
+}
+
+menu menuitem,
+.menu menuitem,
+.context-menu menuitem {
+    background-color: transparent;
 }

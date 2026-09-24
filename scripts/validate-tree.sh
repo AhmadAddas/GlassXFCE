@@ -346,3 +346,5 @@ elif git rev-parse --verify HEAD^ >/dev/null 2>&1; then
 fi
 
 say "all static checks passed"
+
+grep -Fq "class_g = 'Xfdesktop'" config/includes.chroot/etc/skel/.config/picom/picom.conf || fail "Picom must exclude xfdesktop popup menus from blur"
