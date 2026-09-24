@@ -107,7 +107,25 @@ copy_papirus_alias actions xfsm-reboot system-reboot view-refresh
 copy_papirus_alias actions xfsm-shutdown system-shutdown system-shutdown-symbolic
 copy_papirus_alias actions xfsm-suspend system-suspend media-playback-pause
 copy_papirus_alias actions xfsm-switch-user system-switch-user system-users
-copy_papirus_alias apps org.xfce.workspaces preferences-desktop-workspaces desktop-effects
+# Use a GlassXFCE-owned workspace glyph rather than inheriting a dark-on-dark
+# icon from another theme. The blue tile and white grid remain legible in both
+# WhiteSur Light and Dark.
+cat > "$THEME/scalable/apps/org.xfce.workspaces.svg" <<'SVG'
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#38bdf8"/>
+      <stop offset="1" stop-color="#6366f1"/>
+    </linearGradient>
+  </defs>
+  <rect x="5" y="5" width="54" height="54" rx="14" fill="url(#g)"/>
+  <rect x="16" y="16" width="13" height="13" rx="3" fill="none" stroke="#fff" stroke-width="4"/>
+  <rect x="35" y="16" width="13" height="13" rx="3" fill="none" stroke="#fff" stroke-width="4"/>
+  <rect x="16" y="35" width="13" height="13" rx="3" fill="none" stroke="#fff" stroke-width="4"/>
+  <rect x="35" y="35" width="13" height="13" rx="3" fill="none" stroke="#fff" stroke-width="4"/>
+</svg>
+SVG
+cp "$THEME/scalable/apps/org.xfce.workspaces.svg" "$THEME/scalable/apps/preferences-desktop-workspaces.svg"
 copy_papirus_alias apps org.xfce.xfwm4 preferences-system-windows preferences-system
 copy_papirus_alias apps org.xfce.xfwm4-tweaks preferences-system-windows preferences-desktop
 

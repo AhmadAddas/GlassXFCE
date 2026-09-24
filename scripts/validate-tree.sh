@@ -302,6 +302,7 @@ grep -Fq 'Inherits=WhiteSur,Papirus,Adwaita,hicolor' config/hooks/live/0440-glas
 grep -Fq 'value="GlassXFCE"' config/includes.chroot/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml || fail "GlassXFCE icon overlay must be the default icon theme"
 grep -Fq 'xfsm-logout' config/hooks/live/0440-glassxfce-system-icons.hook.chroot || fail "system icon overlay must cover Xfce logout actions"
 grep -Fq 'org.xfce.workspaces' config/hooks/live/0440-glassxfce-system-icons.hook.chroot || fail "system icon overlay must cover the Xfce workspaces icon"
+grep -Fq 'linearGradient id="g"' config/hooks/live/0440-glassxfce-system-icons.hook.chroot || fail "workspaces icon must use the dedicated high-contrast GlassXFCE glyph"
 last_cache_line=$(grep -n 'gtk-update-icon-cache -f "$THEME"' config/hooks/live/0440-glassxfce-system-icons.hook.chroot | tail -1 | cut -d: -f1)
 [ -n "$last_cache_line" ] || fail "system icon overlay must rebuild its icon cache"
 
