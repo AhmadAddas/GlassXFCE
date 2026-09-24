@@ -45,6 +45,9 @@ require_path() {
 require_path usr/share/themes/WhiteSur-Light
 require_path usr/share/themes/WhiteSur-Dark
 require_path usr/share/icons/WhiteSur
+require_path usr/share/icons/GlassXFCE/index.theme
+require_path usr/share/icons/GlassXFCE/scalable/places/user-home.svg
+require_path usr/share/icons/GlassXFCE/scalable/devices/drive-harddisk.svg
 require_path usr/share/backgrounds/glassxfce/aurora.svg
 require_path usr/share/backgrounds/glassxfce/aurora.png
 require_path usr/share/backgrounds/glassxfce/midnight-glass.svg

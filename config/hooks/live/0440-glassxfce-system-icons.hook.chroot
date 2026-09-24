@@ -1,0 +1,63 @@
+#!/bin/sh
+set -eu
+
+THEME=/usr/share/icons/GlassXFCE
+PAPIRUS=/usr/share/icons/Papirus
+rm -rf "$THEME"
+mkdir -p "$THEME/scalable/places" "$THEME/scalable/devices" "$THEME/scalable/status"
+
+cat > "$THEME/index.theme" <<'EOF'
+[Icon Theme]
+Name=GlassXFCE
+Comment=GlassXFCE system icon overlay with WhiteSur and Papirus fallbacks
+Inherits=WhiteSur,Papirus,Adwaita,hicolor
+Directories=scalable/places,scalable/devices,scalable/status
+
+[scalable/places]
+Size=64
+Type=Scalable
+MinSize=16
+MaxSize=512
+Context=Places
+
+[scalable/devices]
+Size=64
+Type=Scalable
+MinSize=16
+MaxSize=512
+Context=Devices
+
+[scalable/status]
+Size=64
+Type=Scalable
+MinSize=16
+MaxSize=512
+Context=Status
+EOF
+
+link_papirus() {
+  category="$1"
+  icon="$2"
+  src=""
+  if [ -d "$PAPIRUS" ]; then
+    src="$(find "$PAPIRUS" -type f -path '*/64x64/*' -name "$icon.svg" -print -quit 2>/dev/null || true)"
+    [ -n "$src" ] || src="$(find "$PAPIRUS" -type f -name "$icon.svg" -print -quit 2>/dev/null || true)"
+  fi
+  if [ -n "$src" ]; then
+    ln -s "$src" "$THEME/scalable/$category/$icon.svg"
+  else
+    echo "GlassXFCE: Papirus icon not found: $icon" >&2
+  fi
+}
+
+for icon in user-home folder-home user-desktop folder user-trash user-trash-full network-workgroup; do
+  link_papirus places "$icon"
+done
+for icon in computer drive-harddisk drive-removable-media drive-optical media-flash; do
+  link_papirus devices "$icon"
+done
+for icon in network-wired network-wireless audio-volume-high audio-volume-muted bluetooth-active; do
+  link_papirus status "$icon"
+done
+
+gtk-update-icon-cache -f "$THEME" >/dev/null 2>&1 || true

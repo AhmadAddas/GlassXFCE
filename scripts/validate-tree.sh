@@ -285,6 +285,11 @@ grep -q '^TimeoutStopSec=5s$' config/includes.chroot/etc/systemd/user/mpris-prox
 [ -f config/includes.chroot/etc/systemd/system/user@.service.d/10-glassxfce-stop-timeout.conf ] || fail "missing user manager stop timeout"
 grep -q '^TimeoutStopSec=20s$' config/includes.chroot/etc/systemd/system/user@.service.d/10-glassxfce-stop-timeout.conf || fail "user manager stop timeout must remain bounded"
 
+say "checking system icon coverage"
+[ -f config/hooks/live/0440-glassxfce-system-icons.hook.chroot ] || fail "missing GlassXFCE system-icon overlay hook"
+grep -Fq 'Inherits=WhiteSur,Papirus,Adwaita,hicolor' config/hooks/live/0440-glassxfce-system-icons.hook.chroot || fail "system icon overlay must retain WhiteSur and Papirus fallbacks"
+grep -Fq 'value="GlassXFCE"' config/includes.chroot/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml || fail "GlassXFCE icon overlay must be the default icon theme"
+
 say "checking live session defaults"
 [ -f config/includes.chroot/etc/live/config.conf.d/10-glassxfce.conf ] || fail "missing live-config defaults"
 grep -q '^LIVE_USERNAME="live"$' config/includes.chroot/etc/live/config.conf.d/10-glassxfce.conf || fail "live username must remain live"

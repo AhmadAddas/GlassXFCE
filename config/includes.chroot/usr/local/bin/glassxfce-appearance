@@ -35,6 +35,7 @@ else
 fi
 
 set_value xsettings /Net/ThemeName string "$GTK_THEME"
+set_value xsettings /Net/IconThemeName string "GlassXFCE"
 set_value xfwm4 /general/theme string "$WM_THEME"
 
 # GTK 3 apps use the XFCE theme immediately; this hint helps newer apps choose
