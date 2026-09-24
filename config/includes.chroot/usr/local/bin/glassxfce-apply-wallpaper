@@ -1,0 +1,31 @@
+#!/bin/sh
+set -eu
+
+WALL="/usr/share/backgrounds/glassxfce/sunlit-glass.png"
+[ -r "$WALL" ] || exit 0
+
+# xfdesktop creates monitor-specific backdrop keys only after it starts. Wait
+# briefly for those keys instead of assuming the generic monitor0 name exists.
+i=0
+while [ "$i" -lt 20 ]; do
+  props="$(xfconf-query -c xfce4-desktop -l 2>/dev/null | grep '/last-image$' || true)"
+  if [ -n "$props" ]; then
+    printf '%s\n' "$props" | while IFS= read -r prop; do
+      [ -n "$prop" ] || continue
+      xfconf-query -c xfce4-desktop -p "$prop" -s "$WALL" 2>/dev/null || true
+      style="${prop%/last-image}/image-style"
+      xfconf-query -c xfce4-desktop -p "$style" -s 5 2>/dev/null || \
+        xfconf-query -c xfce4-desktop -p "$style" -n -t int -s 5 2>/dev/null || true
+    done
+    xfdesktop --reload >/dev/null 2>&1 || true
+    exit 0
+  fi
+  i=$((i + 1))
+  sleep 1
+done
+
+# Keep a generic fallback for unusual Xfce monitor naming/migration cases.
+base="/backdrop/screen0/monitor0/workspace0"
+xfconf-query -c xfce4-desktop -p "$base/last-image" -n -t string -s "$WALL" 2>/dev/null || true
+xfconf-query -c xfce4-desktop -p "$base/image-style" -n -t int -s 5 2>/dev/null || true
+xfdesktop --reload >/dev/null 2>&1 || true

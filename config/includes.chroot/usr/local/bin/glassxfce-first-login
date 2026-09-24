@@ -22,16 +22,9 @@ xfconf-query -c xfwm4 -p /general/theme -s "WhiteSur-Light" 2>/dev/null || true
 # Windows-style controls on the right are the default; users can toggle the side.
 xfconf-query -c xfwm4 -p /general/button_layout -n -t string -s "|HMC" 2>/dev/null || true
 
-# Apply the bundled wallpaper to every currently-created workspace/monitor property.
-WALL="/usr/share/backgrounds/glassxfce/sunlit-glass.png"
-if [ -f "$WALL" ]; then
-  xfconf-query -c xfce4-desktop -l 2>/dev/null | while IFS= read -r prop; do
-    case "$prop" in
-      */last-image) xfconf-query -c xfce4-desktop -p "$prop" -s "$WALL" 2>/dev/null || true ;;
-      */image-style) xfconf-query -c xfce4-desktop -p "$prop" -s 5 2>/dev/null || true ;;
-    esac
-  done
-fi
+# Apply the wallpaper through the delayed monitor-aware helper. Running it here
+# is harmless, while the autostart entry retries once xfdesktop has real outputs.
+/usr/local/bin/glassxfce-apply-wallpaper >/dev/null 2>&1 || true
 
 # Force the primary shortcuts at first login. The skeleton XML is still the
 # default, but live-session migrations can otherwise leave old XFCE bindings.

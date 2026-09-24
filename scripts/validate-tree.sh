@@ -86,6 +86,13 @@ if grep -q 'panel-2' config/includes.chroot/etc/skel/.config/xfce4/xfconf/xfce-p
   fail "bottom dock must not be a second XFCE panel"
 fi
 
+say "checking wallpaper reliability"
+[ -f config/includes.chroot/usr/share/backgrounds/glassxfce/sunlit-glass.png ] || fail "missing shipped bright wallpaper"
+[ -f config/includes.chroot/usr/local/bin/glassxfce-apply-wallpaper ] || fail "missing monitor-aware wallpaper helper"
+[ -f config/includes.chroot/etc/xdg/autostart/glassxfce-wallpaper.desktop ] || fail "missing delayed wallpaper autostart"
+grep -Fq 'sunlit-glass.png' config/includes.chroot/etc/lightdm/lightdm-gtk-greeter.conf.d/50-glassxfce.conf || fail "LightDM must use an existing GlassXFCE background"
+grep -Fq '/last-image$' config/includes.chroot/usr/local/bin/glassxfce-apply-wallpaper || fail "wallpaper helper must discover real monitor backdrop keys"
+
 say "checking power defaults"
 power=config/includes.chroot/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-power-manager.xml
 [ -f "$power" ] || fail "missing XFCE power defaults"
