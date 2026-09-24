@@ -15,10 +15,10 @@ rm -f "$HOME/Desktop/calamares-install-debian.desktop" "$HOME/Desktop/install-de
 xfconf-query -c xfwm4 -p /general/use_compositing -s false 2>/dev/null || true
 
 # Theme, icons and typography. These names match WhiteSur's default installer names.
-xfconf-query -c xsettings -p /Net/ThemeName -n -t string -s "WhiteSur-Light" 2>/dev/null || true
+xfconf-query -c xsettings -p /Net/ThemeName -n -t string -s "WhiteSur-Dark" 2>/dev/null || true
 xfconf-query -c xsettings -p /Net/IconThemeName -n -t string -s "GlassXFCE" 2>/dev/null || true
 xfconf-query -c xsettings -p /Gtk/FontName -n -t string -s "Inter 10" 2>/dev/null || true
-xfconf-query -c xfwm4 -p /general/theme -s "WhiteSur-Light" 2>/dev/null || true
+xfconf-query -c xfwm4 -p /general/theme -s "WhiteSur-Dark" 2>/dev/null || true
 # Windows-style controls on the right are the default; users can toggle the side.
 xfconf-query -c xfwm4 -p /general/button_layout -n -t string -s "|HMC" 2>/dev/null || true
 

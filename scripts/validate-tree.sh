@@ -87,10 +87,10 @@ if grep -q 'panel-2' config/includes.chroot/etc/skel/.config/xfce4/xfconf/xfce-p
 fi
 
 say "checking wallpaper reliability"
-[ -f config/includes.chroot/usr/share/backgrounds/glassxfce/sunlit-glass.png ] || fail "missing shipped bright wallpaper"
+[ -f config/includes.chroot/usr/share/backgrounds/glassxfce/silver-wave.png ] || fail "missing shipped bright Silver Wave wallpaper"
 [ -f config/includes.chroot/usr/local/bin/glassxfce-apply-wallpaper ] || fail "missing monitor-aware wallpaper helper"
 [ -f config/includes.chroot/etc/xdg/autostart/glassxfce-wallpaper.desktop ] || fail "missing delayed wallpaper autostart"
-grep -Fq 'sunlit-glass.png' config/includes.chroot/etc/lightdm/lightdm-gtk-greeter.conf.d/50-glassxfce.conf || fail "LightDM must use an existing GlassXFCE background"
+grep -Fq 'silver-wave.png' config/includes.chroot/etc/lightdm/lightdm-gtk-greeter.conf.d/50-glassxfce.conf || fail "LightDM must use the Silver Wave GlassXFCE background"
 grep -Fq '/last-image$' config/includes.chroot/usr/local/bin/glassxfce-apply-wallpaper || fail "wallpaper helper must discover real monitor backdrop keys"
 grep -Fq 'COMPAT=/usr/share/images/desktop-base' config/hooks/live/0410-glassxfce-wallpapers.hook.chroot || fail "wallpaper hook must preserve the Debian/Xfce compatibility folder"
 grep -Fq 'desktop-background' config/hooks/live/0410-glassxfce-wallpapers.hook.chroot || fail "wallpaper compatibility folder must expose a default background"
@@ -348,3 +348,7 @@ fi
 say "all static checks passed"
 
 grep -Fq "class_g = 'Xfdesktop'" config/includes.chroot/etc/skel/.config/picom/picom.conf || fail "Picom must exclude xfdesktop popup menus from blur"
+
+[ -f config/includes.chroot/usr/share/backgrounds/glassxfce/silver-wave.png ] || fail "missing rendered Silver Wave wallpaper"
+grep -Fq 'silver-wave.png' config/includes.chroot/usr/local/bin/glassxfce-apply-wallpaper || fail "default wallpaper helper must use Silver Wave"
+grep -Fq 'WhiteSur-Dark' config/includes.chroot/etc/skel/.config/xfce4/xfconf/xfce-perchannel-xml/xsettings.xml || fail "default GTK theme must be WhiteSur Dark"

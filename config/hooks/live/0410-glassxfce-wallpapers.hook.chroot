@@ -19,5 +19,5 @@ for file in "$GLASS"/*.png "$GLASS"/*.jpg "$GLASS"/*.jpeg "$GLASS"/*.svg; do
     [ -f "$file" ] || continue
     ln -s "$file" "$COMPAT/$(basename "$file")"
 done
-ln -s "$GLASS/sunlit-glass.png" "$COMPAT/desktop-background"
-ln -s "$GLASS/sunlit-glass.png" "$COMPAT/default"
+ln -s "$GLASS/silver-wave.png" "$COMPAT/desktop-background"
+ln -s "$GLASS/silver-wave.png" "$COMPAT/default"

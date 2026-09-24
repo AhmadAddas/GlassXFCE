@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-WALL="/usr/share/backgrounds/glassxfce/sunlit-glass.png"
+WALL="/usr/share/backgrounds/glassxfce/silver-wave.png"
 [ -r "$WALL" ] || exit 0
 
 # xfdesktop creates monitor-specific backdrop keys only after it starts. Wait
@@ -16,6 +16,15 @@ while [ "$i" -lt 20 ]; do
       style="${prop%/last-image}/image-style"
       xfconf-query -c xfce4-desktop -p "$style" -s 5 2>/dev/null || \
         xfconf-query -c xfce4-desktop -p "$style" -n -t int -s 5 2>/dev/null || true
+      color="${prop%/last-image}/color-style"
+      rgba1="${prop%/last-image}/rgba1"
+      rgba2="${prop%/last-image}/rgba2"
+      xfconf-query -c xfce4-desktop -p "$color" -s 0 2>/dev/null || \
+        xfconf-query -c xfce4-desktop -p "$color" -n -t int -s 0 2>/dev/null || true
+      xfconf-query -c xfce4-desktop -p "$rgba1" -n -t double -t double -t double -t double \
+        -s 0.88 -s 0.92 -s 0.96 -s 1.0 2>/dev/null || true
+      xfconf-query -c xfce4-desktop -p "$rgba2" -n -t double -t double -t double -t double \
+        -s 0.72 -s 0.80 -s 0.88 -s 1.0 2>/dev/null || true
     done
     xfdesktop --reload >/dev/null 2>&1 || true
     exit 0
@@ -28,4 +37,7 @@ done
 base="/backdrop/screen0/monitor0/workspace0"
 xfconf-query -c xfce4-desktop -p "$base/last-image" -n -t string -s "$WALL" 2>/dev/null || true
 xfconf-query -c xfce4-desktop -p "$base/image-style" -n -t int -s 5 2>/dev/null || true
+xfconf-query -c xfce4-desktop -p "$base/color-style" -n -t int -s 0 2>/dev/null || true
+xfconf-query -c xfce4-desktop -p "$base/rgba1" -n -t double -t double -t double -t double -s 0.88 -s 0.92 -s 0.96 -s 1.0 2>/dev/null || true
+xfconf-query -c xfce4-desktop -p "$base/rgba2" -n -t double -t double -t double -t double -s 0.72 -s 0.80 -s 0.88 -s 1.0 2>/dev/null || true
 xfdesktop --reload >/dev/null 2>&1 || true

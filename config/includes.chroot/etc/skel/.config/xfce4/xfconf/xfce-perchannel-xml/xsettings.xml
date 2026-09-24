@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <channel name="xsettings" version="1.0">
   <property name="Net" type="empty">
-    <property name="ThemeName" type="string" value="WhiteSur-Light"/>
+    <property name="ThemeName" type="string" value="WhiteSur-Dark"/>
     <property name="IconThemeName" type="string" value="GlassXFCE"/>
     <property name="DoubleClickTime" type="uint" value="400"/>
     <property name="DoubleClickDistance" type="uint" value="5"/>

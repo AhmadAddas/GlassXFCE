@@ -63,7 +63,7 @@ GlassXFCE ships a two-panel layout by default:
 
 The panel configuration is stored in `/etc/skel`, so both the live user and newly created installed users receive the same layout without a first-run wizard.
 
-The default session also applies WhiteSur light styling, Inter typography, four workspaces, centered window titles, right-side Windows-style window controls, the original Aurora wallpaper and macOS-like Super-key shortcuts. Picom remains the only compositor so Xfwm compositing stays disabled.
+The default session applies WhiteSur dark styling over a bright Silver Wave wallpaper, Inter typography, four workspaces, centered window titles, right-side Windows-style window controls, the original Aurora wallpaper and macOS-like Super-key shortcuts. Picom remains the only compositor so Xfwm compositing stays disabled.
 
 ### Theme source pinning
 
@@ -222,3 +222,8 @@ See `docs/usb-writing.md`. In short: if Rufus asks to download matching Syslinux
 ## GRUB theme compatibility
 
 The image carries a real `/boot/grub/themes/glassxfce/` theme directory plus `/boot/grub/theme.cfg`. This keeps live-build generated GRUB fragments compatible without restoring the opaque stock boot-menu panel.
+
+
+## Default appearance
+
+GlassXFCE now starts with the bright Silver Wave wallpaper and WhiteSur Dark controls. The wallpaper remains light even when dark mode is active, so the desktop feels airy instead of becoming an all-black surface.
