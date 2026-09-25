@@ -10,11 +10,11 @@ desktop-color: "#17384f"
 title-text: ""
 
 terminal-box: "terminal_*.png"
-terminal-border: 18
-terminal-left: 8%
-terminal-top: 12%
-terminal-width: 84%
-terminal-height: 74%
+terminal-border: "18"
+terminal-left: "8%"
+terminal-top: "12%"
+terminal-width: "84%"
+terminal-height: "74%"
 
 + label {
     text = "GlassXFCE"
