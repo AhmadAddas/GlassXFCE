@@ -10,6 +10,8 @@
 [![XFCE](https://img.shields.io/badge/desktop-XFCE-2284F2?style=for-the-badge&logo=xfce&logoColor=white)](https://xfce.org/)
 [![Architecture](https://img.shields.io/badge/arch-amd64-4c566a?style=for-the-badge)](#technical-profile)
 [![Secure Boot](https://img.shields.io/badge/UEFI-Secure%20Boot-2ea44f?style=for-the-badge)](#technical-profile)
+[![Code license](https://img.shields.io/badge/code-GPL--3.0--or--later-663399?style=for-the-badge)](LICENSE)
+[![Artwork license](https://img.shields.io/badge/artwork-CC%20BY--SA%204.0-f26b00?style=for-the-badge)](LICENSES/CC-BY-SA-4.0.txt)
 
 [![Validate](https://github.com/AhmadAddas/GlassXFCE/actions/workflows/validate.yml/badge.svg)](https://github.com/AhmadAddas/GlassXFCE/actions/workflows/validate.yml)
 [![Build ISO](https://github.com/AhmadAddas/GlassXFCE/actions/workflows/build-iso.yml/badge.svg)](https://github.com/AhmadAddas/GlassXFCE/actions/workflows/build-iso.yml)
@@ -218,7 +220,13 @@ Please check existing issues before opening a new report:
 
 ## License
 
-Licensing files are maintained separately from this README. GlassXFCE's original code/configuration and original artwork use different licenses, while bundled or staged third-party software keeps its upstream license.
+GlassXFCE uses a split-license model:
+
+- **Original code, scripts, configuration, and documentation:** [GPL-3.0-or-later](LICENSE)
+- **Original GlassXFCE artwork, wallpapers, and owned branding assets:** [CC BY-SA 4.0](LICENSES/CC-BY-SA-4.0.txt)
+- **Third-party components:** retain their respective upstream licenses; they are not relicensed by GlassXFCE.
+
+See [`LICENSES/README.md`](LICENSES/README.md) for the scope and SPDX summary.
 
 ---
 
