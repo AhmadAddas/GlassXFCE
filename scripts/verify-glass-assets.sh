@@ -41,6 +41,15 @@ require_path() {
   echo "glass-assets: ok: /$path"
 }
 
+forbid_path() {
+  local path="$1"
+  if grep -Fq "squashfs-root/$path" "$TMP/list.txt"; then
+    echo "glass-assets: forbidden stock asset/config is present: /$path" >&2
+    exit 1
+  fi
+  echo "glass-assets: ok: stock override absent: /$path"
+}
+
 # Theme and visual identity
 require_path usr/share/themes/WhiteSur-Light
 require_path usr/share/themes/WhiteSur-Dark
@@ -69,6 +78,7 @@ require_path usr/local/bin/glassxfce-launcher
 # Branded boot/login/installer experience carried by the live root
 require_path usr/share/plymouth/themes/glassxfce/glassxfce.plymouth
 require_path etc/lightdm/lightdm-gtk-greeter.conf.d/50-glassxfce.conf
+forbid_path usr/share/lightdm/lightdm-gtk-greeter.conf.d/01_debian.conf
 require_path etc/calamares/branding/glassxfce/welcome.png
 require_path etc/calamares/branding/glassxfce/branding.desc
 require_path usr/share/icons/hicolor/scalable/apps/glassxfce-installer.svg

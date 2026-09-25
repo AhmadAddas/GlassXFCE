@@ -1,0 +1,10 @@
+#!/bin/sh
+set -eu
+
+# Debian's lightdm-gtk-greeter package ships a system appearance overlay at
+# /usr/share/lightdm/lightdm-gtk-greeter.conf.d/01_debian.conf. GlassXFCE owns
+# the complete greeter appearance, so remove that stock layer instead of merely
+# relying on a later override. The local 50-glassxfce.conf then remains the
+# single source for the greeter wallpaper/theme.
+rm -f /usr/share/lightdm/lightdm-gtk-greeter.conf.d/01_debian.conf
+rm -f /etc/lightdm/lightdm-gtk-greeter.conf.d/01_debian.conf

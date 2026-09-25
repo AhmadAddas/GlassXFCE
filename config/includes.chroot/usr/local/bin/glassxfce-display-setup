@@ -2,8 +2,8 @@
 set -eu
 
 # LightDM starts X with a black root window. Paint it immediately with a color
-# sampled from the default GlassXFCE wallpaper so the Xfce autologin handoff is
+# sampled from the bright default GlassXFCE wallpaper so the Xfce autologin handoff is
 # visually continuous until xfdesktop draws the full image.
 if command -v xsetroot >/dev/null 2>&1; then
-  xsetroot -solid '#4f93b8' || true
+  xsetroot -solid '#d6e3f0' || true
 fi

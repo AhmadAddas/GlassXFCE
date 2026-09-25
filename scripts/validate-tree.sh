@@ -90,7 +90,13 @@ say "checking wallpaper reliability"
 [ -f config/includes.chroot/usr/share/backgrounds/glassxfce/silver-wave.png ] || fail "missing shipped bright Silver Wave wallpaper"
 [ -f config/includes.chroot/usr/local/bin/glassxfce-apply-wallpaper ] || fail "missing monitor-aware wallpaper helper"
 [ -f config/includes.chroot/etc/xdg/autostart/glassxfce-wallpaper.desktop ] || fail "missing delayed wallpaper autostart"
-grep -Fq 'silver-wave.png' config/includes.chroot/etc/lightdm/lightdm-gtk-greeter.conf.d/50-glassxfce.conf || fail "LightDM must use the Silver Wave GlassXFCE background"
+lightdm_glass=config/includes.chroot/etc/lightdm/lightdm-gtk-greeter.conf.d/50-glassxfce.conf
+grep -Fq 'background=/usr/share/backgrounds/glassxfce/silver-wave.png' "$lightdm_glass" || fail "LightDM must use the Silver Wave GlassXFCE background"
+if grep -Eiq 'desktop-base|login-background|theme-name=Adwaita|debian' "$lightdm_glass"; then
+  fail "GlassXFCE LightDM config must not contain Debian greeter appearance defaults"
+fi
+[ -f config/hooks/live/0450-glassxfce-lightdm.hook.chroot ] || fail "missing LightDM Debian-theme cleanup hook"
+grep -Fq '/usr/share/lightdm/lightdm-gtk-greeter.conf.d/01_debian.conf' config/hooks/live/0450-glassxfce-lightdm.hook.chroot || fail "LightDM cleanup hook must remove Debian's greeter appearance overlay"
 grep -Fq '/last-image$' config/includes.chroot/usr/local/bin/glassxfce-apply-wallpaper || fail "wallpaper helper must discover real monitor backdrop keys"
 grep -Fq 'while [ "$i" -lt 24 ]' config/includes.chroot/usr/local/bin/glassxfce-apply-wallpaper || fail "wallpaper helper must survive xfdesktop monitor migration"
 grep -Fq 'sleep 2' config/includes.chroot/etc/xdg/autostart/glassxfce-wallpaper.desktop || fail "wallpaper autostart must wait briefly for XFCE startup"
@@ -115,7 +121,11 @@ grep -qi 'install' config/bootloaders/syslinux_common/menu.cfg || fail "Syslinux
 # the current graphical-theme contract instead of the old direct-splash workaround.
 grep -Fq 'source /boot/grub/theme.cfg' config/bootloaders/grub-pc/grub.cfg || fail "GRUB must load the GlassXFCE graphical theme"
 [ -f config/bootloaders/grub-pc/theme.cfg ] || fail "missing GRUB GlassXFCE theme loader"
-grep -Fq 'set theme=/boot/grub/themes/glassxfce' config/bootloaders/grub-pc/theme.cfg || fail "GRUB theme loader must point at the GlassXFCE theme directory"
+grep -Fq 'set theme=/boot/grub/themes/glassxfce/theme.txt' config/bootloaders/grub-pc/theme.cfg || fail "GRUB theme loader must point at GlassXFCE theme.txt"
+if grep -qx 'set theme=/boot/grub/themes/glassxfce' config/bootloaders/grub-pc/theme.cfg; then
+  fail "GRUB theme variable must never point at a directory (causes not-a-regular-file errors)"
+fi
+grep -Fq 'unset theme' config/bootloaders/grub-pc/theme.cfg || fail "GRUB theme loader must avoid stock-theme fallback if GlassXFCE theme.txt is missing"
 [ -f config/bootloaders/grub-pc/themes/glassxfce/theme.txt ] || fail "missing GlassXFCE GRUB theme.txt"
 grep -Fq 'desktop-image: "/boot/grub/splash.png"' config/bootloaders/grub-pc/themes/glassxfce/theme.txt || fail "GlassXFCE GRUB theme must keep the current boot background"
 grep -Fq 'menu_pixmap_style = "menu_*.png"' config/bootloaders/grub-pc/themes/glassxfce/theme.txt || fail "GlassXFCE GRUB theme must style the menu frame"
@@ -255,6 +265,9 @@ say "checking compositor presentation"
 grep -q 'backend = "xrender"' config/includes.chroot/etc/skel/.config/picom/picom-fallback.conf || fail "Picom fallback must use XRender"
 grep -q -- '--daemon' config/includes.chroot/usr/local/bin/glassxfce-start-picom || fail "Picom wrapper must daemonize cleanly"
 grep -q '^Hidden=true$' config/includes.chroot/etc/skel/.local/share/applications/picom.desktop || fail "raw Picom menu entry must be hidden"
+grep -Fq "window_type = 'dock' && class_g != 'Plank'" config/includes.chroot/etc/skel/.config/picom/picom.conf || fail "Picom dock blur must exclude Plank's oversized dock window"
+grep -Fq "class_g = 'Plank'" config/includes.chroot/etc/skel/.config/picom/picom.conf || fail "Picom must have an explicit Plank no-blur rule"
+grep -Fq "window_type = 'dock' && class_g != 'Plank'" config/includes.chroot/etc/skel/.config/picom/picom-fallback.conf || fail "Picom fallback must also exclude Plank"
 [ -f config/includes.chroot/etc/skel/.face ] || fail "missing GlassXFCE user avatar"
 
 say "checking welcome experience"

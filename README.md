@@ -221,7 +221,7 @@ See `docs/usb-writing.md`. In short: if Rufus asks to download matching Syslinux
 
 ## GRUB theme compatibility
 
-The image carries a real `/boot/grub/themes/glassxfce/` theme directory plus `/boot/grub/theme.cfg`. This keeps live-build generated GRUB fragments compatible without restoring the opaque stock boot-menu panel.
+The image carries a real `/boot/grub/themes/glassxfce/theme.txt` plus `/boot/grub/theme.cfg`. The loader points GRUB at that regular file (never the containing directory), so the custom GlassXFCE menu stays active without triggering GRUB's `not a regular file` error or falling back to Debian's stock menu theme.
 
 
 ## Default appearance
@@ -231,7 +231,7 @@ GlassXFCE now starts with the bright Silver Wave wallpaper and WhiteSur Dark con
 
 ## GRUB compatibility shim
 
-Generated Debian live-build submenu fragments may source `/boot/grub/theme.cfg`. GlassXFCE keeps that file as a command shim only: it clears GRUB theme parsing and reuses the splash image, avoiding firmware-specific theme-directory errors.
+Generated live-build submenu fragments may source `/boot/grub/theme.cfg`. GlassXFCE therefore keeps that path as the custom theme loader; it selects `/boot/grub/themes/glassxfce/theme.txt`, and only falls back to the GlassXFCE splash (with `theme` unset) if the theme file is actually missing.
 
 
 ## Wallpaper startup reliability
