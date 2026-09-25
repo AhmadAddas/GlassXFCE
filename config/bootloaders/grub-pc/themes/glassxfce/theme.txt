@@ -1,0 +1,64 @@
+# GlassXFCE graphical GRUB theme
+# Current boot background is preserved; only menu chrome/UI is customized.
+
+desktop-image: "/boot/grub/splash.png"
+desktop-image-scale-method: "crop"
+desktop-image-h-align: "center"
+desktop-image-v-align: "center"
+desktop-color: "#17384f"
+
+title-text: ""
+
+terminal-box: "terminal_*.png"
+terminal-border: 18
+terminal-left: 8%
+terminal-top: 12%
+terminal-width: 84%
+terminal-height: 74%
+
++ label {
+    text = "GlassXFCE"
+    left = 7%
+    top = 8%
+    width = 52%
+    height = 52
+    color = "#ffffff"
+    align = "left"
+}
+
++ label {
+    text = "Debian 13 · XFCE · Live & Install"
+    left = 7%
+    top = 15%
+    width = 52%
+    height = 34
+    color = "#d9efff"
+    align = "left"
+}
+
++ boot_menu {
+    left = 5%
+    top = 25%
+    width = 57%
+    height = 54%
+    menu_pixmap_style = "menu_*.png"
+    selected_item_pixmap_style = "select_*.png"
+    item_color = "#e6f4ff"
+    selected_item_color = "#ffffff"
+    item_height = 46
+    item_padding = 14
+    item_spacing = 7
+    icon_width = 0
+    icon_height = 0
+    scrollbar = false
+}
+
++ label {
+    text = "Enter  Boot     E  Options     C  Command line"
+    left = 7%
+    top = 89%
+    width = 86%
+    height = 34
+    color = "#d7e8f7"
+    align = "center"
+}
