@@ -60,7 +60,7 @@ apply_existing_keys() {
 # relying on the generic monitor0 skeleton key, which can be ignored on first
 # login and leave the desktop black until the user changes the wallpaper once.
 i=0
-while [ "$i" -lt 20 ]; do
+while [ "$i" -lt 24 ]; do
   apply_connected_outputs || true
   apply_existing_keys || true
   i=$((i + 1))
