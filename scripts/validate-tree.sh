@@ -110,12 +110,19 @@ grep -qi 'live' config/bootloaders/grub-pc/grub.cfg || fail "GRUB menu has no li
 grep -qi 'install' config/bootloaders/grub-pc/grub.cfg || fail "GRUB menu has no installer entry"
 grep -qi 'live' config/bootloaders/syslinux_common/menu.cfg || fail "Syslinux menu has no live entry"
 grep -qi 'install' config/bootloaders/syslinux_common/menu.cfg || fail "Syslinux menu has no installer entry"
-grep -Fq 'background_image /boot/grub/splash.png' config/bootloaders/grub-pc/grub.cfg || fail "GRUB must render the GlassXFCE splash directly"
-if grep -Fq 'source /boot/grub/theme.cfg' config/bootloaders/grub-pc/grub.cfg; then fail "GRUB submenus must not re-enable the opaque stock live-build theme"; fi
-[ -f config/bootloaders/grub-pc/theme.cfg ] || fail "missing GRUB compatibility shim"
-grep -Fq 'unset theme' config/bootloaders/grub-pc/theme.cfg || fail "GRUB compatibility shim must disable theme parsing"
-if grep -Fq 'set theme=' config/bootloaders/grub-pc/theme.cfg; then fail "GRUB compatibility shim must not set a theme path"; fi
-grep -Fq 'background_image /boot/grub/splash.png' config/bootloaders/grub-pc/theme.cfg || fail "GRUB compatibility shim must retain GlassXFCE boot art"
+# GlassXFCE intentionally uses a custom GRUB theme. The theme loader may be
+# sourced by the top-level menu and by live-build generated submenus, so validate
+# the current graphical-theme contract instead of the old direct-splash workaround.
+grep -Fq 'source /boot/grub/theme.cfg' config/bootloaders/grub-pc/grub.cfg || fail "GRUB must load the GlassXFCE graphical theme"
+[ -f config/bootloaders/grub-pc/theme.cfg ] || fail "missing GRUB GlassXFCE theme loader"
+grep -Fq 'set theme=/boot/grub/themes/glassxfce' config/bootloaders/grub-pc/theme.cfg || fail "GRUB theme loader must point at the GlassXFCE theme directory"
+[ -f config/bootloaders/grub-pc/themes/glassxfce/theme.txt ] || fail "missing GlassXFCE GRUB theme.txt"
+grep -Fq 'desktop-image: "/boot/grub/splash.png"' config/bootloaders/grub-pc/themes/glassxfce/theme.txt || fail "GlassXFCE GRUB theme must keep the current boot background"
+grep -Fq 'menu_pixmap_style = "menu_*.png"' config/bootloaders/grub-pc/themes/glassxfce/theme.txt || fail "GlassXFCE GRUB theme must style the menu frame"
+grep -Fq 'selected_item_pixmap_style = "select_*.png"' config/bootloaders/grub-pc/themes/glassxfce/theme.txt || fail "GlassXFCE GRUB theme must style the selected menu item"
+for asset in menu_c.png select_c.png terminal_c.png; do
+  [ -f "config/bootloaders/grub-pc/themes/glassxfce/$asset" ] || fail "missing GlassXFCE GRUB theme asset: $asset"
+done
 
 say "checking protected glass asset policy"
 [ -f scripts/verify-glass-assets.sh ] || fail "missing Glass asset verifier"
