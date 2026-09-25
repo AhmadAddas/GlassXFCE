@@ -17,29 +17,54 @@ apply_base() {
   set_value "$base/last-image" string "$WALL"
   set_value "$base/image-style" int 5
   set_value "$base/color-style" int 0
+  set_value "$base/backdrop-cycle-enable" bool false
 }
 
-# XFCE initially loads the skeleton's generic monitor0 key and then migrates to
-# hardware-specific monitor keys after RandR/xfdesktop discovery. Applying only
-# once can therefore be overwritten and leave a black desktop until the user
-# manually changes the wallpaper. Keep watching briefly and apply to every
-# backdrop key that appears during session startup.
-i=0
-while [ "$i" -lt 24 ]; do
-  # Always maintain the generic fallback.
-  apply_base "/backdrop/screen0/monitor0/workspace0"
+workspace_count() {
+  count="$(xfconf-query -c xfwm4 -p /general/workspace_count 2>/dev/null || printf '%s' 4)"
+  case "$count" in
+    ''|*[!0-9]*) count=4 ;;
+    0) count=1 ;;
+  esac
+  printf '%s\n' "$count"
+}
 
-  props="$(xfconf-query -c xfce4-desktop -l 2>/dev/null | grep '/last-image$' || true)"
-  if [ -n "$props" ]; then
-    printf '%s\n' "$props" | while IFS= read -r prop; do
+apply_connected_outputs() {
+  outputs="$(xrandr --query 2>/dev/null | awk '$2 == "connected" { print $1 }' || true)"
+  [ -n "$outputs" ] || return 1
+
+  count="$(workspace_count)"
+  printf '%s\n' "$outputs" | while IFS= read -r output; do
+    [ -n "$output" ] || continue
+    ws=0
+    while [ "$ws" -lt "$count" ]; do
+      apply_base "/backdrop/screen0/monitor${output}/workspace${ws}"
+      ws=$((ws + 1))
+    done
+  done
+
+  return 0
+}
+
+apply_existing_keys() {
+  xfconf-query -c xfce4-desktop -l 2>/dev/null | \
+    grep '/workspace[0-9][0-9]*/last-image$' | \
+    while IFS= read -r prop; do
       [ -n "$prop" ] || continue
       apply_base "${prop%/last-image}"
     done
-  fi
+}
 
+# Xfdesktop 4.20 creates connector-specific backdrop keys after RandR discovery
+# (for example monitorHDMI-1 or monitoreDP-1). Seed those exact keys instead of
+# relying on the generic monitor0 skeleton key, which can be ignored on first
+# login and leave the desktop black until the user changes the wallpaper once.
+i=0
+while [ "$i" -lt 20 ]; do
+  apply_connected_outputs || true
+  apply_existing_keys || true
   i=$((i + 1))
   sleep 1
 done
 
-# One final refresh after monitor migration has settled.
 xfdesktop --reload >/dev/null 2>&1 || true
